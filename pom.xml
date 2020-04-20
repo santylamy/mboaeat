@@ -5,7 +5,8 @@
   <version>1.1</version>
     <modules>
         <module>account-api</module>
-    </modules>
+		<module>mboaeat-shared</module>
+	</modules>
     <packaging>pom</packaging>
   
   	<properties>
