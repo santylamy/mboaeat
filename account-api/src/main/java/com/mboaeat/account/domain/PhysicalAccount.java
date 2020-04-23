@@ -1,6 +1,7 @@
-package com.mboaeat.account.model;
+package com.mboaeat.account.domain;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Embedded;
@@ -11,10 +12,9 @@ import javax.persistence.Table;
 @Entity
 @Data
 @SuperBuilder
+@NoArgsConstructor
 public class PhysicalAccount extends Account {
 
     @Embedded
     private Password password;
-
-    public PhysicalAccount(){}
 }

@@ -1,0 +1,26 @@
+package com.mboaeat.common.dto;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@Builder
+@JsonDeserialize(builder = User.UserBuilder.class)
+@Tag(name = "User data")
+public class User extends AbstractBaseDTO {
+
+    @Schema(description = "The user's e-mail", required = true)
+    private String email;
+
+    @Schema(description = "The user's name", required = true)
+    private String firstName;
+
+    @Schema(description = "The user's last name", required = true)
+    private String lastName;
+
+    @Schema(description = "The user's middle name", required = true)
+    private String middleName;
+}

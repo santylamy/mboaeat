@@ -6,6 +6,7 @@
     <modules>
         <module>account-api</module>
 		<module>mboaeat-shared</module>
+		<module>mboaeat-common</module>
 	</modules>
     <packaging>pom</packaging>
   
@@ -13,6 +14,8 @@
 		<java.version>11</java.version>
 		<spring-cloud.version>Hoxton.SR3</spring-cloud.version>
 		<logstash.version>4.11</logstash.version>
+		<testcontainers.version>1.48</testcontainers.version>
+		<springdoc.version>1.1.49</springdoc.version>
 	</properties>
 
 	<parent>
@@ -32,19 +35,45 @@
 				<scope>import</scope>
 			</dependency>
 			<dependency>
+				<groupId>com.playtika.testcontainers</groupId>
+				<artifactId>testcontainers-spring-boot</artifactId>
+				<version>${testcontainers.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.playtika.testcontainers</groupId>
+				<artifactId>embedded-postgresql</artifactId>
+				<version>${testcontainers.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-core</artifactId>
+				<version>${springdoc.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>net.logstash.logback</groupId>
 				<artifactId>logstash-logback-encoder</artifactId>
 				<version>${logstash.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>com.mboaeat</groupId>
+				<artifactId>mboaeat-shared</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.mboaeat</groupId>
+				<artifactId>mboaeat-shared</artifactId>
+				<version>${project.version}</version>
+				<classifier>tests</classifier>
+			</dependency>
+			<dependency>
+				<groupId>com.mboaeat</groupId>
+				<artifactId>mboaeat-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
-	<repositories>
-		<repository>
-			<id>spring-milestones</id>
-			<name>Spring Milestones</name>
-			<url>https://repo.spring.io/milestone</url>
-		</repository>
-	</repositories>
 
 </project>

@@ -1,4 +1,4 @@
-package com.mboaeat.account.model;
+package com.mboaeat.account.domain;
 
 import lombok.Builder;
 import org.apache.commons.lang.builder.EqualsBuilder;

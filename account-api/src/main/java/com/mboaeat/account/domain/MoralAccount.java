@@ -1,4 +1,4 @@
-package com.mboaeat.account.model;
+package com.mboaeat.account.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;

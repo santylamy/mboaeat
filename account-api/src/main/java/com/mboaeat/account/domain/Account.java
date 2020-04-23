@@ -1,13 +1,16 @@
-package com.mboaeat.account.model;
+package com.mboaeat.account.domain;
 
-import lombok.Builder;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
-@Builder
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Account implements Serializable {
@@ -24,6 +27,4 @@ public abstract class Account implements Serializable {
 
     @Column(name = "CUSTOMER_ID")
     private Long customerId;
-
-    protected Account(){}
 }

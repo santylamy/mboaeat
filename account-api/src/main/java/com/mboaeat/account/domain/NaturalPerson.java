@@ -1,7 +1,9 @@
-package com.mboaeat.account.model;
+package com.mboaeat.account.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -10,6 +12,8 @@ import java.io.Serializable;
 @Builder
 @Entity
 @Table(name = "PERSONS")
+@NoArgsConstructor
+@AllArgsConstructor
 public class NaturalPerson implements Serializable {
 
     @Id

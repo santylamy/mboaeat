@@ -1,0 +1,1 @@
+package com.mboaeat.common.dto;
