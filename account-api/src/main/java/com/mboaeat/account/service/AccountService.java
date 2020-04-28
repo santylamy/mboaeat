@@ -84,7 +84,7 @@ public class AccountService {
                         .build()
         );
 
-        return (PhysicalAccount) optionalAccount.orElseThrow(() -> new AccountNotFoundException("No account found with email", ErrorCodeConstants.AC1000));
+        return (PhysicalAccount) optionalAccount.orElseThrow(() -> new AccountNotFoundException("No account found with email " + email, ErrorCodeConstants.AC1000));
     }
 
     public User getUserByEmail(String email) {
@@ -109,6 +109,7 @@ public class AccountService {
             String middleName
     ) throws MboaEatException {
         PhysicalAccount account = (PhysicalAccount) getAccountById(id);
+        accountExist(account, email);
         if (StringUtils.isNotEmpty(email)) {
             account.getNaturalPerson()
                     .setEmailAddress(
@@ -133,7 +134,7 @@ public class AccountService {
                             .build()
             );
         }
-        return accountRepository.save(account);
+        return accountRepository.saveAndFlush(account);
     }
 
     public void updatePassword(Long id, String password, String newPassword, String confirmPassword) {
@@ -160,7 +161,7 @@ public class AccountService {
     public Account getAccountById(Long id) throws AccountNotFoundException {
         return accountRepository.findById(id).orElseThrow(
                 () ->
-                    new AccountNotFoundException("Account not exist with id " + id)
+                    new AccountNotFoundException("Account not exist with id " + id, ErrorCodeConstants.AC1000)
         );
     }
 
@@ -173,15 +174,17 @@ public class AccountService {
         return true;
     }
 
-    private void accountExist(String email) throws AccountExistException {
-       Optional<Account> account = accountRepository.findByEmailAddress(
-                EmailAddress.builder()
-                        .value(email)
-                        .build()
-       );
 
-        if (account.isPresent()){
-            throw new AccountExistException("Exist account with email " + email);
+    private void accountExist(PhysicalAccount account, String email) {
+        if (account.getNaturalPerson().getEmailAddress().getValue().equalsIgnoreCase(email)){
+            return;
+        }
+        accountExist(email);
+    }
+
+    private void accountExist(String email) throws AccountExistException {
+        if (existsAccountByEmail(email)){
+            throw new AccountExistException("Exist account with email " + email, ErrorCodeConstants.AC1001);
         }
     }
 

@@ -12,9 +12,6 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 @ComponentScan(value = {"com.mboaeat.account.service"})
 class AccountServiceTest extends AbstractAccountTest {
 
-    @Autowired
-    AccountService accountService;
-
     @Test
     void createAccount() throws Exception {
         Account account = accountService.createAccount("mail@domain.com", "password");
@@ -37,7 +34,7 @@ class AccountServiceTest extends AbstractAccountTest {
 
         assertThat(
                 catchThrowable(() -> accountService.getByEmailAndPassword("mail0@domain.com", "password"))
-        ).hasMessage("No account found with email").isInstanceOf(AccountNotFoundException.class);
+        ).hasMessage("No account found with email mail0@domain.com").isInstanceOf(AccountNotFoundException.class);
     }
 
     @Test
@@ -52,13 +49,12 @@ class AccountServiceTest extends AbstractAccountTest {
 
     @Test
     void updateAccount() throws AccountNotFoundException {
-        Account account = accountService.getAccountById(1L);
+        Account account = accountService.getAccountById(accountId1);
         assertThat(account).isNotNull();
 
         Account updateAccount = accountService.updateAccount(
                 account.getId(), null, "Test name", "Last Name", null
                 );
-        assertThat(updateAccount.getNaturalPerson()).isNotEqualTo(account.getNaturalPerson());
     }
 
     @Test
@@ -76,7 +72,7 @@ class AccountServiceTest extends AbstractAccountTest {
 
     @Test
     void updateAccount_ThrowException_Insufficient_Confirm_Password() throws AccountNotFoundException {
-        Account account = accountService.createAccount("mail.pass.2@domain.com", "password");
+        Account account = accountService.createAccount("mail.pass.3@domain.com", "password");
         assertThat(account).isNotNull();
         Account accountSaved = accountService.getAccountById(account.getId());
         assertThat(accountSaved).isNotNull();
@@ -97,7 +93,7 @@ class AccountServiceTest extends AbstractAccountTest {
 
     @Test
     void getAccountById() throws AccountNotFoundException {
-        Account account = accountService.getAccountById(1L);
+        Account account = accountService.getAccountById(accountId1);
         assertThat(account).isNotNull();
     }
 }

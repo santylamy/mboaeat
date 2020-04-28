@@ -1,14 +1,14 @@
 package com.mboaeat.common.dto;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Getter
-@Builder
-@JsonDeserialize(builder = User.UserBuilder.class)
+@SuperBuilder
+@NoArgsConstructor
 @Tag(name = "User data")
 public class User extends AbstractBaseDTO {
 

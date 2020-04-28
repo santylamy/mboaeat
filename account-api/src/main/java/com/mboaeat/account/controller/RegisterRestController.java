@@ -15,6 +15,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/api/v1.0/register")
 @Tag(name = "Register API",description = "Provides a list methods for registration")
@@ -34,10 +36,9 @@ public class RegisterRestController {
             @ApiResponse(responseCode = "409", description = "The e-mail exists")
     })
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> register(
             @Parameter(description = "Registration form", required = true)
-            @RequestBody RegisterDTO registerDTO,
+            @Valid @RequestBody RegisterDTO registerDTO,
             final UriComponentsBuilder uriComponentsBuilder){
         accountService.createAccount(registerDTO.getEmail(), registerDTO.getPassword());
         final HttpHeaders httpHeaders = new HttpHeaders();

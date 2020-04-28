@@ -2,16 +2,16 @@ package com.mboaeat.common.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
-@Getter
+@Data
+@SuperBuilder
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id", doNotUseGetters = true)
+@EqualsAndHashCode(of = "id")
 @Tag(name = "The base object")
 public abstract class AbstractBaseDTO implements Serializable {
 

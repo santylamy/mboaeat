@@ -16,6 +16,9 @@
 		<logstash.version>4.11</logstash.version>
 		<testcontainers.version>1.48</testcontainers.version>
 		<springdoc.version>1.1.49</springdoc.version>
+		<embedded-consul.version>2.1.4</embedded-consul.version>
+		<awaitility.version>1.7.0</awaitility.version>
+		<junit-jupiter.version>5.3.2</junit-jupiter.version>
 	</properties>
 
 	<parent>
@@ -48,6 +51,13 @@
 				<scope>test</scope>
 			</dependency>
 			<dependency>
+				<groupId>net.minidev</groupId>
+				<artifactId>minidev-parent</artifactId>
+				<version>2.3</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
 				<groupId>org.springdoc</groupId>
 				<artifactId>springdoc-openapi-core</artifactId>
 				<version>${springdoc.version}</version>
@@ -72,6 +82,18 @@
 				<groupId>com.mboaeat</groupId>
 				<artifactId>mboaeat-common</artifactId>
 				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.jayway.awaitility</groupId>
+				<artifactId>awaitility</artifactId>
+				<version>${awaitility.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.pszymczyk.consul</groupId>
+				<artifactId>embedded-consul</artifactId>
+				<version>${embedded-consul.version}</version>
+				<scope>test</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
