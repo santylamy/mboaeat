@@ -1,11 +1,12 @@
-package com.mboaeat.account;
+package com.mboaeat.customer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
 
 @SpringCloudApplication
-public class AccountApplication {
+public class CustomerApplication {
+
     public static void main(String[] args) {
-        SpringApplication.run(AccountApplication.class);
+        SpringApplication.run(CustomerApplication.class);
     }
 }

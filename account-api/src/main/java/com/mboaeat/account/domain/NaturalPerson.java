@@ -1,5 +1,6 @@
 package com.mboaeat.account.domain;
 
+import com.mboaeat.common.domain.EmailAddress;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,7 +1,7 @@
 package com.mboaeat.account.repository;
 
 import com.mboaeat.account.domain.Account;
-import com.mboaeat.account.domain.EmailAddress;
+import com.mboaeat.common.domain.EmailAddress;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -1,6 +1,7 @@
 package com.mboaeat.account.domain;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
@@ -13,6 +14,7 @@ import javax.persistence.Table;
 @Data
 @SuperBuilder
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 public class PhysicalAccount extends Account {
 
     @Embedded

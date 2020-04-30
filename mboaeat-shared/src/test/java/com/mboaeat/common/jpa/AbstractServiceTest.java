@@ -11,7 +11,9 @@ import org.springframework.test.context.TestPropertySource;
 @TestPropertySource(properties = {
         "spring.jpa.hibernate.ddl-auto=create-drop",
         "spring.cloud.consul.discovery.instance-id=${spring.application.name}",
-        "embedded.postgresql.enabled=false"
+        "embedded.postgresql.enabled=false",
+        "spring.cloud.consul.port=8501",
+        "spring.cloud.circuit.breaker.enabled=false"
 })
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public abstract class AbstractServiceTest extends AbstractTest {

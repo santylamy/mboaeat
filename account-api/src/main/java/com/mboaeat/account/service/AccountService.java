@@ -2,6 +2,7 @@ package com.mboaeat.account.service;
 
 import com.mboaeat.account.domain.*;
 import com.mboaeat.account.repository.AccountRepository;
+import com.mboaeat.common.domain.EmailAddress;
 import com.mboaeat.common.dto.ErrorCodeConstants;
 import com.mboaeat.common.dto.User;
 import com.mboaeat.common.exception.MboaEatException;

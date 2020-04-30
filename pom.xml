@@ -7,6 +7,7 @@
         <module>account-api</module>
 		<module>mboaeat-shared</module>
 		<module>mboaeat-common</module>
+		<module>customer-api</module>
 	</modules>
     <packaging>pom</packaging>
   
@@ -93,6 +94,12 @@
 				<groupId>com.pszymczyk.consul</groupId>
 				<artifactId>embedded-consul</artifactId>
 				<version>${embedded-consul.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>net.minidev</groupId>
+				<artifactId>asm</artifactId>
+				<version>1.0.2</version>
 				<scope>test</scope>
 			</dependency>
 		</dependencies>

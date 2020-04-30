@@ -21,10 +21,11 @@ public abstract class AbstractTest {
     ConsulExtension consul = new ConsulExtension(
             ConsulStarterBuilder
                     .consulStarter()
+                    .withWaitTimeout(600)
                     .withConsulPorts(
                             ConsulPorts
                                     .consulPorts()
-                                    .withHttpPort(8500)
+                                    .withHttpPort(8501)
                                     .build()
                     )
                     .build()
