@@ -13,9 +13,18 @@ public class ServiceUtils {
     private ServiceUtils() {
     }
 
-    public static Customer toCustomer(Client client){
+    public static Client toClient(Customer customer){
+        return Client
+                .builder()
+                .name(customer.getClientName().getName())
+                .build();
+    }
+
+
+    public static Customer toCustomer(Client client, Long user){
         return Customer
                 .builder()
+                .user(user)
                 .clientName(
                    ClientName
                            .builder()

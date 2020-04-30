@@ -1,4 +1,4 @@
-package com.mboaeat.account.controller.advice;
+package com.mboaeat.common.advice;
 
 import com.mboaeat.common.dto.error.ApiErrorDTO;
 import com.mboaeat.common.dto.error.ErrorMessageDTO;
@@ -6,12 +6,10 @@ import com.mboaeat.common.exception.MboaEatException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -30,7 +28,7 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
      */
     @ExceptionHandler(MboaEatException.class)
     public ResponseEntity<Object> handleResourceException(final MboaEatException ex) {
-        return new ResponseEntity<Object>(
+        return new ResponseEntity<>(
                 new ApiErrorDTO(
                         HttpStatus.BAD_REQUEST,
                         ex.getLocalizedMessage(),
@@ -46,7 +44,7 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        List<ErrorMessageDTO> errors = new ArrayList<ErrorMessageDTO>();
+        List<ErrorMessageDTO> errors = new ArrayList<>();
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
             errors.add(ErrorMessageDTO.builder().message(error.getField() + ": " + error.getDefaultMessage()).build() );
         }
@@ -64,7 +62,7 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
     @ExceptionHandler({ ConstraintViolationException.class })
     public ResponseEntity<Object> handleConstraintViolation(
             ConstraintViolationException ex, WebRequest request) {
-        List<ErrorMessageDTO> errors = new ArrayList<ErrorMessageDTO>();
+        List<ErrorMessageDTO> errors = new ArrayList<>();
         for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
             errors.add(
                     ErrorMessageDTO.builder()
@@ -75,7 +73,7 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
 
         ApiErrorDTO apiError =
                 new ApiErrorDTO(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
-        return new ResponseEntity<Object>(
+        return new ResponseEntity<>(
                 apiError, new HttpHeaders(), apiError.getStatus());
     }
 

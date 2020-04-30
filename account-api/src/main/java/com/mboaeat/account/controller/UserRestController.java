@@ -41,6 +41,22 @@ public class UserRestController {
             @PathVariable("username") @Valid @Email final String username
     ) {
         User user = accountService.getUserByEmail(username);
+        return getUserModel(user);
+    }
+
+    @Operation(summary = "Get user profile by id")
+    @ApiResponses(value = { @ApiResponse(responseCode = "404", description = "No user found") })
+    @GetMapping(value = "/user/{userId}")
+    public UserModel getProfile(
+            @Parameter(description = "The user's id", required = true)
+            @PathVariable("userId") final Long userId
+    ) {
+        User user = accountService.getUserById(userId);
+        return getUserModel(user);
+    }
+
+
+    private UserModel getUserModel(User user) {
         UserModel userModel = userModelAssembler.toModel(user);
         userModel.add(
                 WebMvcLinkBuilder

@@ -1,10 +1,8 @@
 package com.mboaeat.account.controller;
 
-import com.mboaeat.account.controller.advice.RestResponseExceptionHandler;
 import com.mboaeat.common.AbstractTest;
 import com.mboaeat.common.dto.User;
 import org.junit.jupiter.api.BeforeAll;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 
 @TestPropertySource(properties = {

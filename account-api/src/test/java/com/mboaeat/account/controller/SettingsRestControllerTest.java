@@ -1,7 +1,7 @@
 package com.mboaeat.account.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mboaeat.account.controller.advice.RestResponseExceptionHandler;
+import com.mboaeat.common.advice.RestResponseExceptionHandler;
 import com.mboaeat.account.service.AccountExistException;
 import com.mboaeat.account.service.AccountNotFoundException;
 import com.mboaeat.account.service.AccountService;

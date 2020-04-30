@@ -73,7 +73,7 @@ public class AccountService {
     }
 
     /**
-     * Get aacount by email
+     * Get acount by email
      * @param email
      * @return Account object
      * @throws AccountNotFoundException
@@ -102,6 +102,7 @@ public class AccountService {
      * @param middleName
      * @return
      */
+    @Transactional
     public Account updateAccount(
             Long id,
             String email,
@@ -138,6 +139,7 @@ public class AccountService {
         return accountRepository.saveAndFlush(account);
     }
 
+    @Transactional
     public void updatePassword(Long id, String password, String newPassword, String confirmPassword) {
         PhysicalAccount account = (PhysicalAccount) getAccountById(id);
         if (isNotEmptyPassword(password, newPassword, confirmPassword)){
@@ -159,11 +161,28 @@ public class AccountService {
         }
     }
 
+
+    /**
+     * Get account by id
+     * @param id
+     * @return Account object
+     * @throws AccountNotFoundException
+     */
     public Account getAccountById(Long id) throws AccountNotFoundException {
         return accountRepository.findById(id).orElseThrow(
                 () ->
                     new AccountNotFoundException("Account not exist with id " + id, ErrorCodeConstants.AC1000)
         );
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     * @See getAccountById
+     */
+    public User getUserById(Long id){
+        return toUserDto(getAccountById(id));
     }
 
     private boolean isNotEmptyPassword(String ... passwords) {
@@ -195,11 +214,6 @@ public class AccountService {
                         .value(email)
                         .build()
         );
-
-        if (account.isPresent()){
-          return true;
-        }
-
-        return false;
+        return account.isPresent();
     }
 }

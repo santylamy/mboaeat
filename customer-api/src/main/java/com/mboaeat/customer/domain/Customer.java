@@ -32,4 +32,7 @@ public class Customer implements Serializable {
 
     @Embedded
     private FixedPhoneNumber fixedPhoneNumber;
+
+    @Column(name = "ACCOUNT_ID")
+    private Long user;
 }
