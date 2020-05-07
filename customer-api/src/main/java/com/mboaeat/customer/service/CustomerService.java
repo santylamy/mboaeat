@@ -21,21 +21,24 @@ public class CustomerService {
     }
 
     @Transactional
-    public Client createCustomer(User user, Client client){
+    public Client createCustomer(final User user, final Client client){
+        final Customer customerToSave = toCustomer(client, user.asLongId());
         Customer customer =
-        customerRepository.save(toCustomer(client, user.asLongId()));
+        customerRepository.save(customerToSave);
         return toClient(customer);
     }
 
 
     /**
      * manage customer
+     * @param userId
      * @param client
      * @return Client object
      */
     @Transactional
-    public Client updateCustomer(Client client){
-        Customer customerToUpdate = toCustomer(client, getClientById(client.asLongId()).asLongId());
+    public Client updateCustomer(final Long userId, final Client client) throws CustomerNotFoundException {
+        getClientById(client.asLongId());
+        Customer customerToUpdate = toCustomer(client, userId);
 
         return toClient(customerRepository.save(customerToUpdate));
     }
@@ -46,7 +49,7 @@ public class CustomerService {
      * @return Client object
      * @throws CustomerNotFoundException
      */
-    public Client getClientById(Long id) throws CustomerNotFoundException {
+    public Client getClientById(final Long id) throws CustomerNotFoundException {
         Customer customer = customerRepository.findById(id).orElseThrow(
                 () ->
                         new CustomerNotFoundException("Customer not exist with id " + id, ErrorCodeConstants.CU2000)
@@ -61,12 +64,21 @@ public class CustomerService {
      * @return Client object
      * @throws CustomerNotFoundException
      */
-    public Client getClientByUser(Long userId) throws CustomerNotFoundException {
+    public Client getClientByUser(final Long userId) throws CustomerNotFoundException {
         return toClient(
                 customerRepository.findCustomerByUser(userId).orElseThrow(
                         () ->
-                                new CustomerNotFoundException("Customer not exist with id " + userId, ErrorCodeConstants.CU2000)
+                                new CustomerNotFoundException("Customer not exist with user id " + userId, ErrorCodeConstants.CU2000)
                 )
         );
+    }
+
+    /**
+     * Get client by user id and check if has address
+     * @param userId
+     * @return
+     */
+    public boolean hasAddress(final Long userId) {
+        return customerRepository.findCustomerByUser(userId).isPresent();
     }
 }

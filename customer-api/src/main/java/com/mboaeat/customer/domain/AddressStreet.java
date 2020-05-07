@@ -15,11 +15,11 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class AddressStreet {
 
-    @Column(name = "STREET_NAME_ONE")
-    private String name_one;
+    @Column(name = "STREET_DESC_ONE")
+    private String streetDescOne;
 
-    @Column(name = "STREET_NAME_TWO")
-    private String name_two;
+    @Column(name = "STREET_DESC_TWO")
+    private String streetDescTwo;
 
     @Column(name = "STREET_POST_BOX")
     private String postBox;

@@ -1,6 +1,5 @@
 package com.mboaeat.account.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mboaeat.common.advice.RestResponseExceptionHandler;
 import com.mboaeat.account.hateoas.UserModel;
 import com.mboaeat.account.hateoas.assembler.UserModelAssembler;
@@ -14,7 +13,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,19 +22,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @WebMvcTest(controllers = {UserRestController.class})
 @ContextConfiguration(classes = {UserModelAssembler.class, RestResponseExceptionHandler.class, UserRestController.class})
-class UserRestControllerTest extends AbstractRestControllerTest {
-
-    @Autowired
-    MockMvc mockMvc;
-
-    @Autowired
-    ObjectMapper objectMapper;
+class UserAccountRestControllerTest extends AbstractAccountRestControllerTest {
 
     @MockBean
     AccountService accountService;
-
-    @Autowired
-    RestResponseExceptionHandler restResponseExceptionHandler;
 
     @Autowired
     UserModelAssembler userModelAssembler;

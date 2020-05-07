@@ -7,12 +7,10 @@ import com.mboaeat.account.service.AccountService;
 import com.mboaeat.common.dto.error.ApiErrorDTO;
 import com.mboaeat.common.dto.request.RegisterDTO;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultMatcher;
 
@@ -23,19 +21,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = {RegisterRestController.class})
 @ContextConfiguration(classes = {RestResponseExceptionHandler.class, RegisterRestController.class})
-class RegisterRestControllerTest extends AbstractRestControllerTest{
-
-    @Autowired
-    MockMvc mockMvc;
-
-    @Autowired
-    ObjectMapper objectMapper;
+class RegisterAccountRestControllerTest extends AbstractAccountRestControllerTest {
 
     @MockBean
     AccountService accountService;
-
-    @Autowired
-    RestResponseExceptionHandler restResponseExceptionHandler;
 
     @Test
     void register_whenValidInput_thenReturns201() throws Exception{
@@ -45,7 +34,7 @@ class RegisterRestControllerTest extends AbstractRestControllerTest{
                 .password("password")
                 .build();
         mockMvc.perform(
-                post("/api/v1.0/register")
+                post("/api/v1.0/users/register")
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(registerDTO))
         )
@@ -60,7 +49,7 @@ class RegisterRestControllerTest extends AbstractRestControllerTest{
                 .password("password")
                 .build();
       MvcResult mvcResult = mockMvc.perform(
-                post("/api/v1.0/register")
+                post("/api/v1.0/users/register")
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsBytes(registerDTO))
         )
@@ -84,7 +73,7 @@ class RegisterRestControllerTest extends AbstractRestControllerTest{
                 .password("password")
                 .build();
         MvcResult mvcResult = mockMvc.perform(
-                post("/api/v1.0/register")
+                post("/api/v1.0/users/register")
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsBytes(registerDTO))
         )

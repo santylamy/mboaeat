@@ -5,6 +5,7 @@ import com.mboaeat.common.dto.request.ChangeEmailUserInfo;
 import com.mboaeat.common.dto.request.ChangePasswordDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,7 +18,8 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/api/v1.0/users/account/update")
-@Tag(name = "Settings API", description = "Provides a list of methods that manage user settings")
+@Tag(name = "User API")
+@Schema(name = "Settings API", description = "Provides a list of methods that manage user settings")
 @Validated
 public class SettingsRestController {
 

@@ -20,7 +20,7 @@ public class NaturalPerson implements Serializable {
     @Id
     @Column(name = "PERSON_ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idGeneratorNaturalPerson")
-    @SequenceGenerator(name = "idGeneratorNaturalPerson", sequenceName = "SEQ_PERSONS", allocationSize = 100)
+    @SequenceGenerator(name = "idGeneratorNaturalPerson", sequenceName = "SEQ_PERSONS", allocationSize = 1)
     private Long personId;
 
     @Embedded

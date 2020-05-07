@@ -1,7 +1,6 @@
 package com.mboaeat.common.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -9,7 +8,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @SuperBuilder
 @NoArgsConstructor
-@Tag(name = "User data")
+@Schema(name = "UserInfo" , description = "User data")
 public class User extends AbstractBaseDTO {
 
     @Schema(description = "The user's e-mail", required = true)

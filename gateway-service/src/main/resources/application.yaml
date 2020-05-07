@@ -1,0 +1,58 @@
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    consul:
+      discovery:
+        instance-id: ${spring.application.name}-${random.value}
+    loadbalancer:
+      ribbon:
+        enabled: false
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      #globalcors:
+      #  cors-configurations:
+      #    '[/**]':
+      #      allowedOrigins: '*'
+      #      allowedMethods:
+      #        - GET
+      #        - POST
+      #        - PUT
+      routes:
+        - id: account
+          uri: lb://account-service/
+          predicates:
+          - Path=/account/**
+          filters:
+          - RewritePath=/account/(?<path>.*), /$\{path}
+          - name: CircuitBreaker
+            args:
+              name: mycircuitbreaker
+              fallbackUrl:  forward:/fallback
+        - id: customer
+          uri: lb://customer-service/
+          predicates:
+          - Path=/customer/**
+          filters:
+          - RewritePath=/customer/(?<path>.*), /$\{path}
+          - name: CircuitBreaker
+            args:
+              name: mycircuitbreaker
+              fallbackUrl:  forward:/fallback
+  main:
+    allow-bean-definition-overriding: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        exclude: '*'
+
+
+server:
+  port: 7000
+logging:
+  level:
+    com.mboaeat.api.gateway: debug

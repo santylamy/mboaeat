@@ -4,6 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "MORALACCOUNT")
+@Table(name = "MORAL_ACCOUNT")
 public class MoralAccount extends Account {
 }

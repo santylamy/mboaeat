@@ -4,6 +4,7 @@ import com.mboaeat.account.service.AccountService;
 import com.mboaeat.common.dto.request.RegisterDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,8 +19,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/api/v1.0/register")
-@Tag(name = "Register API",description = "Provides a list methods for registration")
+@RequestMapping(value = "/api/v1.0/users/register")
+@Tag(name = "User API")
+@Schema(name = "Register API",description = "Provides a list methods for registration")
 @Validated
 public class RegisterRestController {
 

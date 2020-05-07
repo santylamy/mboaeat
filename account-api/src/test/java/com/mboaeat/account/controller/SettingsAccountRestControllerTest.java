@@ -1,6 +1,5 @@
 package com.mboaeat.account.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mboaeat.common.advice.RestResponseExceptionHandler;
 import com.mboaeat.account.service.AccountExistException;
 import com.mboaeat.account.service.AccountNotFoundException;
@@ -12,12 +11,10 @@ import com.mboaeat.common.dto.error.ErrorMessageDTO;
 import com.mboaeat.common.dto.request.ChangeEmailUserInfo;
 import com.mboaeat.common.dto.request.ChangePasswordDTO;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,21 +24,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = {SettingsRestController.class})
 @ContextConfiguration(classes = {RestResponseExceptionHandler.class, SettingsRestController.class})
-class SettingsRestControllerTest extends AbstractRestControllerTest{
-
-
-    @Autowired
-    MockMvc mockMvc;
-
-    @Autowired
-    ObjectMapper objectMapper;
+class SettingsAccountRestControllerTest extends AbstractAccountRestControllerTest {
 
     @MockBean
     AccountService accountService;
-
-    @Autowired
-    RestResponseExceptionHandler restResponseExceptionHandler;
-
 
     @Test
     void updateEmail_thenNo_parameter_thenReturn400() throws Exception {

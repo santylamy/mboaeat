@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -22,6 +23,7 @@ public class Client extends AbstractBaseDTO {
     private String name;
 
     @NotNull
+    @Valid
     @Schema(description = "The client address", required = true)
     private AddressDTO address;
 }

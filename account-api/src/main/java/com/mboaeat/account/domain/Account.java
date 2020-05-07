@@ -12,12 +12,13 @@ import java.io.Serializable;
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Table(name = "ACCOUNTS")
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Account implements Serializable {
 
     @Column(name = "ACCOUNT_ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idGeneratorAccount")
-    @SequenceGenerator(name = "idGeneratorAccount", sequenceName = "SEQ_ACCOUNT", allocationSize = 100)
+    @SequenceGenerator(name = "idGeneratorAccount", sequenceName = "SEQ_ACCOUNT", allocationSize = 1)
     @Id
     private Long id;
 

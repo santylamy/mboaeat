@@ -9,7 +9,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-@Table(name = "PHYSICALACCOUNT")
+@Table(name = "PHYSICAL_ACCOUNT")
 @Entity
 @Data
 @SuperBuilder

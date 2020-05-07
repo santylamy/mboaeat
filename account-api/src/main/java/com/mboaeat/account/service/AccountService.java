@@ -122,17 +122,12 @@ public class AccountService {
                     );
         }
         if (StringUtils.isNotEmpty(name) || StringUtils.isNotEmpty(firstName) || StringUtils.isNotEmpty(middleName)){
-            account.setNaturalPerson(
-                    NaturalPerson
+            account.getNaturalPerson().setPersonName(
+                    PersonName
                             .builder()
-                            .personName(
-                                    PersonName
-                                            .builder()
-                                            .name(name)
-                                            .firstName(firstName)
-                                            .middleName(middleName)
-                                            .build()
-                            )
+                            .name(name)
+                            .firstName(firstName)
+                            .middleName(middleName)
                             .build()
             );
         }
@@ -148,7 +143,7 @@ public class AccountService {
                     String hash = generatePswd();
                     account.setPassword(
                             Password.builder()
-                                    .value(passwd(hash, password))
+                                    .value(passwd(hash, newPassword))
                                     .hash(hash)
                                     .build()
                     );

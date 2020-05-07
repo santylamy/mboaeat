@@ -14,13 +14,13 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "CLIENT")
+@Table(name = "CLIENTS")
 public class Customer implements Serializable {
 
     @Id
     @Column(name = "CLIENT_ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idGeneratorClient")
-    @SequenceGenerator(name = "idGeneratorClient", sequenceName = "SEQ_CLIENT", allocationSize = 100)
+    @SequenceGenerator(name = "idGeneratorClient", sequenceName = "SEQ_CLIENTS", allocationSize = 1)
     private Long id;
 
     @Embedded

@@ -1,7 +1,8 @@
 package com.mboaeat.common.dto;
 
-public enum AddressType {
+public enum AddressTypeInfo {
 
     BILLING,
-    DELIVERY
+    SHIPPING
+
 }

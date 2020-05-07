@@ -8,5 +8,5 @@ RUN mkdir /app
 WORKDIR /app
 ARG JAR_FILE=target/account-api-*.jar
 COPY ${JAR_FILE} /app/account-api.jar
-ENTRYPOINT ["dockerize", "-timeout", "5m", "-wait", "java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app/account-api.jar", "--spring.profiles.active=docker"]
-EXPOSE 8070
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app/account-api.jar", "--spring.profiles.active=docker"]
+EXPOSE 0

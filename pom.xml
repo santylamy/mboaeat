@@ -8,7 +8,8 @@
 		<module>mboaeat-shared</module>
 		<module>mboaeat-common</module>
 		<module>customer-api</module>
-	</modules>
+        <module>gateway-service</module>
+    </modules>
     <packaging>pom</packaging>
   
   	<properties>
@@ -42,6 +43,13 @@
 				<groupId>com.playtika.testcontainers</groupId>
 				<artifactId>testcontainers-spring-boot</artifactId>
 				<version>${testcontainers.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.session</groupId>
+				<artifactId>spring-session-bom</artifactId>
+				<version>Corn-SR2</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
