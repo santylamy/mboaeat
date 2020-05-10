@@ -1,5 +1,6 @@
 package com.mboaeat.common.jpa;
 
+import com.mboaeat.common.AbstractTest;
 import com.mboaeat.common.TestApplication;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +21,6 @@ import javax.sql.DataSource;
         "spring.cloud.consul.discovery.enabled=false",
         "spring.cloud.consul.config.enabled=false",
         "springdoc.api-docs.enabled=false",
-        "spring.application.name=account-api",
         "spring.cloud.consul.discovery.instance-id=${spring.application.name}",
         "spring.datasource.url=jdbc:postgresql://${embedded.postgresql.host}:${embedded.postgresql.port}/${embedded.postgresql.schema}",
         "spring.datasource.username=${embedded.postgresql.user}",
@@ -30,11 +30,11 @@ import javax.sql.DataSource;
         "embedded.postgresql.enabled=true"
 })
 @SpringBootTest(classes = {TestApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.NONE)
-public abstract class AbstractRepositoryTest {
+@EnableJpaRepositories(basePackages = "com.mboaeat")
+@EntityScan(basePackages = "com.mboaeat")
+public abstract class AbstractRepositoryTest extends AbstractTest {
 
    // @Configuration
-    @EnableJpaRepositories(basePackages = "com.mboaeat")
-    @EntityScan(basePackages = "com.mboaeat")
     static class TestConfiguration {
 
         @Value("${spring.datasource.url}")

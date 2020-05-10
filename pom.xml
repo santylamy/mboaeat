@@ -9,6 +9,7 @@
 		<module>mboaeat-common</module>
 		<module>customer-api</module>
         <module>gateway-service</module>
+        <module>order-api</module>
     </modules>
     <packaging>pom</packaging>
   

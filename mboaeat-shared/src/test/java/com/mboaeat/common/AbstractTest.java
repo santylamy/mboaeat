@@ -33,14 +33,6 @@ public abstract class AbstractTest {
 
     private OkHttpClient client = new OkHttpClient();
 
-    @BeforeAll
-    static void initialize() {
-        System.setProperty("http.proxyHost", "proxyusr.fediap.be");
-        System.setProperty("http.proxyPort", "8080");
-        System.setProperty("https.proxyHost", "proxyusr.fediap.be");
-        System.setProperty("https.proxyPort", "8080");
-    }
-
     @Test
     void shouldStartConsul() throws Throwable {
         await().atMost(30, TimeUnit.SECONDS).until(() -> {

@@ -46,8 +46,7 @@ services:
 
 networks:
   postgres-net:
-    external:
-      name: postgres-net
+    external: true
 
 
 volumes:
