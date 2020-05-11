@@ -1,4 +1,4 @@
-package com.mboaeat.order.repository;
+package com.mboaeat.order.domain.repository;
 
 import com.mboaeat.order.domain.Order;
 import org.springframework.data.jpa.repository.JpaRepository;

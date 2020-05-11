@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.test.context.TestPropertySource;
@@ -20,6 +21,7 @@ import javax.sql.DataSource;
         "spring.jpa.hibernate.ddl-auto=create-drop",
         "spring.cloud.consul.discovery.enabled=false",
         "spring.cloud.consul.config.enabled=false",
+        "spring.cloud.consul.port=8501",
         "springdoc.api-docs.enabled=false",
         "spring.cloud.consul.discovery.instance-id=${spring.application.name}",
         "spring.datasource.url=jdbc:postgresql://${embedded.postgresql.host}:${embedded.postgresql.port}/${embedded.postgresql.schema}",

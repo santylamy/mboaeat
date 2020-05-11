@@ -1,4 +1,4 @@
-package com.mboaeat.order.repository;
+package com.mboaeat.order.domain.repository;
 
 import com.mboaeat.common.AbstractTest;
 import com.mboaeat.common.jpa.AbstractRepositoryTest;
@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @EnableJpaAuditing
 class BaseEntityRepositoryTest extends AbstractOrderTest {

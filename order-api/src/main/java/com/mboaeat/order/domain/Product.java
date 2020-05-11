@@ -18,14 +18,14 @@ import java.util.List;
 )
 public class Product extends BaseEntity<Long> {
 
-    //@Id
-    //@Column(name = "PRODUCT_ID")
-    //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idGeneratorProduct")
-    //@SequenceGenerator(name = "idGeneratorProduct", sequenceName = "SEQ_PRODUCTS", allocationSize = 1)
-    //private Long id;
+    @Embedded
+    private Amount price;
 
     @Embedded
     private ProductName productName;
+
+    @Column(name = "PRODUCT_DESC")
+    private String description;
 
     @ElementCollection
     @CollectionTable(name = "PRODUCTS_INGREDIENTS", joinColumns = @JoinColumn(name = "PRODUCT_ID"))

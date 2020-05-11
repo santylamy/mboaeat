@@ -13,6 +13,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -23,9 +24,6 @@ import java.util.Date;
 public abstract class BaseEntity<ID extends Serializable> implements Serializable {
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idGeneratorBase")
-    //@SequenceGenerator(name = "idGeneratorBase", sequenceName = "SEQ_BASES", allocationSize = 1)
-
     @GeneratedValue(generator = "idGeneratorBase")
     @GenericGenerator(name = "idGeneratorBase",
             parameters = {
@@ -36,14 +34,12 @@ public abstract class BaseEntity<ID extends Serializable> implements Serializabl
     protected Long id;
 
     @Column(name = "CREATED_DATE", nullable = false, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
-    protected Date createdDate;
+    protected LocalDateTime createdDate;
 
     @Column(name = "MODIFIED_DATE")
-    @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
-    protected Date modifiedDate;
+    protected LocalDateTime modifiedDate;
 
     protected ID getId(){
         return (ID) id;

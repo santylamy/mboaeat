@@ -19,4 +19,6 @@ import javax.persistence.*;
 )
 public abstract class Menu extends BaseEntity<Long> {
 
+    @Embedded
+    private Amount price;
 }

@@ -1,4 +1,4 @@
-package com.mboaeat.order.repository;
+package com.mboaeat.order.domain.repository;
 
 import com.mboaeat.common.jpa.AbstractRepositoryTest;
 
