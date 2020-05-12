@@ -15,8 +15,8 @@ public class OrderLine implements Serializable {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "PRODUCT_ID")
-    private Product product;
+    @JoinColumn(name = "MENU_ID")
+    private Menu menu;
 
     @Id
     @ManyToOne
