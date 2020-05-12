@@ -1,9 +1,6 @@
-package com.mboaeat.order.domain.repository;
+package com.mboaeat.order.domain;
 
-import com.mboaeat.common.AbstractTest;
-import com.mboaeat.common.jpa.AbstractRepositoryTest;
-import com.mboaeat.order.domain.Product;
-import com.mboaeat.order.domain.ProductName;
+import com.mboaeat.order.domain.repository.BaseEntityRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
