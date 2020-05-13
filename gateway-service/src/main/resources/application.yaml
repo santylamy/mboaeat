@@ -41,6 +41,16 @@ spring:
             args:
               name: mycircuitbreaker
               fallbackUrl:  forward:/fallback
+        - id: order
+          uri: lb://order-service/
+          predicates:
+          - Path=/order/**
+          filters:
+          - RewritePath=/customer/(?<path>.*), /$\{path}
+          - name: CircuitBreaker
+            args:
+              name: mycircuitbreaker
+              fallbackUrl:  forward:/fallback
   main:
     allow-bean-definition-overriding: true
 
