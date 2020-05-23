@@ -19,7 +19,7 @@ import java.util.List;
 public class Product extends BaseEntity<Long> {
 
     @Embedded
-    private Amount price;
+    private final ProductPriceCollection pricesHistory = new ProductPriceCollection();
 
     @Embedded
     private ProductName productName;
@@ -27,8 +27,15 @@ public class Product extends BaseEntity<Long> {
     @Column(name = "PRODUCT_DESC")
     private String description;
 
-    @ElementCollection
-    @CollectionTable(name = "PRODUCTS_INGREDIENTS", joinColumns = @JoinColumn(name = "PRODUCT_ID"))
-    private List<ProductIngredient> ingredients;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "PRODUCT_TYPE_CODE")
+    private ProductType category;
 
+    public ProductPrice getCurrentPrice(){
+        return pricesHistory.getCurrent();
+    }
+
+    public List<ProductPrice> applyProductPriceChangeCommand(ChangeProductPriceCollectionCommand command, boolean commit) {
+        return pricesHistory.apply(command, commit);
+    }
 }

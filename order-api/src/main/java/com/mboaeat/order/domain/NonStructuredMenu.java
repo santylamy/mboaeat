@@ -1,10 +1,12 @@
 package com.mboaeat.order.domain;
 
+import com.mboaeat.common.PeriodicalElement;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 
 @Data
@@ -13,4 +15,9 @@ import javax.persistence.Entity;
 @SuperBuilder
 @DiscriminatorValue("NON_STRUCTURED")
 public class NonStructuredMenu extends Menu {
+
+    @Override
+    public boolean isContentEqual(PeriodicalElement<PeriodByDay> periodical) {
+        return false;
+    }
 }

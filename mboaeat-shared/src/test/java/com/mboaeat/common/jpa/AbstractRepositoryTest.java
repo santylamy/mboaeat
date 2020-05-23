@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.test.context.TestPropertySource;
@@ -17,6 +18,8 @@ import javax.sql.DataSource;
 @RunWith(SpringJUnit4ClassRunner.class)
 @TestPropertySource(properties = {
         "spring.jpa.hibernate.ddl-auto=create-drop",
+        "spring.jpa.properties.hibernate.show_sql=true",
+        "spring.jpa.properties.hibernate.format_sql=true",
         "spring.cloud.consul.discovery.enabled=false",
         "spring.cloud.consul.config.enabled=false",
         "spring.cloud.consul.port=8501",
@@ -32,6 +35,7 @@ import javax.sql.DataSource;
 @SpringBootTest(classes = {TestApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @EnableJpaRepositories(basePackages = "com.mboaeat")
 @EntityScan(basePackages = "com.mboaeat")
+@EnableJpaAuditing
 public abstract class AbstractRepositoryTest extends AbstractTest {
 
    // @Configuration

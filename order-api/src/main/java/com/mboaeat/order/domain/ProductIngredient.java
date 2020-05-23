@@ -13,10 +13,6 @@ import javax.persistence.OneToOne;
 @Embeddable
 public class ProductIngredient {
 
-    //@OneToOne
-    //@JoinColumn(name = "PRODUCT_ID", nullable = false)
-    //private Product product;
-
     @Column(name = "INGREDIENT_NAME", nullable = false)
     private String name;
 }

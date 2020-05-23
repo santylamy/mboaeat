@@ -13,25 +13,20 @@ public class OrderLine implements Serializable {
     @Embedded
     private Amount price;
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "MENU_ID")
-    private Menu menu;
-
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "ORDER_ID")
-    private Order order;
+    @EmbeddedId
+    private OrderLineId id;
 
     @Column(name = "UNITS")
     private Integer quantity;
 
+    @Embedded
+    private ProductCollection productCollection;
 
     public void setOrder(Order order) {
-        if (this.order != null) {
-            this.order.internalRemoveOrderLine(this);
+        if (this.id.getOrder() != null) {
+            this.id.getOrder().internalRemoveOrderLine(this);
         }
-        this.order = order;
+        this.id.setOrder(order);
         if (order != null) {
             order.internalAddOrderLine(this);
         }

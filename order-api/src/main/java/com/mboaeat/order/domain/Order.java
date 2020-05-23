@@ -12,6 +12,10 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "ORDERS")
+@AttributeOverride(
+        name = "id",
+        column = @Column(name = "ORDER_ID")
+)
 public class Order extends BaseEntity<Long> {
 
     @Embedded
@@ -28,15 +32,25 @@ public class Order extends BaseEntity<Long> {
     )
     private Amount totalAmountTva;
 
-    @Column(name = "ORDER_DATE")
-    private LocalDateTime orderDate;
+    @Column(name = "DATE_ORDER_PLACED")
+    private LocalDateTime datePlaced;
 
-    @OneToMany(mappedBy = "order")
+    @Column(name = "DATE_ORDER_PAID")
+    private LocalDateTime datePaid;
+
+    @OneToMany(mappedBy = "id.order")
     private Set<OrderLine> orderLines = new HashSet<>();
 
-    @Column(name = "ORDER_STATUS")
+    @Column(name = "ORDER_STATUS_CODE")
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
+
+    @Column(name = "CLIENT_ID")
+    private Long customer;
+
+    @ManyToOne
+    @JoinColumn(name = "CUSTOMER_PAYMENT_METHOD_ID")
+    private ClientPaymentMethods clientPaymentMethods;
 
     public void addOrderLine(OrderLine orderLine) {
         orderLine.setOrder(this);
