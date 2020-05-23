@@ -32,7 +32,7 @@ public class ProductService {
     public void updateProduct(Product product){
         getProduct(product.getId()).ifPresent(
                 productToUpdate -> {
-                    ;productToUpdate.setCategory(product.getCategory());
+                    productToUpdate.setCategory(product.getCategory());
                     productToUpdate.setDescription(product.getDescription());
                     productToUpdate.setProductName(product.getProductName());
                     productRepository.save(productToUpdate);
