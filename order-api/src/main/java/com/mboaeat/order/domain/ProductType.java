@@ -1,7 +1,8 @@
 package com.mboaeat.order.domain;
 
 public enum ProductType {
-    SAUCE("Sauce");
+    SAUCE("Sauce"),
+    VEGETABLE("Vegetable");
 
     private String value;
 

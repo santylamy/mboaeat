@@ -1,13 +1,12 @@
 package com.mboaeat.order.domain;
 
-import com.mboaeat.common.Periodical;
-import com.mboaeat.common.PeriodicalElement;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.List;
+
 
 @Data
 @Entity
@@ -17,42 +16,44 @@ import java.util.List;
 public class CompoungMenu extends Menu {
 
     @Embedded
-    private ImageCollection imageCollection;
+    private ImageCollection imageCollection = new ImageCollection();
 
     @Embedded
-    private PeriodByDay period;
+    private MenuPriceCollection menuPriceCollection = new MenuPriceCollection();
 
-    @ElementCollection
-    @CollectionTable(name = "MENU_INGREDIENTS", joinColumns = @JoinColumn(name = "MENU_ID"))
-    private List<ProductIngredient> ingredients;
+    @Embedded
+    private MenuStatusLinkCollection menuStatusLinkCollection = new MenuStatusLinkCollection();
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "MENU_STATUS_CODE")
-    private MenuStatus menuStatus = MenuStatus.Menu_Available;
+    @Embedded
+    private MenuName name;
 
-    @Override
-    public PeriodicalElement copy(PeriodByDay period) {
-        return CompoungMenu.builder()
-                .period(period)
-                .ingredients(ingredients)
-                .menuStatus(menuStatus)
-                .price(price)
-                .id(id)
-                .imageCollection(imageCollection).build();
+    @Embedded
+    private IngredientCollection ingredientCollection = new IngredientCollection();
+
+    @Column(name = "MENU_DESC")
+    private String description;
+
+    public MenuPrice getCurrentPrice(){
+        return menuPriceCollection.getCurrent();
     }
 
-    @Override
-    public int compareTo(Periodical<PeriodByDay> periodical) {
-        return period.compareTo(periodical.getPeriod());
+    public List<MenuPrice> apply(ChangeMenuPriceCollectionCommand command, boolean commit){
+        return menuPriceCollection.apply(command, true);
     }
 
-    @Override
-    public PeriodicalElement<PeriodByDay> merge(PeriodicalElement<PeriodByDay> periodical) {
-        return this.copy(period.merge(periodical.getPeriod()));
+    public List<MenuStatusLink> apply(ChangeMenuStatusLinkCollectionCommand command, boolean commit){
+        return menuStatusLinkCollection.apply(command, true);
     }
 
-    @Override
-    public boolean isContentEqual(PeriodicalElement<PeriodByDay> periodical) {
-        return false;
+    public void addIngredient(List<Ingredient> ingredients) {
+        this.ingredientCollection.add(ingredients);
+    }
+
+    public void addIngredient(Ingredient ingredient) {
+        this.ingredientCollection.add(ingredient);
+    }
+
+    public void removeIngredient(int key){
+        this.ingredientCollection.remove(key);
     }
 }

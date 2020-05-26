@@ -19,9 +19,6 @@ public class OrderLine implements Serializable {
     @Column(name = "UNITS")
     private Integer quantity;
 
-    @Embedded
-    private ProductCollection productCollection;
-
     public void setOrder(Order order) {
         if (this.id.getOrder() != null) {
             this.id.getOrder().internalRemoveOrderLine(this);

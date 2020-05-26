@@ -81,5 +81,37 @@ class ProductServiceTest extends AbstractRepositoryTest {
         assertThat(refreshProduct.getPricesHistory().getCurrent().getPeriod()).isEqualTo(PeriodByDay.periodByDayStartingToday());
     }
 
+    @Test
+    public void testCreateBaseEntity_With_Product_content_change(){
+        Product product = Product
+                .builder()
+                .productName(ProductName.builder().name("Champignons").build())
+                .build();
+
+        ProductPrice productPrice = ProductPrice.builder().product(product).amount(Amount.one()).period(
+                PeriodByDay.builder().startDate(LocalDate.now().with(TemporalAdjusters.firstDayOfYear())).build()
+        ).build();
+        product.getPricesHistory().getProductPrices().add(productPrice);
+        Product productToSaved = productService.createProduct(product);
+
+        assertThat(productToSaved).isNotNull();
+        assertThat(productToSaved.getPricesHistory().getProductPrices()).isNotEmpty();
+        assertThat(productToSaved.getProductName()).isEqualTo(ProductName.builder().name("Champignons").build());
+
+
+        Product refreshProduct = productService.getProduct(productToSaved.getId()).get();
+
+        refreshProduct.setDescription("Champigons de douala");
+        refreshProduct.setCategory(ProductType.VEGETABLE);
+
+        productService.updateProduct(refreshProduct);
+
+        refreshProduct = productService.getProduct(productToSaved.getId()).get();
+
+        assertThat(refreshProduct.getDescription()).isEqualTo("Champigons de douala");
+        assertThat(refreshProduct.getCategory()).isEqualTo(ProductType.VEGETABLE);
+    }
+
+
 
 }

@@ -24,11 +24,13 @@ public class ProductService {
         return productRepository.save(product);
     }
 
+    @Transactional
     public Product createProduct(Product product, ProductPrice price){
         product.getPricesHistory().addPrice(price);
         return productRepository.save(product);
     }
 
+    @Transactional
     public void updateProduct(Product product){
         getProduct(product.getId()).ifPresent(
                 productToUpdate -> {

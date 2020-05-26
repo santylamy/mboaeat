@@ -1,12 +1,11 @@
 package com.mboaeat.order.domain;
 
-import com.mboaeat.common.Periodical;
-import com.mboaeat.common.PeriodicalElement;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.util.Arrays;
 
 @Data
 @SuperBuilder
@@ -19,7 +18,7 @@ import javax.persistence.*;
         name = "id",
         column = @Column(name = "MENU_ID")
 )
-public abstract class Menu extends BaseEntity<Long> implements PeriodicalElement<PeriodByDay> {
+public abstract class Menu extends BaseEntity<Long>  {
 
     @Embedded
     @AttributeOverride(
@@ -28,18 +27,14 @@ public abstract class Menu extends BaseEntity<Long> implements PeriodicalElement
     )
     protected Amount price;
 
-    @Override
-    public PeriodicalElement copy(PeriodByDay period) {
-        throw new UnsupportedOperationException();
+    @Embedded
+    protected ProductCollection productCollection = new ProductCollection();
+
+    public void productsLink(Product... products) {
+        getProductCollection().setMenuProducts(Arrays.asList(products));
     }
 
-    @Override
-    public PeriodByDay getPeriod() {
-        return null;
-    }
-
-    @Override
-    public int compareTo(Periodical<PeriodByDay> o) {
-        return 0;
+    public void productLink(Product product) {
+        productCollection.link(product);
     }
 }

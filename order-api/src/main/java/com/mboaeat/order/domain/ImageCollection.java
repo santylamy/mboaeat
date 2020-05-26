@@ -5,6 +5,8 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.List;
 
+import static com.mboaeat.common.CollectionsUtils.newArrayList;
+
 @Data
 @Embeddable
 public class ImageCollection {
@@ -16,7 +18,7 @@ public class ImageCollection {
             columns = {@Column(name = "IMAGE_ID")},
             type = @org.hibernate.annotations.Type(type = "long"),
             generator = Image.ID_GENERATOR)
-    private List<Image> images = List.of();
+    private List<Image> images = newArrayList();
 
     public void addImage(Image image) {
         images.add(image);

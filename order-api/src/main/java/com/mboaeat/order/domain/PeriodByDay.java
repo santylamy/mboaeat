@@ -5,6 +5,7 @@ import com.mboaeat.common.Period;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Column;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 @SuperBuilder
 //@NoArgsConstructor
 //@AllArgsConstructor
+@ToString
 @Embeddable
 public class PeriodByDay extends AbstractPeriod {
 

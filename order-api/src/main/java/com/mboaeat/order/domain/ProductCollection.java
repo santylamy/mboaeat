@@ -4,16 +4,24 @@ import lombok.Data;
 import org.assertj.core.util.Sets;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import static com.mboaeat.common.CollectionsUtils.newArrayList;
 
 @Data
 @Embeddable
 public class ProductCollection {
 
-    @ElementCollection
-    //@CollectionTable(name = "MENU_PRODUCTS", joinColumns = @JoinColumn(name = "MENU_ID"))
-    //@MapKeyJoinColumn(name = "")
     @OneToMany
-    private Map<Menu, Product> products = Map.of();// = Maps.newHashMap();
+    @JoinTable(name = "MENU_PRODUCT",
+        joinColumns = {@JoinColumn(name = "MENU_ID", referencedColumnName = "MENU_ID")},
+        inverseJoinColumns = {@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")}
+    )
+    private List<Product> menuProducts = newArrayList();
+
+    public void link(Product product) {
+        menuProducts.add(product);
+    }
 }

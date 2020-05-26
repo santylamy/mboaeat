@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.DiscriminatorValue;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 
 @Data
@@ -16,8 +15,4 @@ import javax.persistence.Entity;
 @DiscriminatorValue("NON_STRUCTURED")
 public class NonStructuredMenu extends Menu {
 
-    @Override
-    public boolean isContentEqual(PeriodicalElement<PeriodByDay> periodical) {
-        return false;
-    }
 }
