@@ -1,5 +1,7 @@
 package com.mboaeat.order.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -11,38 +13,67 @@ import java.util.List;
 @Data
 @Entity
 @NoArgsConstructor
-@SuperBuilder
+@AllArgsConstructor
+//@SuperBuilder
 @DiscriminatorValue("STRUCTURED")
 public class CompoungMenu extends Menu {
 
     @Embedded
+    //@Builder.Default
     private ImageCollection imageCollection = new ImageCollection();
 
     @Embedded
+    //@Builder.Default
     private MenuPriceCollection menuPriceCollection = new MenuPriceCollection();
 
     @Embedded
+    //@Builder.Default
     private MenuStatusLinkCollection menuStatusLinkCollection = new MenuStatusLinkCollection();
 
     @Embedded
-    private MenuName name;
+    @AttributeOverrides(
+            {
+                    @AttributeOverride(name = "nameFr", column = @Column(name = "MENU_NAME_FR")),
+                    @AttributeOverride(name = "nameEn", column = @Column(name = "MENU_NAME_EN"))
+            }
+    )
+    private Name name;
 
     @Embedded
+    //@Builder.Default
     private IngredientCollection ingredientCollection = new IngredientCollection();
 
-    @Column(name = "MENU_DESC")
-    private String description;
+    @Embedded
+    @AttributeOverrides(
+            {
+                    @AttributeOverride(name = "descFr", column = @Column(name = "MENU_DESC_FR")),
+                    @AttributeOverride(name = "descEn", column = @Column(name = "MENU_DESC_EN"))
+            }
+    )
+    private Description description;
+
+    @Builder
+    public CompoungMenu(Name name, MenuPrice menuPrice, MenuStatusLink menuStatusLink, List<Product> products){
+        this.name = name;
+        addPrice(menuPrice);
+        addMenuStatus(menuStatusLink);
+        addProducts(products);
+    }
 
     public MenuPrice getCurrentPrice(){
         return menuPriceCollection.getCurrent();
     }
 
-    public List<MenuPrice> apply(ChangeMenuPriceCollectionCommand command, boolean commit){
-        return menuPriceCollection.apply(command, true);
+    public MenuStatusLink getCurrentStatus(){
+        return menuStatusLinkCollection.getCurrent();
     }
 
-    public List<MenuStatusLink> apply(ChangeMenuStatusLinkCollectionCommand command, boolean commit){
-        return menuStatusLinkCollection.apply(command, true);
+    public List<MenuPrice> applyChangeMenuPriceCollectionCommand(ChangeMenuPriceCollectionCommand command, boolean commit){
+        return menuPriceCollection.apply(command, commit);
+    }
+
+    public List<MenuStatusLink> applyStatusChangeLinkCollectionCommand(ChangeMenuStatusLinkCollectionCommand command, boolean commit){
+        return menuStatusLinkCollection.apply(command, commit);
     }
 
     public void addIngredient(List<Ingredient> ingredients) {
@@ -55,5 +86,19 @@ public class CompoungMenu extends Menu {
 
     public void removeIngredient(int key){
         this.ingredientCollection.remove(key);
+    }
+
+    public void addPrice(MenuPrice menuPrice){
+        if (menuPrice != null) {
+            menuPrice.linkMenu(this);
+            this.menuPriceCollection.add(menuPrice);
+        }
+    }
+
+    public void addMenuStatus(MenuStatusLink menuStatusLink){
+        if (menuStatusLink != null) {
+            menuStatusLink.linkMenu(this);
+            this.menuStatusLinkCollection.add(menuStatusLink);
+        }
     }
 }

@@ -1,6 +1,6 @@
 package com.mboaeat.order.domain;
 
-import com.mboaeat.common.AbstractChangePeriodicalCollectionCommand;
+import com.mboaeat.domain.AbstractChangePeriodicalCollectionCommand;
 import lombok.Builder;
 import lombok.Data;
 

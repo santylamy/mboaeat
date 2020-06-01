@@ -1,11 +1,8 @@
 package com.mboaeat.order.domain;
 
-import com.mboaeat.common.Periodical;
-import com.mboaeat.common.PeriodicalElement;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.mboaeat.domain.Periodical;
+import com.mboaeat.domain.PeriodicalElement;
+import lombok.*;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import javax.persistence.*;
@@ -30,6 +27,7 @@ public class MenuPrice implements PeriodicalElement<PeriodByDay> {
                     @AttributeOverride(name = "startDate", column = @Column(name = "DATE_FROM"))
             }
     )
+    @Builder.Default
     private PeriodByDay period = PeriodByDay.periodByDayStartingToday();
 
     @Embedded
@@ -37,10 +35,12 @@ public class MenuPrice implements PeriodicalElement<PeriodByDay> {
             name = "value",
             column = @Column(name = "MENU_PRICE")
     )
-    private Amount amount;
+    @Builder.Default
+    private Amount amount = Amount.zero();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MENU_ID")
+    @ToString.Exclude
     private Menu menu;
 
 
@@ -49,6 +49,7 @@ public class MenuPrice implements PeriodicalElement<PeriodByDay> {
         return MenuPrice
                 .builder()
                 .id(id)
+                .period(period)
                 .amount(amount)
                 .menu(menu)
                 .build();
@@ -61,6 +62,11 @@ public class MenuPrice implements PeriodicalElement<PeriodByDay> {
     }
 
     @Override
+    public PeriodicalElement<PeriodByDay> merge(PeriodicalElement<PeriodByDay> periodical) {
+        return this.copy(period.merge(periodical.getPeriod()));
+    }
+
+    @Override
     public PeriodByDay getPeriod() {
         return period;
     }
@@ -68,5 +74,9 @@ public class MenuPrice implements PeriodicalElement<PeriodByDay> {
     @Override
     public int compareTo(Periodical<PeriodByDay> o) {
         return period.compareTo(o.getPeriod());
+    }
+
+    protected void linkMenu(CompoungMenu compoungMenu) {
+        this.menu = compoungMenu;
     }
 }

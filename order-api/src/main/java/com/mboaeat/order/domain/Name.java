@@ -14,8 +14,11 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Embeddable
-public class MenuName implements Serializable {
+public class Name implements Serializable {
 
-    @Column(name = "MENU_NAME", nullable = false)
-    private String name;
+    @Column(name = "NAME_FR")
+    private String nameFr;
+
+    @Column(name = "NAME_EN")
+    private String nameEn;
 }

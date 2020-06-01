@@ -1,6 +1,7 @@
 package com.mboaeat.order.domain;
 
-import com.mboaeat.common.AbstractPeriodicalCollection;
+import com.mboaeat.domain.AbstractPeriodicalCollection;
+import lombok.Data;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -10,8 +11,9 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import java.util.List;
 
-import static com.mboaeat.common.CollectionsUtils.newArrayList;
+import static com.mboaeat.domain.CollectionsUtils.newArrayList;
 
+@Data
 @Embeddable
 public class MenuStatusLinkCollection extends AbstractPeriodicalCollection<MenuStatusLink, PeriodByDay> {
 
@@ -30,4 +32,5 @@ public class MenuStatusLinkCollection extends AbstractPeriodicalCollection<MenuS
         statusLinkCollection.menuStatusLinks = menuStatusLinks;
         return statusLinkCollection;
     }
+
 }

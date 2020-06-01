@@ -1,6 +1,6 @@
 package com.mboaeat.order.domain;
 
-import com.mboaeat.common.AbstractChangePeriodicalCollectionCommand;
+import com.mboaeat.domain.AbstractChangePeriodicalCollectionCommand;
 import lombok.Builder;
 import lombok.Data;
 
@@ -19,7 +19,7 @@ public class ChangeProductPriceCollectionCommand extends AbstractChangePeriodica
 
     @Override
     public ProductPrice change(ProductPrice productPrice) {
-        return create(productPrice.getPeriod());
+        return create(getPeriod());
     }
 
     @Override

@@ -1,12 +1,13 @@
 package com.mboaeat.order.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
-import static com.mboaeat.common.CollectionsUtils.newArrayList;
+import static com.mboaeat.domain.CollectionsUtils.newArrayList;
 
 @Embeddable
-public class IngredientCollection {
+public class IngredientCollection implements Serializable {
 
     @ElementCollection
     @CollectionTable(name = "MENU_INGREDIENTS", joinColumns = @JoinColumn(name = "MENU_ID"))

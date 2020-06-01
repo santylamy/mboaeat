@@ -1,4 +1,4 @@
-package com.mboaeat.common;
+package com.mboaeat.domain;
 
 import java.util.Collection;
 import java.util.function.Function;

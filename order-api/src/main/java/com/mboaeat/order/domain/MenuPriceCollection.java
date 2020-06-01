@@ -1,16 +1,27 @@
 package com.mboaeat.order.domain;
 
-import com.mboaeat.common.AbstractPeriodicalCollection;
+import com.mboaeat.domain.AbstractPeriodicalCollection;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
 
-import static com.mboaeat.common.CollectionsUtils.newArrayList;
+import static com.mboaeat.domain.CollectionsUtils.newArrayList;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Embeddable
 public class MenuPriceCollection extends AbstractPeriodicalCollection<MenuPrice, PeriodByDay> {
 
     @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<MenuPrice> menuPrices = newArrayList();
 
     @Override
@@ -24,6 +35,4 @@ public class MenuPriceCollection extends AbstractPeriodicalCollection<MenuPrice,
         menuPriceCollection.menuPrices = menuPrices;
         return menuPriceCollection;
     }
-
-
 }

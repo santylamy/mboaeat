@@ -1,6 +1,5 @@
 package com.mboaeat.order.domain;
 
-import com.mboaeat.common.PeriodicalElement;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;

@@ -3,13 +3,14 @@ package com.mboaeat.order.domain;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
-import static com.mboaeat.common.CollectionsUtils.newArrayList;
+import static com.mboaeat.domain.CollectionsUtils.newArrayList;
 
 @Data
 @Embeddable
-public class ImageCollection {
+public class ImageCollection implements Serializable {
 
     @ElementCollection
     @CollectionTable(name = "IMAGES", joinColumns = {@JoinColumn(name = "SOURCE_ID")})

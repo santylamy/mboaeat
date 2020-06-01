@@ -1,10 +1,11 @@
-package com.mboaeat.common;
+package com.mboaeat.domain;
 
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -12,11 +13,11 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.mboaeat.common.CollectionsUtils.newArrayList;
-import static com.mboaeat.common.CollectionsUtils.newHashSet;
-import static com.mboaeat.common.LocalDateUtils.nextDay;
-import static com.mboaeat.common.LocalDateUtils.previousDay;
-import static com.mboaeat.common.PeriodicalUtils.filterOutNonOverlapping;
+import static com.mboaeat.domain.CollectionsUtils.newArrayList;
+import static com.mboaeat.domain.CollectionsUtils.newHashSet;
+import static com.mboaeat.domain.LocalDateUtils.nextDay;
+import static com.mboaeat.domain.LocalDateUtils.previousDay;
+import static com.mboaeat.domain.PeriodicalUtils.filterOutNonOverlapping;
 import static java.util.stream.Stream.concat;
 import static org.apache.commons.lang3.Validate.isTrue;
 
@@ -41,31 +42,31 @@ public abstract class AbstractPeriod implements Period, Comparable<AbstractPerio
         };
     }
 
-    public static <PERIOD extends AbstractPeriod> List<PERIOD> slplitByMonth(List<PERIOD> periodsToSplit, List<PERIOD> periodsToSplitWith) {
-        if (periodsToSplitWith.isEmpty() || periodsToSplit.isEmpty()){
-            return periodsToSplit;
+    public static <PERIOD extends AbstractPeriod> List<PERIOD> slplitByMonth(List<PERIOD> originalPeriods, List<PERIOD> periodsToSplitWith) {
+        if (periodsToSplitWith.isEmpty() || originalPeriods.isEmpty()){
+            return originalPeriods;
         }
 
-        Collections.sort(periodsToSplit);
+        Collections.sort(originalPeriods);
         Collections.sort(periodsToSplitWith);
 
-        PERIOD first = periodsToSplit
+        PERIOD first = originalPeriods
                 .stream()
                 .sorted()
                 .findFirst()
                 .orElse(null);;
-        PERIOD last =  periodsToSplitWith
+        PERIOD last =  originalPeriods
                 .stream()
                 .sorted()
                 .reduce((periodical, periodical2) -> periodical2)
                 .orElse(null);
 
-        PERIOD overlapping = (PERIOD) first.create(first.getStartDate(), last.getEndDate());
-        List<PERIOD> result = overlapping.splitOverlappingPeriods(
-                Stream.concat(periodsToSplit.stream(), periodsToSplitWith.stream()).collect(Collectors.toList())
+        PERIOD overlappingPeriod = (PERIOD) first.create(first.getStartDate(), last.getEndDate());
+        List<PERIOD> result = overlappingPeriod.splitOverlappingPeriods(
+                Stream.concat(originalPeriods.stream(), periodsToSplitWith.stream()).collect(Collectors.toList())
         );
 
-        return filterOutNonOverlapping(periodsToSplit, result);
+        return filterOutNonOverlapping(originalPeriods, result);
     }
 
     public  <PERIOD_TYPE extends AbstractPeriod> List<PERIOD_TYPE> splitOverlappingPeriods(List<PERIOD_TYPE> periodsToSplit){
@@ -107,7 +108,7 @@ public abstract class AbstractPeriod implements Period, Comparable<AbstractPerio
         }
         List boundariesSorted = boundaries
                 .stream().
-                        sorted(Comparator.comparing(Boundary::getLocalDate, Comparator.nullsFirst(Comparator.reverseOrder())))
+                        sorted(Comparator.comparing(Boundary::getLocalDate, Comparator.nullsLast(Comparator.naturalOrder())))
                 .collect(Collectors.toList());
         return boundariesSorted.subList(1, endIndex(boundaries));
     }
@@ -145,12 +146,15 @@ public abstract class AbstractPeriod implements Period, Comparable<AbstractPerio
         if (isContaining == null){
             return isOpenEnded();
         }
-        LocalDate today = LocalDate.now();
+        LocalDate today = isContaining;
+        LocalDate startDate = getStartDate();
         if (isOpenEnded()){
-            return today.isAfter(getStartDate()) || isContaining.equals(getStartDate());
+            return today.isAfter(startDate) || today.equals(startDate);
         }
-        return (today.isAfter(getStartDate()) || today.equals(getStartDate()))
-                && (today.isBefore(getEndDate()) || today.equals(getEndDate()));
+
+        LocalDate endDate = getEndDate();
+        return (today.isAfter(getStartDate()) || today.equals(startDate))
+                && (today.isBefore(endDate) || today.equals(endDate));
     }
 
     @Override
@@ -210,42 +214,42 @@ public abstract class AbstractPeriod implements Period, Comparable<AbstractPerio
     }
 
     public <PERIOD_TYPE extends AbstractPeriod> List<PERIOD_TYPE> split(PERIOD_TYPE periodToSplitOn){
-        LocalDate localStartDate = getStartDate();
-        LocalDate localEndDate = getEndDate();
+        LocalDate startDate = getStartDate();
+        LocalDate endDate = getEndDate();
 
         if (!overlapsWith(periodToSplitOn)){
-            return (List<PERIOD_TYPE>) List.of(create(localStartDate, localEndDate));
+            return (List<PERIOD_TYPE>) List.of(create(startDate, endDate));
         }
         if (periodToSplitOn.contains(self())){
-            return (List<PERIOD_TYPE>) List.of(create(localStartDate, localEndDate));
+            return (List<PERIOD_TYPE>) List.of(create(startDate, endDate));
         }
 
-        List<PERIOD_TYPE> splittedPeriods = List.of();
-        LocalDate localSplitStartDate = periodToSplitOn.getStartDate();
-        LocalDate localSplitEndDate = periodToSplitOn.getEndDate();
+        List<PERIOD_TYPE> splittedPeriods = newArrayList();
+        LocalDate otherStartDate = periodToSplitOn.getStartDate();
+        LocalDate otherEndDate = periodToSplitOn.getEndDate();
 
-        boolean containsLocalSplitEndDate = contains(localSplitEndDate);
+        boolean containsOtherEndDate = contains(otherEndDate);
         boolean periodStartsWithinThisPeriod = periodStartsWithinThisPeriod(periodToSplitOn);
         boolean periodStartBeforeThisPeriod = periodStartBeforeThisPeriod(periodToSplitOn);
 
         if (periodStartsWithinThisPeriod){
-            splittedPeriods.add((PERIOD_TYPE) create(localStartDate, localSplitStartDate.minusDays(1)));
+            splittedPeriods.add((PERIOD_TYPE) create(startDate, otherStartDate.minusDays(1)));
         }
 
         if (periodStartBeforeThisPeriod){
-            splittedPeriods.add((PERIOD_TYPE) create(localSplitStartDate, localSplitEndDate));
+            splittedPeriods.add((PERIOD_TYPE) create(otherStartDate, otherEndDate));
         }
 
-        if (periodStartBeforeThisPeriod && containsLocalSplitEndDate){
-            splittedPeriods.add((PERIOD_TYPE) create(localStartDate, localEndDate));
+        if (periodStartBeforeThisPeriod && containsOtherEndDate){
+            splittedPeriods.add((PERIOD_TYPE) create(startDate, otherEndDate));
         }
 
-        if (containsLocalSplitEndDate && !periodToSplitOn.isOpenEnded() && !localSplitEndDate.equals(localEndDate)){
-            splittedPeriods.add((PERIOD_TYPE) create(localSplitEndDate.plusDays(1), localEndDate));
+        if (containsOtherEndDate && !periodToSplitOn.isOpenEnded() && !otherEndDate.equals(endDate)){
+            splittedPeriods.add((PERIOD_TYPE) create(otherEndDate.plusDays(1), endDate));
         }
 
-        if (!containsLocalSplitEndDate && contains(localSplitStartDate)){
-            splittedPeriods.add((PERIOD_TYPE) create(localSplitStartDate, localEndDate));
+        if (!containsOtherEndDate && contains(otherStartDate)){
+            splittedPeriods.add((PERIOD_TYPE) create(otherStartDate, endDate));
         }
 
         return splittedPeriods;
@@ -306,9 +310,52 @@ public abstract class AbstractPeriod implements Period, Comparable<AbstractPerio
             }
             return equalDates;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Boundary boundary = (Boundary) o;
+
+            return EqualsBuilder.reflectionEquals(this, boundary);
+        }
+
+        @Override
+        public int hashCode() {
+            return HashCodeBuilder.reflectionHashCode(this);
+        }
     }
 
     private enum  BoundaryType {
         START, END
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(getEndDate()).append(getStartDate()).toHashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj){
+            return true;
+        }
+
+        if (obj == null){
+            return false;
+        }
+
+        if ( !(obj instanceof AbstractPeriod) ){
+            return false;
+        }
+
+        Period other = (Period) obj;
+
+        return new EqualsBuilder()
+                .append(getEndDate(), other.getEndDate())
+                .append(getStartDate(), other.getStartDate())
+                .isEquals();
     }
 }

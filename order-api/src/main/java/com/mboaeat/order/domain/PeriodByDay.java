@@ -1,10 +1,9 @@
 package com.mboaeat.order.domain;
 
-import com.mboaeat.common.AbstractPeriod;
-import com.mboaeat.common.Period;
-import lombok.AllArgsConstructor;
+import com.mboaeat.common.exception.MboaEatException;
+import com.mboaeat.domain.AbstractPeriod;
+import com.mboaeat.domain.Period;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
@@ -14,8 +13,6 @@ import java.time.LocalDate;
 
 @Data
 @SuperBuilder
-//@NoArgsConstructor
-//@AllArgsConstructor
 @ToString
 @Embeddable
 public class PeriodByDay extends AbstractPeriod {
@@ -28,8 +25,19 @@ public class PeriodByDay extends AbstractPeriod {
     public PeriodByDay(){}
 
     public PeriodByDay(LocalDate startDate, LocalDate endDate) {
+        assertStartDateNotNull(startDate);
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    private void assertStartDateNotNull(LocalDate startDate) {
+        if (startDate == null){
+            throw new MboaEatException("startDate_mandatory");
+        }
+    }
+
+    public static PeriodByDay periodByDayStartingTodayPlusMonth(int month){
+        return new PeriodByDay(LocalDate.now().plusMonths(month));
     }
 
     public PeriodByDay(LocalDate localDate){
@@ -49,7 +57,12 @@ public class PeriodByDay extends AbstractPeriod {
     }
 
     @Override
-    protected AbstractPeriod create(LocalDate startDate, LocalDate endDate) {
+    protected PeriodByDay create(LocalDate startDate, LocalDate endDate) {
         return PeriodByDay.builder().startDate(startDate).endDate(endDate).build();
+    }
+
+    @Override
+    public boolean isOpenEnded() {
+        return endDate == null;
     }
 }

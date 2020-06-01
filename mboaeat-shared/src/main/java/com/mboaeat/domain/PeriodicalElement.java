@@ -1,4 +1,4 @@
-package com.mboaeat.common;
+package com.mboaeat.domain;
 
 public interface PeriodicalElement<PERIOD extends AbstractPeriod> extends Periodical<PERIOD> {
     PeriodicalElement<PERIOD> copy(PERIOD period);

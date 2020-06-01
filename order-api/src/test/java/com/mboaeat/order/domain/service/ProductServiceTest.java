@@ -21,14 +21,15 @@ class ProductServiceTest extends AbstractRepositoryTest {
 
     @Test
     public void testCreateBaseEntity(){
+        Name productName = Name.builder().nameFr("Champignons").build();
         Product product = Product
                 .builder()
-                .productName(ProductName.builder().name("Champignons").build())
+                .productName(productName)
                 .build();
         Product productToSaved = productService.createProduct(product);
 
         assertThat(productToSaved).isNotNull();
-        assertThat(productToSaved.getProductName()).isEqualTo(ProductName.builder().name("Champignons").build());
+        assertThat(productToSaved.getProductName()).isEqualTo(productName);
         assertThat(productToSaved.getPricesHistory().getProductPrices()).isEmpty();
     }
 
@@ -36,7 +37,7 @@ class ProductServiceTest extends AbstractRepositoryTest {
     public void testCreateBaseEntity_With_ProductPrice(){
         Product product = Product
                 .builder()
-                .productName(ProductName.builder().name("Champignons").build())
+                .productName(Name.builder().nameFr("Champignons").build())
                 .build();
 
         ProductPrice productPrice = ProductPrice.builder().product(product).amount(Amount.one()).period(PeriodByDay.periodByDayStartingToday()).build();
@@ -45,7 +46,7 @@ class ProductServiceTest extends AbstractRepositoryTest {
 
         assertThat(productToSaved).isNotNull();
         assertThat(productToSaved.getPricesHistory().getProductPrices()).isNotEmpty();
-        assertThat(productToSaved.getProductName()).isEqualTo(ProductName.builder().name("Champignons").build());
+        assertThat(productToSaved.getProductName()).isEqualTo(Name.builder().nameFr("Champignons").build());
         assertThat(product.getPricesHistory().getCurrent().getPeriod()).isEqualTo(PeriodByDay.periodByDayStartingToday());
     }
 
@@ -53,7 +54,7 @@ class ProductServiceTest extends AbstractRepositoryTest {
     public void testCreateBaseEntity_With_ProductPrice_change(){
         Product product = Product
                 .builder()
-                .productName(ProductName.builder().name("Champignons").build())
+                .productName(Name.builder().nameFr("Champignons").build())
                 .build();
 
         ProductPrice productPrice = ProductPrice.builder().product(product).amount(Amount.one()).period(
@@ -64,7 +65,7 @@ class ProductServiceTest extends AbstractRepositoryTest {
 
         assertThat(productToSaved).isNotNull();
         assertThat(productToSaved.getPricesHistory().getProductPrices()).isNotEmpty();
-        assertThat(productToSaved.getProductName()).isEqualTo(ProductName.builder().name("Champignons").build());
+        assertThat(productToSaved.getProductName()).isEqualTo(Name.builder().nameFr("Champignons").build());
 
 
         ProductPrice nextProductPrice = ProductPrice
@@ -85,7 +86,7 @@ class ProductServiceTest extends AbstractRepositoryTest {
     public void testCreateBaseEntity_With_Product_content_change(){
         Product product = Product
                 .builder()
-                .productName(ProductName.builder().name("Champignons").build())
+                .productName(Name.builder().nameFr("Champignons").build())
                 .build();
 
         ProductPrice productPrice = ProductPrice.builder().product(product).amount(Amount.one()).period(
@@ -96,7 +97,7 @@ class ProductServiceTest extends AbstractRepositoryTest {
 
         assertThat(productToSaved).isNotNull();
         assertThat(productToSaved.getPricesHistory().getProductPrices()).isNotEmpty();
-        assertThat(productToSaved.getProductName()).isEqualTo(ProductName.builder().name("Champignons").build());
+        assertThat(productToSaved.getProductName()).isEqualTo(Name.builder().nameFr("Champignons").build());
 
 
         Product refreshProduct = productService.getProduct(productToSaved.getId()).get();

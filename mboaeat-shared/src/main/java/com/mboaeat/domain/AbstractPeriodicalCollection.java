@@ -1,11 +1,11 @@
-package com.mboaeat.common;
+package com.mboaeat.domain;
 
 
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.mboaeat.common.CollectionsUtils.*;
+import static com.mboaeat.domain.CollectionsUtils.*;
 import static java.util.stream.StreamSupport.*;
 
 public abstract class AbstractPeriodicalCollection<PERIODICAL extends PeriodicalElement<PERIOD>, PERIOD extends AbstractPeriod> implements PeriodicalCollection<PERIODICAL, PERIOD> {
@@ -257,5 +257,9 @@ public abstract class AbstractPeriodicalCollection<PERIODICAL extends Periodical
                 .filter(periodical -> periodical.getPeriod().overlapsWith(period))
                 .sorted()
                 .collect(Collectors.toList());
+    }
+
+    public void add(PERIODICAL periodical){
+        getPeriodicals().add(periodical);
     }
 }

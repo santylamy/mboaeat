@@ -1,7 +1,7 @@
 package com.mboaeat.order.domain;
 
-import com.mboaeat.common.Periodical;
-import com.mboaeat.common.PeriodicalElement;
+import com.mboaeat.domain.Periodical;
+import com.mboaeat.domain.PeriodicalElement;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,12 +30,14 @@ public class MenuStatusLink implements PeriodicalElement<PeriodByDay> {
                     @AttributeOverride(name = "startDate", column = @Column(name = "DATE_FROM"))
             }
     )
+    @Builder.Default
     private PeriodByDay period = PeriodByDay.periodByDayStartingToday();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MENU_ID")
     private Menu menu;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(name = "MENU_STATUS_CODE")
     private MenuStatus menuStatus = MenuStatus.Menu_Available;
@@ -46,8 +48,14 @@ public class MenuStatusLink implements PeriodicalElement<PeriodByDay> {
                 .builder()
                 .id(id)
                 .menuStatus(menuStatus)
+                .period(period)
                 .menu(menu)
                 .build();
+    }
+
+    @Override
+    public PeriodicalElement<PeriodByDay> merge(PeriodicalElement<PeriodByDay> periodical) {
+        return this.copy(period.merge(periodical.getPeriod()));
     }
 
     @Override
@@ -64,5 +72,9 @@ public class MenuStatusLink implements PeriodicalElement<PeriodByDay> {
     @Override
     public int compareTo(Periodical<PeriodByDay> o) {
         return period.compareTo(o.getPeriod());
+    }
+
+    public void linkMenu(CompoungMenu compoungMenu) {
+        this.menu = compoungMenu;
     }
 }

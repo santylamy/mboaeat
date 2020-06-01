@@ -1,7 +1,7 @@
 package com.mboaeat.order.domain;
 
-import com.mboaeat.common.Periodical;
-import com.mboaeat.common.PeriodicalElement;
+import com.mboaeat.domain.Periodical;
+import com.mboaeat.domain.PeriodicalElement;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,6 +31,7 @@ public class ProductPrice implements Serializable, PeriodicalElement<PeriodByDay
                  @AttributeOverride(name = "startDate", column = @Column(name = "DATE_FROM"))
          }
     )
+    @Builder.Default
     private PeriodByDay period = PeriodByDay.periodByDayStartingToday();
 
     @Embedded

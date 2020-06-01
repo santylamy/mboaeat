@@ -22,7 +22,13 @@ public class Product extends BaseEntity<Long> {
     private final ProductPriceCollection pricesHistory = new ProductPriceCollection();
 
     @Embedded
-    private ProductName productName;
+    @AttributeOverrides(
+            {
+                    @AttributeOverride(name = "nameFr", column = @Column(name = "PRODUCT_NAME_FR")),
+                    @AttributeOverride(name = "nameEn", column = @Column(name = "PRODUCT_NAME_EN"))
+            }
+    )
+    private Name productName;
 
     @Column(name = "PRODUCT_DESC")
     private String description;

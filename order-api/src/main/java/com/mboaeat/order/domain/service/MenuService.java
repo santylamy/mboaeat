@@ -23,24 +23,50 @@ public class MenuService {
 
     @Transactional
     public Menu createMenu(Menu menu, Product... products){
-        menu.productsLink(products);
+        menu.addProducts(products);
         return menuRepository.save(menu);
+    }
+
+
+    @Transactional
+    public Menu createMenu(Menu menu){
+        return menuRepository.save(menu);
+    }
+
+    @Transactional
+    public void changeMenuPriceToMenu(Long menuId, MenuPrice menuPrice){
+        getMenu(menuId).ifPresent(
+                menu -> {
+                    if (menu instanceof CompoungMenu){
+                        ((CompoungMenu) menu).applyChangeMenuPriceCollectionCommand(
+                                ChangeMenuPriceCollectionCommand
+                                        .builder()
+                                        .period(menuPrice.getPeriod())
+                                        .menu(menu)
+                                        .amount(menuPrice.getAmount())
+                                        .build(), true
+                        );
+                        menuRepository.save(menu);
+                    }
+                }
+        );
     }
 
     @Transactional
     public void linkProductToMenu(Long menuId, Long productId){
         final Product product = productService.getProduct(productId).get();
         final Menu menu = menuRepository.getOne(menuId);
-        menu.productLink(product);
+        menu.addProduct(product);
         menuRepository.save(menu);
     }
 
     @Transactional
-    public void updateMenu(Menu menu){
-        getMenu(menu.getId()).ifPresent(
+    public void updateMenu(Long menuId, Name name, Description description){
+        getMenu(menuId).ifPresent(
                 menuSaved -> {
-                    if (menuSaved instanceof CompoungMenu && menu instanceof CompoungMenu){
-                        ((CompoungMenu)menuSaved).setName( ((CompoungMenu)menu).getName());
+                    if (menuSaved instanceof CompoungMenu){
+                        ((CompoungMenu)menuSaved).setName( name );
+                        ((CompoungMenu)menuSaved).setDescription( description );
                     }
                     menuRepository.save(menuSaved);
                 }
@@ -48,35 +74,13 @@ public class MenuService {
     }
 
     @Transactional
-    public void changeMenuMenuPrice(Long menuId, MenuPrice menuPrice){
+    public void changeMenuStatusToMenu(Long menuId, MenuStatusLink menuStatusLink){
 
         getMenu(menuId).ifPresent(
                 menu -> {
                     if (menu instanceof CompoungMenu){
                         CompoungMenu savedMenu = (CompoungMenu) menu;
-                        savedMenu.apply(
-                                ChangeMenuPriceCollectionCommand
-                                        .builder()
-                                        .amount(menuPrice.getAmount())
-                                        .period(menuPrice.getPeriod())
-                                        .menu(savedMenu)
-                                        .build(),
-                                true
-                        );
-                    }
-                    menuRepository.save(menu);
-                }
-        );
-    }
-
-    @Transactional
-    public void changeMenuMenuPrice(Long menuId, MenuStatusLink menuStatusLink){
-
-        getMenu(menuId).ifPresent(
-                menu -> {
-                    if (menu instanceof CompoungMenu){
-                        CompoungMenu savedMenu = (CompoungMenu) menu;
-                        savedMenu.apply(
+                        savedMenu.applyStatusChangeLinkCollectionCommand(
                                 ChangeMenuStatusLinkCollectionCommand
                                         .builder()
                                         .menuStatus(menuStatusLink.getMenuStatus())

@@ -1,4 +1,4 @@
-package com.mboaeat.common;
+package com.mboaeat.domain;
 
 public interface ChangePeriodicalCollectionCommand<PERIODICAL extends PeriodicalElement<PERIOD>, PERIOD extends AbstractPeriod> {
 

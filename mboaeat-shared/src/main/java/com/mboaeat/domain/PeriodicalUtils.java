@@ -1,11 +1,11 @@
-package com.mboaeat.common;
+package com.mboaeat.domain;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.mboaeat.common.CollectionsUtils.newArrayList;
+import static com.mboaeat.domain.CollectionsUtils.newArrayList;
 
 public class PeriodicalUtils {
 

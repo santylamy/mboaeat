@@ -1,14 +1,14 @@
 package com.mboaeat.order.domain;
 
-import com.mboaeat.common.AbstractPeriodicalCollection;
-import com.mboaeat.common.ChangePeriodicalCollectionCommand;
+import com.mboaeat.domain.AbstractPeriodicalCollection;
+import com.mboaeat.domain.ChangePeriodicalCollectionCommand;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.mboaeat.common.CollectionsUtils.newArrayList;
+import static com.mboaeat.domain.CollectionsUtils.newArrayList;
 
 @Data
 @Embeddable
