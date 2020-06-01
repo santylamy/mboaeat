@@ -9,6 +9,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 import static com.mboaeat.domain.CollectionsUtils.newArrayList;
@@ -18,7 +19,7 @@ import static com.mboaeat.domain.CollectionsUtils.newArrayList;
 @NoArgsConstructor
 @AllArgsConstructor
 @Embeddable
-public class MenuPriceCollection extends AbstractPeriodicalCollection<MenuPrice, PeriodByDay> {
+public class MenuPriceCollection extends AbstractPeriodicalCollection<MenuPrice, PeriodByDay> implements Serializable {
 
     @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
     @LazyCollection(LazyCollectionOption.FALSE)

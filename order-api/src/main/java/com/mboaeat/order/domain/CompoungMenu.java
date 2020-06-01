@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,20 +13,16 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-//@SuperBuilder
 @DiscriminatorValue("STRUCTURED")
 public class CompoungMenu extends Menu {
 
     @Embedded
-    //@Builder.Default
     private ImageCollection imageCollection = new ImageCollection();
 
     @Embedded
-    //@Builder.Default
     private MenuPriceCollection menuPriceCollection = new MenuPriceCollection();
 
     @Embedded
-    //@Builder.Default
     private MenuStatusLinkCollection menuStatusLinkCollection = new MenuStatusLinkCollection();
 
     @Embedded
@@ -40,7 +35,6 @@ public class CompoungMenu extends Menu {
     private Name name;
 
     @Embedded
-    //@Builder.Default
     private IngredientCollection ingredientCollection = new IngredientCollection();
 
     @Embedded
