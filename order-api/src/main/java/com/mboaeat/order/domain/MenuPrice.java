@@ -6,6 +6,9 @@ import lombok.*;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import javax.persistence.*;
+import java.util.List;
+
+import static com.mboaeat.domain.CollectionsUtils.newArrayList;
 
 @Data
 @Builder
@@ -37,6 +40,9 @@ public class MenuPrice implements PeriodicalElement<PeriodByDay> {
     )
     @Builder.Default
     private Amount amount = Amount.zero();
+
+    @Embedded
+    private MenuPriceOptionCollection priceOptionCollection = new MenuPriceOptionCollection();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MENU_ID")

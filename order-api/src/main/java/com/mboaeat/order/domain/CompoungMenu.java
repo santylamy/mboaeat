@@ -1,5 +1,6 @@
 package com.mboaeat.order.domain;
 
+import com.mboaeat.domain.CollectionsUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,7 +33,25 @@ public class CompoungMenu extends Menu {
                     @AttributeOverride(name = "nameEn", column = @Column(name = "MENU_NAME_EN"))
             }
     )
-    private Name name;
+    private Name name = new Name();
+
+    @Embedded
+    @AttributeOverrides(
+            {
+                    @AttributeOverride(name = "nameFr", column = @Column(name = "MENU_NUTRITIONAL_FR")),
+                    @AttributeOverride(name = "nameEn", column = @Column(name = "MENU_NUTRITIONAL_EN"))
+            }
+    )
+    private Name nutritional = new Name();
+
+    @Embedded
+    @AttributeOverrides(
+            {
+                    @AttributeOverride(name = "nameFr", column = @Column(name = "MENU_PREPARATION_TIP_FR")),
+                    @AttributeOverride(name = "nameEn", column = @Column(name = "MENU_PREPARATION_TIP_EN"))
+            }
+    )
+    private Name preparationTip = new Name();
 
     @Embedded
     private IngredientCollection ingredientCollection = new IngredientCollection();
@@ -44,14 +63,16 @@ public class CompoungMenu extends Menu {
                     @AttributeOverride(name = "descEn", column = @Column(name = "MENU_DESC_EN"))
             }
     )
-    private Description description;
+    private Description description = new Description();
 
     @Builder
-    public CompoungMenu(Name name, MenuPrice menuPrice, MenuStatusLink menuStatusLink, List<Product> products){
+    public CompoungMenu(Name name, Name nutritional, Name preparationTip, MenuPrice menuPrice, MenuStatusLink menuStatusLink, List<Ingredient> ingredients){
         this.name = name;
+        this.nutritional = nutritional;
+        this.preparationTip = preparationTip;
+        addIngredient(ingredients);
         addPrice(menuPrice);
         addMenuStatus(menuStatusLink);
-        addProducts(products);
     }
 
     public MenuPrice getCurrentPrice(){
@@ -71,11 +92,15 @@ public class CompoungMenu extends Menu {
     }
 
     public void addIngredient(List<Ingredient> ingredients) {
-        this.ingredientCollection.add(ingredients);
+        this.ingredientCollection.add(ingredients, this);
     }
 
     public void addIngredient(Ingredient ingredient) {
-        this.ingredientCollection.add(ingredient);
+        this.ingredientCollection.add(ingredient, this);
+    }
+
+    public void removeIngredient(Ingredient ingredient){
+        removeIngredient(ingredient.getKey());
     }
 
     public void removeIngredient(int key){

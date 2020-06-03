@@ -23,7 +23,9 @@ public class MenuService {
 
     @Transactional
     public Menu createMenu(Menu menu, Product... products){
-        menu.addProducts(products);
+        if (menu instanceof NonStructuredMenu) {
+            ((NonStructuredMenu) menu).addProducts(products);
+        }
         return menuRepository.save(menu);
     }
 
@@ -56,17 +58,29 @@ public class MenuService {
     public void linkProductToMenu(Long menuId, Long productId){
         final Product product = productService.getProduct(productId).get();
         final Menu menu = menuRepository.getOne(menuId);
-        menu.addProduct(product);
+        if (menu instanceof NonStructuredMenu) {
+            ((NonStructuredMenu) menu).addProducts(product);
+        }
         menuRepository.save(menu);
     }
 
     @Transactional
-    public void updateMenu(Long menuId, Name name, Description description){
+    public void updateMenu(Long menuId, Name name, Name nutritional, Name preparationTip, Description description){
         getMenu(menuId).ifPresent(
                 menuSaved -> {
                     if (menuSaved instanceof CompoungMenu){
-                        ((CompoungMenu)menuSaved).setName( name );
-                        ((CompoungMenu)menuSaved).setDescription( description );
+                        if (((CompoungMenu) menuSaved).getName().hasChange(name)) {
+                            ((CompoungMenu) menuSaved).setName(name);
+                        }
+                        if ( ((CompoungMenu) menuSaved).getDescription() == null || ((CompoungMenu) menuSaved).getDescription().hasChange(description)) {
+                            ((CompoungMenu) menuSaved).setDescription(description);
+                        }
+                        if ( ((CompoungMenu) menuSaved).getNutritional() == null || ((CompoungMenu) menuSaved).getNutritional().hasChange(nutritional)){
+                            ((CompoungMenu) menuSaved).setNutritional(nutritional);
+                        }
+                        if ( ((CompoungMenu) menuSaved).getPreparationTip() == null || ((CompoungMenu) menuSaved).getPreparationTip().hasChange(preparationTip)) {
+                            ((CompoungMenu) menuSaved).setPreparationTip(preparationTip);
+                        }
                     }
                     menuRepository.save(menuSaved);
                 }
@@ -95,12 +109,26 @@ public class MenuService {
         );
     }
 
+    @Transactional
     public void addIngredients(Long menuId, Ingredient... ingredient){
         getMenu(menuId).ifPresent(
                 menu -> {
                     if (menu instanceof CompoungMenu) {
                         ((CompoungMenu) menu).addIngredient(Arrays.asList(ingredient));
                     }
+                    menuRepository.save(menu);
+                }
+        );
+    }
+
+    @Transactional
+    public void removeIngredients(Long menuId, Ingredient ingredient){
+        getMenu(menuId).ifPresent(
+                menu -> {
+                    if (menu instanceof CompoungMenu) {
+                        ((CompoungMenu) menu).removeIngredient(ingredient);
+                    }
+                    menuRepository.save(menu);
                 }
         );
     }

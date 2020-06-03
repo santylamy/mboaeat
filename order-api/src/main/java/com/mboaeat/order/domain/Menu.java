@@ -34,20 +34,4 @@ public abstract class Menu extends BaseEntity<Long>  {
     @Builder.Default
     private Amount price = Amount.zero();
 
-    @Embedded
-    @Builder.Default
-    private ProductCollection productCollection = new ProductCollection();
-
-    public void addProducts(Product... products) {
-        addProducts(Arrays.asList(products));
-    }
-
-    public void addProducts(List<Product> products) {
-        productCollection.links(products);
-    }
-
-    public void addProduct(Product product) {
-        productCollection.link(product);
-    }
-
 }
