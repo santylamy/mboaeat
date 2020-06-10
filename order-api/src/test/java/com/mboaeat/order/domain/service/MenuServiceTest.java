@@ -2,12 +2,13 @@ package com.mboaeat.order.domain.service;
 
 import com.mboaeat.common.jpa.AbstractRepositoryTest;
 import com.mboaeat.order.domain.*;
+import com.mboaeat.order.domain.menu.*;
+import com.mboaeat.order.domain.product.Product;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -378,9 +379,35 @@ class MenuServiceTest extends AbstractRepositoryTest {
                 )
                 .build();
 
+        MenuPriceOption option1 = MenuPriceOption
+                .builder()
+                .amount(Amount.one())
+                .build();
+
+        MenuPriceOption option2 = MenuPriceOption
+                .builder()
+                .amount(Amount.builder().value(BigDecimal.valueOf(2)).build())
+                .build();
+
+        MenuPriceOption option3 = MenuPriceOption
+                .builder()
+                .amount(Amount.builder().value(BigDecimal.valueOf(3)).build())
+                .build();
+
+        MenuPriceOption option4 = MenuPriceOption
+                .builder()
+                .amount(Amount.builder().value(BigDecimal.valueOf(4)).build())
+                .build();
+
+        MenuPriceOption option5 = MenuPriceOption
+                .builder()
+                .amount(Amount.builder().value(BigDecimal.valueOf(5)).build())
+                .build();
+
         CompoungMenu menu = CompoungMenu
                 .builder()
                 .menuPrice(menuPrice)
+                .priceOptions(List.of(option1, option2, option3, option4, option5))
                 .menuStatusLink(MenuStatusLink.builder().menuStatus(MenuStatus.Menu_Available).build())
                 .name(Name.builder().nameFr("Riz Sauce tomate poisson").build())
                 .build();
@@ -422,6 +449,8 @@ class MenuServiceTest extends AbstractRepositoryTest {
         assertThat(menuToSaved.getMenuStatusLinkCollection().getFirst().getMenuStatus()).isEqualTo(MenuStatus.Menu_Available);
 
         assertThat(menuToSaved.getIngredientCollection().getIngredients()).hasSize(3);
+
+        assertThat(menuToSaved.getMenuPriceCollection().getBeforeCurrent().getPriceOptionCollection().getPriceOptions()).hasSize(5);
 
 
         Ingredient ingredientToRemove = menuToSaved.getIngredientCollection().getIngredients().iterator().next();

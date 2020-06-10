@@ -1,5 +1,6 @@
 package com.mboaeat.order.domain;
 
+import com.mboaeat.order.domain.product.Product;
 import org.hibernate.boot.model.relational.QualifiedName;
 import org.hibernate.boot.model.relational.QualifiedNameParser;
 import org.hibernate.dialect.Dialect;

@@ -1,6 +1,7 @@
-package com.mboaeat.order.domain;
+package com.mboaeat.order.domain.menu;
 
 import com.mboaeat.domain.AbstractPeriodicalCollection;
+import com.mboaeat.order.domain.PeriodByDay;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,5 +36,9 @@ public class MenuPriceCollection extends AbstractPeriodicalCollection<MenuPrice,
         MenuPriceCollection menuPriceCollection = new MenuPriceCollection();
         menuPriceCollection.menuPrices = menuPrices;
         return menuPriceCollection;
+    }
+
+    protected void addPriceOption(List<MenuPriceOption> priceOptions){
+        getCurrent().addPriceOption(priceOptions);
     }
 }

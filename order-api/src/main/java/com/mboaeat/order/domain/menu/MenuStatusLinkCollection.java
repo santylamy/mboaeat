@@ -1,6 +1,7 @@
-package com.mboaeat.order.domain;
+package com.mboaeat.order.domain.menu;
 
 import com.mboaeat.domain.AbstractPeriodicalCollection;
+import com.mboaeat.order.domain.PeriodByDay;
 import lombok.Data;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;

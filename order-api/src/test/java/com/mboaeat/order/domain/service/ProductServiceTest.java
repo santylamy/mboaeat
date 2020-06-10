@@ -3,6 +3,9 @@ package com.mboaeat.order.domain.service;
 
 import com.mboaeat.common.jpa.AbstractRepositoryTest;
 import com.mboaeat.order.domain.*;
+import com.mboaeat.order.domain.product.Product;
+import com.mboaeat.order.domain.product.ProductPrice;
+import com.mboaeat.order.domain.product.ProductType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -102,7 +105,7 @@ class ProductServiceTest extends AbstractRepositoryTest {
 
         Product refreshProduct = productService.getProduct(productToSaved.getId()).get();
 
-        refreshProduct.setDescription("Champigons de douala");
+        refreshProduct.setDescription( Description.builder().descFr("Champigons de douala").build());
         refreshProduct.setCategory(ProductType.VEGETABLE);
 
         productService.updateProduct(refreshProduct);

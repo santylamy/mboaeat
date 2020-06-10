@@ -1,7 +1,9 @@
-package com.mboaeat.order.domain;
+package com.mboaeat.order.domain.menu;
 
 import com.mboaeat.domain.Periodical;
 import com.mboaeat.domain.PeriodicalElement;
+import com.mboaeat.order.domain.Menu;
+import com.mboaeat.order.domain.PeriodByDay;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

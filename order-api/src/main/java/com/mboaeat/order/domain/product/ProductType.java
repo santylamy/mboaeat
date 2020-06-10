@@ -1,4 +1,4 @@
-package com.mboaeat.order.domain;
+package com.mboaeat.order.domain.product;
 
 public enum ProductType {
     SAUCE("Sauce"),

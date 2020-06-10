@@ -1,6 +1,7 @@
-package com.mboaeat.order.domain;
+package com.mboaeat.order.domain.menu;
 
 import com.mboaeat.domain.CollectionsUtils;
+import com.mboaeat.order.domain.Menu;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,6 +1,9 @@
 package com.mboaeat.domain;
 
 
+import com.mboaeat.common.exception.MboaEatException;
+
+import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -56,6 +59,61 @@ public abstract class AbstractPeriodicalCollection<PERIODICAL extends Periodical
                 .sorted()
                 .reduce((periodical, periodical2) -> periodical2)
                 .orElse(null);
+    }
+
+    public PERIODICAL getMostRecent(){
+        PERIODICAL current = getCurrent();
+        if (current != null){
+            return current;
+        }
+        PERIODICAL firstInThePast = getFirstPeriodBeforeToday();
+        if (firstInThePast != null){
+            return firstInThePast;
+        }
+        return getFirstPeriodAfterToday();
+    }
+
+    public PERIODICAL getBeforeCurrent(){
+        PERIODICAL current = getCurrent();
+        if (current != null){
+            return getPreviousPeriodical(current.getPeriod().getStartDate());
+        }
+        return null;
+    }
+
+    public PERIODICAL getPreviousPeriodical(LocalDate localDate) {
+        PERIODICAL periodicalForDate = getPeriodicalForDate(localDate);
+        List<PERIODICAL> periodicals = getPeriodicals();
+        Collections.sort(periodicals);
+        int index = Collections.binarySearch(periodicals, periodicalForDate);
+        if (index > 0){
+            return periodicals.get(index - 1);
+        }
+        return null;
+    }
+
+    public PERIODICAL getPeriodicalForDate(LocalDate localDate) {
+        return PeriodicalUtils.getPeriodicalForDate(getPeriodicals(), localDate);
+    }
+
+    private PERIODICAL getFirstPeriodAfterToday() {
+        List<PERIODICAL> periodicals = toList();
+        Collections.sort(periodicals);
+        return periodicals
+                .stream()
+                .filter(
+                        periodical -> periodical.getPeriod().isInTheFuture()
+                ).findFirst().orElse(null);
+    }
+
+    private PERIODICAL getFirstPeriodBeforeToday() {
+        List<PERIODICAL> periodicals = toList();
+        Collections.sort(periodicals);
+        return periodicals
+                .stream()
+                .filter(
+                periodical -> periodical.getPeriod().isInThePast()
+        ).findFirst().orElse(null);
     }
 
     @Override
@@ -262,4 +320,11 @@ public abstract class AbstractPeriodicalCollection<PERIODICAL extends Periodical
     public void add(PERIODICAL periodical){
         getPeriodicals().add(periodical);
     }
+
+    public static <PERIODICAL> void assertPeriodicalsNotNull(List<PERIODICAL> periodicals){
+        if (CollectionsUtils.isEmpty(periodicals)){
+            throw new MboaEatException(Constants.Message.PERIODICAL_MANDATORY);
+        }
+    }
+
 }

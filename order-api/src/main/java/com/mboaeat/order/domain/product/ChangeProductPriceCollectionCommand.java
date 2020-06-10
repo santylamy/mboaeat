@@ -1,6 +1,8 @@
-package com.mboaeat.order.domain;
+package com.mboaeat.order.domain.product;
 
 import com.mboaeat.domain.AbstractChangePeriodicalCollectionCommand;
+import com.mboaeat.order.domain.Amount;
+import com.mboaeat.order.domain.PeriodByDay;
 import lombok.Builder;
 import lombok.Data;
 

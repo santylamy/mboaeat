@@ -1,4 +1,4 @@
-package com.mboaeat.order.domain;
+package com.mboaeat.order.domain.menu;
 
 public enum MenuStatus {
     Menu_Available,

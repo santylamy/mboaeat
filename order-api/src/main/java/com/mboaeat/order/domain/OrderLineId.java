@@ -1,7 +1,6 @@
 package com.mboaeat.order.domain;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.Embeddable;
 import javax.persistence.Id;
@@ -11,11 +10,14 @@ import java.io.Serializable;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Embeddable
 public class OrderLineId implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "MENU_ID")
+    @EqualsAndHashCode.Exclude
     private Menu menu;
 
     @ManyToOne

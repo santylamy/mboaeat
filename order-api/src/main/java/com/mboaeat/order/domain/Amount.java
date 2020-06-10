@@ -2,15 +2,18 @@ package com.mboaeat.order.domain;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Transient;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Arrays;
 
 @Data
+@NoArgsConstructor
 @Embeddable
 public class Amount implements Comparable<Amount>, Serializable {
 
@@ -18,9 +21,6 @@ public class Amount implements Comparable<Amount>, Serializable {
 
     @Column(name = "AMOUNT", scale = 4)
     private BigDecimal value;
-
-    Amount() {
-    }
 
     Amount(double value){
         this(BigDecimal.valueOf(value));
@@ -48,18 +48,22 @@ public class Amount implements Comparable<Amount>, Serializable {
         return new Amount(0);
     }
 
+    @Transient
     public static Amount one(){
         return new Amount(1);
     }
 
+    @Transient
     public boolean isZero(){
         return zero().equals(this);
     }
 
+    @Transient
     public boolean isNegative(){
         return value.compareTo(zero().value) < 0;
     }
 
+    @Transient
     public boolean isPositive(){
         return !isNegative();
     }

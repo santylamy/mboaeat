@@ -1,7 +1,8 @@
-package com.mboaeat.order.domain;
+package com.mboaeat.order.domain.product;
 
 import com.mboaeat.domain.AbstractPeriodicalCollection;
 import com.mboaeat.domain.ChangePeriodicalCollectionCommand;
+import com.mboaeat.order.domain.PeriodByDay;
 import lombok.Data;
 
 import javax.persistence.*;

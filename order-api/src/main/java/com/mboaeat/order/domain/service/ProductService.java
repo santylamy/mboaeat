@@ -1,8 +1,8 @@
 package com.mboaeat.order.domain.service;
 
-import com.mboaeat.order.domain.ChangeProductPriceCollectionCommand;
-import com.mboaeat.order.domain.Product;
-import com.mboaeat.order.domain.ProductPrice;
+import com.mboaeat.order.domain.product.ChangeProductPriceCollectionCommand;
+import com.mboaeat.order.domain.product.Product;
+import com.mboaeat.order.domain.product.ProductPrice;
 import com.mboaeat.order.domain.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

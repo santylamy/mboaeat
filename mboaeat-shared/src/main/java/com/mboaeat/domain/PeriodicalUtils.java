@@ -1,5 +1,6 @@
 package com.mboaeat.domain;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
@@ -51,5 +52,11 @@ public class PeriodicalUtils {
                 .map(toPeriodFunction).collect(Collectors.toList());
         int index = Collections.binarySearch(periodsView, searchPeriod, AbstractPeriod.PERIOD_OVERLAPS_COMPARATOR);
         return index;
+    }
+
+    public static <PERIODICAL extends Periodical<? extends AbstractPeriod>> PERIODICAL getPeriodicalForDate(List<PERIODICAL> periodicals, LocalDate localDate) {
+        return periodicals
+                .stream()
+                .filter(periodical -> periodical.getPeriod().contains(localDate)).findFirst().orElse(null);
     }
 }

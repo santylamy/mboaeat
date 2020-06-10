@@ -1,14 +1,16 @@
-package com.mboaeat.order.domain;
+package com.mboaeat.order.domain.menu;
 
 import com.mboaeat.domain.Periodical;
 import com.mboaeat.domain.PeriodicalElement;
+import com.mboaeat.order.domain.Amount;
+import com.mboaeat.order.domain.Menu;
+import com.mboaeat.order.domain.PeriodByDay;
 import lombok.*;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import javax.persistence.*;
 import java.util.List;
 
-import static com.mboaeat.domain.CollectionsUtils.newArrayList;
 
 @Data
 @Builder
@@ -42,6 +44,7 @@ public class MenuPrice implements PeriodicalElement<PeriodByDay> {
     private Amount amount = Amount.zero();
 
     @Embedded
+    @Builder.Default
     private MenuPriceOptionCollection priceOptionCollection = new MenuPriceOptionCollection();
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -56,6 +59,7 @@ public class MenuPrice implements PeriodicalElement<PeriodByDay> {
                 .builder()
                 .id(id)
                 .period(period)
+                .priceOptionCollection(priceOptionCollection)
                 .amount(amount)
                 .menu(menu)
                 .build();
@@ -64,7 +68,11 @@ public class MenuPrice implements PeriodicalElement<PeriodByDay> {
     @Override
     public boolean isContentEqual(PeriodicalElement<PeriodByDay> periodical) {
         MenuPrice other = (MenuPrice) periodical;
-        return new EqualsBuilder().append(amount, other.amount).append(menu, other.menu).isEquals();
+        return new EqualsBuilder()
+                .append(amount, other.amount)
+                .append(menu, other.menu)
+                .append(priceOptionCollection, other.priceOptionCollection)
+                .isEquals();
     }
 
     @Override
@@ -84,5 +92,9 @@ public class MenuPrice implements PeriodicalElement<PeriodByDay> {
 
     protected void linkMenu(CompoungMenu compoungMenu) {
         this.menu = compoungMenu;
+    }
+
+    public void addPriceOption(List<MenuPriceOption> priceOptions) {
+        this.priceOptionCollection.getPriceOptions().addAll(priceOptions);
     }
 }

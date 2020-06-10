@@ -1,15 +1,18 @@
 package com.mboaeat.order.domain;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.mboaeat.domain.CollectionsUtils.newHashSet;
+
 @Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "ORDERS")
 @AttributeOverride(
@@ -23,27 +26,34 @@ public class Order extends BaseEntity<Long> {
             name = "value",
             column = @Column(name = "TOTAL_PRICE")
     )
-    private Amount totalAmount;
+    @Builder.Default
+    private Amount totalAmount = Amount.zero();
 
     @Embedded
     @AttributeOverride(
             name = "value",
             column = @Column(name = "TOTAL_PRICE_TVA")
     )
-    private Amount totalAmountTva;
+    @Builder.Default
+    private Amount totalAmountTva = Amount.zero();
 
     @Column(name = "DATE_ORDER_PLACED")
-    private LocalDateTime datePlaced;
+    @Builder.Default
+    private LocalDateTime datePlaced = LocalDateTime.now();
 
     @Column(name = "DATE_ORDER_PAID")
     private LocalDateTime datePaid;
 
-    @OneToMany(mappedBy = "id.order")
-    private Set<OrderLine> orderLines = new HashSet<>();
+    @OneToMany(mappedBy = "id.order", cascade = CascadeType.ALL)
+    @Builder.Default
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Set<OrderLine> orderLines = newHashSet();
 
     @Column(name = "ORDER_STATUS_CODE")
     @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus;
+    @Builder.Default
+    private OrderStatus orderStatus = OrderStatus.CREATED;
 
     @Column(name = "CLIENT_ID")
     private Long customer;
@@ -52,8 +62,11 @@ public class Order extends BaseEntity<Long> {
     @JoinColumn(name = "CUSTOMER_PAYMENT_METHOD_ID")
     private ClientPaymentMethods clientPaymentMethods;
 
-    public void addOrderLine(OrderLine orderLine) {
+    public Order addOrderLine(OrderLine orderLine) {
         orderLine.setOrder(this);
+        this.totalAmount = totalAmount.add(orderLine.getPrice());
+        this.totalAmountTva = totalAmountTva.add(totalAmount);
+        return this;
     }
 
     public void removeOrderLine(OrderLine orderLine) {

@@ -1,6 +1,10 @@
-package com.mboaeat.order.domain;
+package com.mboaeat.order.domain.menu;
 
 import com.mboaeat.domain.AbstractChangePeriodicalCollectionCommand;
+import com.mboaeat.order.domain.Menu;
+import com.mboaeat.order.domain.PeriodByDay;
+import com.mboaeat.order.domain.menu.MenuStatus;
+import com.mboaeat.order.domain.menu.MenuStatusLink;
 import lombok.Builder;
 import lombok.Data;
 

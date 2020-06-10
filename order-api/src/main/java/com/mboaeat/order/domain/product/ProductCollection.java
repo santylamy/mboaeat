@@ -1,4 +1,4 @@
-package com.mboaeat.order.domain;
+package com.mboaeat.order.domain.product;
 
 import com.mboaeat.domain.CollectionsUtils;
 import lombok.Data;

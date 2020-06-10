@@ -1,6 +1,7 @@
-package com.mboaeat.order.domain;
+package com.mboaeat.order.domain.menu;
 
 import com.mboaeat.domain.CollectionsUtils;
+import com.mboaeat.order.domain.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
+
+import static com.mboaeat.domain.AbstractPeriodicalCollection.assertPeriodicalsNotNull;
 
 
 @Data
@@ -66,13 +69,14 @@ public class CompoungMenu extends Menu {
     private Description description = new Description();
 
     @Builder
-    public CompoungMenu(Name name, Name nutritional, Name preparationTip, MenuPrice menuPrice, MenuStatusLink menuStatusLink, List<Ingredient> ingredients){
+    public CompoungMenu(Name name, Name nutritional, Name preparationTip, MenuPrice menuPrice, MenuStatusLink menuStatusLink, List<Ingredient> ingredients, List<MenuPriceOption> priceOptions){
         this.name = name;
         this.nutritional = nutritional;
         this.preparationTip = preparationTip;
         addIngredient(ingredients);
         addPrice(menuPrice);
         addMenuStatus(menuStatusLink);
+        addPriceOption(priceOptions);
     }
 
     public MenuPrice getCurrentPrice(){
@@ -118,6 +122,13 @@ public class CompoungMenu extends Menu {
         if (menuStatusLink != null) {
             menuStatusLink.linkMenu(this);
             this.menuStatusLinkCollection.add(menuStatusLink);
+        }
+    }
+
+    private void addPriceOption(List<MenuPriceOption> priceOptions) {
+        if (!CollectionsUtils.isEmpty(priceOptions)){
+            assertPeriodicalsNotNull(menuPriceCollection.getPeriodicals());
+            this.menuPriceCollection.addPriceOption(priceOptions);
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.mboaeat.order.domain;
+package com.mboaeat.order.domain.product;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
