@@ -24,11 +24,11 @@ class MenuServiceTest extends AbstractRepositoryTest {
     @Test
     public void create_Non_Structured_Menu_With_Products(){
         Product product = productService.createProduct(
-                Product.builder().productName(Name.builder().nameFr("Riz blanc").build()).build()
+                Product.builder().productName(TranslatableString.builder().french("Riz blanc").build()).build()
         );
 
         Product product2 = productService.createProduct(
-                Product.builder().productName(Name.builder().nameFr("Sauce tomate").build()).build()
+                Product.builder().productName(TranslatableString.builder().french("Sauce tomate").build()).build()
         );
 
         NonStructuredMenu menu = NonStructuredMenu.builder().build();
@@ -44,9 +44,9 @@ class MenuServiceTest extends AbstractRepositoryTest {
     @Test
     public void create_Non_Structured_Menu_With_Products_Update(){
 
-        Name name = Name.builder()
-                .nameFr("Riz sauce tomate")
-                .nameEn("Riz sauce tomate")
+        TranslatableString name = TranslatableString.builder()
+                .french("Riz sauce tomate")
+                .english("Riz sauce tomate")
                 .build();
 
         CompoungMenu menu = CompoungMenu
@@ -60,16 +60,16 @@ class MenuServiceTest extends AbstractRepositoryTest {
         assertThat(menuToSaved.getPrice()).isNotEqualTo(Amount.one());
         assertThat(menuToSaved.getName()).isEqualTo(name);
 
-        Description description = Description
+        TranslatableString description = TranslatableString
                 .builder()
-                .descFr("Desc fr")
-                .descEn("Desc en")
+                .french("Desc fr")
+                .english("Desc en")
                 .build();
 
-        Name nutritional = Name
+        TranslatableString nutritional = TranslatableString
                 .builder()
-                .nameFr("Matière grasse: 2g")
-                .nameEn("Matiere grasse: 2g")
+                .french("Matière grasse: 2g")
+                .english("Matiere grasse: 2g")
                 .build();
 
         menuService.updateMenu(menuToSaved.getId(), name, nutritional, null, description);
@@ -87,7 +87,7 @@ class MenuServiceTest extends AbstractRepositoryTest {
 
         CompoungMenu menu = CompoungMenu
                 .builder()
-                .name(Name.builder().nameFr("Riz Sauce tomate poisson").build())
+                .name(TranslatableString.builder().french("Riz Sauce tomate poisson").build())
                 .menuPrice(MenuPrice.builder().build())
                 .build();
 
@@ -106,7 +106,7 @@ class MenuServiceTest extends AbstractRepositoryTest {
 
         CompoungMenu menu = CompoungMenu
                 .builder()
-                .name(Name.builder().nameFr("Riz Sauce tomate poisson").build())
+                .name(TranslatableString.builder().french("Riz Sauce tomate poisson").build())
                 .build();
 
         menu.addPrice(menuPrice);
@@ -128,7 +128,7 @@ class MenuServiceTest extends AbstractRepositoryTest {
 
         CompoungMenu menu = CompoungMenu
                 .builder()
-                .name(Name.builder().nameFr("Riz Sauce tomate poisson").build())
+                .name(TranslatableString.builder().french("Riz Sauce tomate poisson").build())
                 .build();
 
         menu.addPrice(menuPrice);
@@ -164,7 +164,7 @@ class MenuServiceTest extends AbstractRepositoryTest {
                 .builder()
                 .menuPrice(menuPrice)
                 .menuStatusLink(MenuStatusLink.builder().menuStatus(MenuStatus.Menu_Available).build())
-                .name(Name.builder().nameFr("Riz Sauce tomate poisson").build())
+                .name(TranslatableString.builder().french("Riz Sauce tomate poisson").build())
                 .build();
 
         CompoungMenu menuToSaved = (CompoungMenu) menuService.createMenu(menu);
@@ -214,21 +214,21 @@ class MenuServiceTest extends AbstractRepositoryTest {
         Ingredient ingredient1 = Ingredient
                 .builder()
                 .name(
-                        Name.builder().nameEn("Tomate").nameFr("Tomato").build()
+                        TranslatableString.builder().french("Tomate").english("Tomato").build()
                 )
                 .build();
 
         Ingredient ingredient2 = Ingredient
                 .builder()
                 .name(
-                        Name.builder().nameEn("Riz blan").nameFr("Riz white").build()
+                        TranslatableString.builder().french("Riz blan").english("Riz white").build()
                 )
                 .build();
 
         Ingredient ingredient3 = Ingredient
                 .builder()
                 .name(
-                        Name.builder().nameEn("Poisson").nameFr("Fish").build()
+                        TranslatableString.builder().french("Poisson").english("Fish").build()
                 )
                 .build();
 
@@ -237,7 +237,7 @@ class MenuServiceTest extends AbstractRepositoryTest {
                 .menuPrice(menuPrice)
                 .ingredients(List.of(ingredient1, ingredient2, ingredient3))
                 .menuStatusLink(MenuStatusLink.builder().menuStatus(MenuStatus.Menu_Available).build())
-                .name(Name.builder().nameFr("Riz Sauce tomate poisson").build())
+                .name(TranslatableString.builder().french("Riz Sauce tomate poisson").build())
                 .build();
 
         CompoungMenu menuToSaved = (CompoungMenu) menuService.createMenu(menu);
@@ -287,21 +287,21 @@ class MenuServiceTest extends AbstractRepositoryTest {
         Ingredient ingredient1 = Ingredient
                 .builder()
                 .name(
-                        Name.builder().nameEn("Tomate").nameFr("Tomato").build()
+                        TranslatableString.builder().french("Tomate").english("Tomato").build()
                 )
                 .build();
 
         Ingredient ingredient2 = Ingredient
                 .builder()
                 .name(
-                        Name.builder().nameEn("Riz blan").nameFr("Riz white").build()
+                        TranslatableString.builder().french("Riz blan").english("Riz white").build()
                 )
                 .build();
 
         Ingredient ingredient3 = Ingredient
                 .builder()
                 .name(
-                        Name.builder().nameEn("Poisson").nameFr("Fish").build()
+                        TranslatableString.builder().french("Poisson").english("Fish").build()
                 )
                 .build();
 
@@ -309,7 +309,7 @@ class MenuServiceTest extends AbstractRepositoryTest {
                 .builder()
                 .menuPrice(menuPrice)
                 .menuStatusLink(MenuStatusLink.builder().menuStatus(MenuStatus.Menu_Available).build())
-                .name(Name.builder().nameFr("Riz Sauce tomate poisson").build())
+                .name(TranslatableString.builder().french("Riz Sauce tomate poisson").build())
                 .build();
 
         CompoungMenu menuToSaved = (CompoungMenu) menuService.createMenu(menu);
@@ -361,21 +361,21 @@ class MenuServiceTest extends AbstractRepositoryTest {
         Ingredient ingredient1 = Ingredient
                 .builder()
                 .name(
-                        Name.builder().nameEn("Tomate").nameFr("Tomato").build()
+                        TranslatableString.builder().french("Tomate").english("Tomato").build()
                 )
                 .build();
 
         Ingredient ingredient2 = Ingredient
                 .builder()
                 .name(
-                        Name.builder().nameEn("Riz blan").nameFr("Riz white").build()
+                        TranslatableString.builder().french("Riz blan").english("Riz white").build()
                 )
                 .build();
 
         Ingredient ingredient3 = Ingredient
                 .builder()
                 .name(
-                        Name.builder().nameEn("Poisson").nameFr("Fish").build()
+                        TranslatableString.builder().french("Poisson").english("Fish").build()
                 )
                 .build();
 
@@ -409,7 +409,7 @@ class MenuServiceTest extends AbstractRepositoryTest {
                 .menuPrice(menuPrice)
                 .priceOptions(List.of(option1, option2, option3, option4, option5))
                 .menuStatusLink(MenuStatusLink.builder().menuStatus(MenuStatus.Menu_Available).build())
-                .name(Name.builder().nameFr("Riz Sauce tomate poisson").build())
+                .name(TranslatableString.builder().french("Riz Sauce tomate poisson").build())
                 .build();
 
         CompoungMenu menuToSaved = (CompoungMenu) menuService.createMenu(menu);

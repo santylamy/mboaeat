@@ -1,5 +1,6 @@
 package com.mboaeat.order.domain;
 
+import com.mboaeat.order.domain.menu.MenuCategory;
 import com.mboaeat.order.domain.product.Product;
 import org.hibernate.boot.model.relational.QualifiedName;
 import org.hibernate.boot.model.relational.QualifiedNameParser;
@@ -24,6 +25,7 @@ public class IdentifierGenerator extends SequenceStyleGenerator {
         ENTITY_SEQUENCES_NAMES.put(Order.class.getName(), "SEQ_ORDERS");
         ENTITY_SEQUENCES_NAMES.put(OrderLine.class.getName(), "SEQ_ORDER_LINES");
         ENTITY_SEQUENCES_NAMES.put(PaymentMode.class.getName(), "SEQ_PAYMENTS_MODE");
+        ENTITY_SEQUENCES_NAMES.put(MenuCategory.class.getName(), "SEQ_MENU_CATEGORY");
     }
 
     @Override

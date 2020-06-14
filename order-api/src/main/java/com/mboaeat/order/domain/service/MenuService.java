@@ -3,6 +3,7 @@ package com.mboaeat.order.domain.service;
 import com.mboaeat.order.domain.*;
 import com.mboaeat.order.domain.menu.*;
 import com.mboaeat.order.domain.product.Product;
+import com.mboaeat.order.domain.repository.MenuCategoryRepository;
 import com.mboaeat.order.domain.repository.MenuRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,10 +16,12 @@ import java.util.Optional;
 public class MenuService {
 
     private final MenuRepository menuRepository;
+    private final MenuCategoryRepository menuCategoryRepository;
     private final ProductService productService;
 
-    public MenuService(MenuRepository menuRepository, ProductService productService) {
+    public MenuService(MenuRepository menuRepository, MenuCategoryRepository menuCategoryRepository, ProductService productService) {
         this.menuRepository = menuRepository;
+        this.menuCategoryRepository = menuCategoryRepository;
         this.productService = productService;
     }
 
@@ -28,9 +31,15 @@ public class MenuService {
         if (menu instanceof NonStructuredMenu) {
             ((NonStructuredMenu) menu).addProducts(products);
         }
-        return menuRepository.save(menu);
+        return createMenu(menu);
     }
 
+    @Transactional
+    public Menu createMenu(CompoungMenu menu, String category){
+        MenuCategory menuCategory = menuCategoryRepository.getByCode(category);
+        menu.category(menuCategory);
+        return createMenu(menu);
+    }
 
     @Transactional
     public Menu createMenu(Menu menu){
@@ -67,7 +76,7 @@ public class MenuService {
     }
 
     @Transactional
-    public void updateMenu(Long menuId, Name name, Name nutritional, Name preparationTip, Description description){
+    public void updateMenu(Long menuId, TranslatableString name, TranslatableString nutritional, TranslatableString preparationTip, TranslatableString description){
         getMenu(menuId).ifPresent(
                 menuSaved -> {
                     if (menuSaved instanceof CompoungMenu){

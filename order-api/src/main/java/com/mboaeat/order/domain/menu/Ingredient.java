@@ -1,7 +1,7 @@
 package com.mboaeat.order.domain.menu;
 
 import com.mboaeat.order.domain.Menu;
-import com.mboaeat.order.domain.Name;
+import com.mboaeat.order.domain.TranslatableString;
 import lombok.*;
 import org.hibernate.annotations.Parent;
 
@@ -17,11 +17,11 @@ public class Ingredient {
     @Embedded
     @AttributeOverrides(
             {
-                    @AttributeOverride(name = "nameFr", column = @Column(name = "INGREDIENT_NAME_FR")),
-                    @AttributeOverride(name = "nameEn", column = @Column(name = "INGREDIENT_NAME_EN"))
+                    @AttributeOverride(name = "french", column = @Column(name = "INGREDIENT_NAME_FR")),
+                    @AttributeOverride(name = "english", column = @Column(name = "INGREDIENT_NAME_EN"))
             }
     )
-    private Name name;
+    private TranslatableString name;
 
     @Parent
     @ToString.Exclude

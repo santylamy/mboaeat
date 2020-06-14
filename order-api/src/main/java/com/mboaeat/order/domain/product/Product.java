@@ -2,7 +2,7 @@ package com.mboaeat.order.domain.product;
 
 import com.mboaeat.order.domain.BaseEntity;
 import com.mboaeat.order.domain.Description;
-import com.mboaeat.order.domain.Name;
+import com.mboaeat.order.domain.TranslatableString;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,25 +26,25 @@ public class Product extends BaseEntity<Long> {
     @Embedded
     @AttributeOverrides(
             {
-                    @AttributeOverride(name = "nameFr", column = @Column(name = "PRODUCT_NAME_FR")),
-                    @AttributeOverride(name = "nameEn", column = @Column(name = "PRODUCT_NAME_EN"))
+                    @AttributeOverride(name = "french", column = @Column(name = "PRODUCT_NAME_FR")),
+                    @AttributeOverride(name = "english", column = @Column(name = "PRODUCT_NAME_EN"))
             }
     )
-    private Name productName;
+    private TranslatableString productName;
 
     @AttributeOverrides({
-            @AttributeOverride(name = "descFr", column = @Column(name = "PRODUCT_DESC_FR")),
-            @AttributeOverride(name = "descEn", column = @Column(name = "PRODUCT_DESC_EN"))
+            @AttributeOverride(name = "french", column = @Column(name = "PRODUCT_DESC_FR")),
+            @AttributeOverride(name = "english", column = @Column(name = "PRODUCT_DESC_EN"))
     }
     )
-    private Description description;
+    private TranslatableString description;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "PRODUCT_TYPE_CODE")
     private ProductType category;
 
     @Builder
-    public Product(Name productName, Description description, ProductType category, ProductPrice productPrice){
+    public Product(TranslatableString productName, TranslatableString description, ProductType category, ProductPrice productPrice){
         this.productName = productName;
         this.description = description;
         this.category = category;

@@ -24,7 +24,7 @@ class ProductServiceTest extends AbstractRepositoryTest {
 
     @Test
     public void testCreateBaseEntity(){
-        Name productName = Name.builder().nameFr("Champignons").build();
+        TranslatableString productName = TranslatableString.builder().french("Champignons").build();
         Product product = Product
                 .builder()
                 .productName(productName)
@@ -40,7 +40,7 @@ class ProductServiceTest extends AbstractRepositoryTest {
     public void testCreateBaseEntity_With_ProductPrice(){
         Product product = Product
                 .builder()
-                .productName(Name.builder().nameFr("Champignons").build())
+                .productName(TranslatableString.builder().french("Champignons").build())
                 .build();
 
         ProductPrice productPrice = ProductPrice.builder().product(product).amount(Amount.one()).period(PeriodByDay.periodByDayStartingToday()).build();
@@ -49,7 +49,7 @@ class ProductServiceTest extends AbstractRepositoryTest {
 
         assertThat(productToSaved).isNotNull();
         assertThat(productToSaved.getPricesHistory().getProductPrices()).isNotEmpty();
-        assertThat(productToSaved.getProductName()).isEqualTo(Name.builder().nameFr("Champignons").build());
+        assertThat(productToSaved.getProductName()).isEqualTo(TranslatableString.builder().french("Champignons").build());
         assertThat(product.getPricesHistory().getCurrent().getPeriod()).isEqualTo(PeriodByDay.periodByDayStartingToday());
     }
 
@@ -57,7 +57,7 @@ class ProductServiceTest extends AbstractRepositoryTest {
     public void testCreateBaseEntity_With_ProductPrice_change(){
         Product product = Product
                 .builder()
-                .productName(Name.builder().nameFr("Champignons").build())
+                .productName(TranslatableString.builder().french("Champignons").build())
                 .build();
 
         ProductPrice productPrice = ProductPrice.builder().product(product).amount(Amount.one()).period(
@@ -68,7 +68,7 @@ class ProductServiceTest extends AbstractRepositoryTest {
 
         assertThat(productToSaved).isNotNull();
         assertThat(productToSaved.getPricesHistory().getProductPrices()).isNotEmpty();
-        assertThat(productToSaved.getProductName()).isEqualTo(Name.builder().nameFr("Champignons").build());
+        assertThat(productToSaved.getProductName()).isEqualTo(TranslatableString.builder().french("Champignons").build());
 
 
         ProductPrice nextProductPrice = ProductPrice
@@ -89,7 +89,7 @@ class ProductServiceTest extends AbstractRepositoryTest {
     public void testCreateBaseEntity_With_Product_content_change(){
         Product product = Product
                 .builder()
-                .productName(Name.builder().nameFr("Champignons").build())
+                .productName(TranslatableString.builder().french("Champignons").build())
                 .build();
 
         ProductPrice productPrice = ProductPrice.builder().product(product).amount(Amount.one()).period(
@@ -100,19 +100,19 @@ class ProductServiceTest extends AbstractRepositoryTest {
 
         assertThat(productToSaved).isNotNull();
         assertThat(productToSaved.getPricesHistory().getProductPrices()).isNotEmpty();
-        assertThat(productToSaved.getProductName()).isEqualTo(Name.builder().nameFr("Champignons").build());
+        assertThat(productToSaved.getProductName()).isEqualTo(TranslatableString.builder().french("Champignons").build());
 
 
         Product refreshProduct = productService.getProduct(productToSaved.getId()).get();
 
-        refreshProduct.setDescription( Description.builder().descFr("Champigons de douala").build());
+        refreshProduct.setDescription( TranslatableString.builder().french("Champignons de douala").build());
         refreshProduct.setCategory(ProductType.VEGETABLE);
 
         productService.updateProduct(refreshProduct);
 
         refreshProduct = productService.getProduct(productToSaved.getId()).get();
 
-        assertThat(refreshProduct.getDescription()).isEqualTo("Champigons de douala");
+        assertThat(refreshProduct.getDescription().getFrench()).isEqualTo("Champignons de douala");
         assertThat(refreshProduct.getCategory()).isEqualTo(ProductType.VEGETABLE);
     }
 

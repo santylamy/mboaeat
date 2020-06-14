@@ -19,7 +19,7 @@ class BaseEntityRepositoryTest extends AbstractRepositoryTest {
     public void testCreateBaseEntity(){
         Product product = Product
                 .builder()
-                .productName(Name.builder().nameFr("Champignons").build())
+                .productName(TranslatableString.builder().french("Champignons").build())
                 .build();
         Product productToSaved = repository.save(product);
 

@@ -34,13 +34,13 @@ class OrderServiceTest extends AbstractRepositoryTest {
         Product product = productService.createProduct(
                 Product.builder()
                         .productPrice(ProductPrice.builder().period(PeriodByDay.periodByDayStartingToday()).amount(Amount.one()).build())
-                        .productName(Name.builder().nameFr("Riz blanc").build()).build()
+                        .productName(TranslatableString.builder().french("Riz blanc").build()).build()
         );
 
         Product product2 = productService.createProduct(
                 Product.builder()
                         .productPrice(ProductPrice.builder().period(PeriodByDay.periodByDayStartingToday()).amount(Amount.one()).build())
-                        .productName(Name.builder().nameFr("Sauce tomate").build()).build()
+                        .productName(TranslatableString.builder().french("Sauce tomate").build()).build()
         );
 
         NonStructuredMenu menu = NonStructuredMenu.builder().build();
@@ -107,7 +107,7 @@ class OrderServiceTest extends AbstractRepositoryTest {
                 .menuPrice(menuPrice)
                 .priceOptions(List.of(option1, option2, option3, option4, option5))
                 .menuStatusLink(MenuStatusLink.builder().menuStatus(MenuStatus.Menu_Available).build())
-                .name(Name.builder().nameFr("Riz Sauce tomate poisson").build())
+                .name(TranslatableString.builder().french("Riz Sauce tomate poisson").build())
                 .build();
 
         CompoungMenu menuToSaved = (CompoungMenu) menuService.createMenu(menu);
@@ -190,7 +190,7 @@ class OrderServiceTest extends AbstractRepositoryTest {
                 .menuPrice(menuPrice)
                 .priceOptions(List.of(option1, option2, option3, option4, option5))
                 .menuStatusLink(MenuStatusLink.builder().menuStatus(MenuStatus.Menu_Available).build())
-                .name(Name.builder().nameFr("Riz Sauce tomate poisson").build())
+                .name(TranslatableString.builder().french("Riz Sauce tomate poisson").build())
                 .build();
 
         CompoungMenu menuToSaved = (CompoungMenu) menuService.createMenu(menu);
@@ -214,7 +214,7 @@ class OrderServiceTest extends AbstractRepositoryTest {
                 .menuPrice(menuPrice2)
                 .priceOptions(List.of(option1MenuPrice2, option2MenuPrice2))
                 .menuStatusLink(MenuStatusLink.builder().menuStatus(MenuStatus.Menu_Available).build())
-                .name(Name.builder().nameFr("Riz haricot").build())
+                .name(TranslatableString.builder().french("Riz haricot").build())
                 .build();
 
         CompoungMenu menuToSaved2 = (CompoungMenu) menuService.createMenu(menu2);

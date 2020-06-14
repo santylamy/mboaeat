@@ -32,29 +32,29 @@ public class CompoungMenu extends Menu {
     @Embedded
     @AttributeOverrides(
             {
-                    @AttributeOverride(name = "nameFr", column = @Column(name = "MENU_NAME_FR")),
-                    @AttributeOverride(name = "nameEn", column = @Column(name = "MENU_NAME_EN"))
+                    @AttributeOverride(name = "french", column = @Column(name = "MENU_NAME_FR")),
+                    @AttributeOverride(name = "english", column = @Column(name = "MENU_NAME_EN"))
             }
     )
-    private Name name = new Name();
+    private TranslatableString name = new TranslatableString();
 
     @Embedded
     @AttributeOverrides(
             {
-                    @AttributeOverride(name = "nameFr", column = @Column(name = "MENU_NUTRITIONAL_FR")),
-                    @AttributeOverride(name = "nameEn", column = @Column(name = "MENU_NUTRITIONAL_EN"))
+                    @AttributeOverride(name = "french", column = @Column(name = "MENU_NUTRITIONAL_FR")),
+                    @AttributeOverride(name = "english", column = @Column(name = "MENU_NUTRITIONAL_EN"))
             }
     )
-    private Name nutritional = new Name();
+    private TranslatableString nutritional = new TranslatableString();
 
     @Embedded
     @AttributeOverrides(
             {
-                    @AttributeOverride(name = "nameFr", column = @Column(name = "MENU_PREPARATION_TIP_FR")),
-                    @AttributeOverride(name = "nameEn", column = @Column(name = "MENU_PREPARATION_TIP_EN"))
+                    @AttributeOverride(name = "french", column = @Column(name = "MENU_PREPARATION_TIP_FR")),
+                    @AttributeOverride(name = "english", column = @Column(name = "MENU_PREPARATION_TIP_EN"))
             }
     )
-    private Name preparationTip = new Name();
+    private TranslatableString preparationTip = new TranslatableString();
 
     @Embedded
     private IngredientCollection ingredientCollection = new IngredientCollection();
@@ -62,17 +62,25 @@ public class CompoungMenu extends Menu {
     @Embedded
     @AttributeOverrides(
             {
-                    @AttributeOverride(name = "descFr", column = @Column(name = "MENU_DESC_FR")),
-                    @AttributeOverride(name = "descEn", column = @Column(name = "MENU_DESC_EN"))
+                    @AttributeOverride(name = "french", column = @Column(name = "MENU_DESC_FR")),
+                    @AttributeOverride(name = "english", column = @Column(name = "MENU_DESC_EN"))
             }
     )
-    private Description description = new Description();
+    private TranslatableString description = new TranslatableString();
+
+    @ManyToOne
+    @JoinColumn(name = "MENU_CATEGORY_ID")
+    private MenuCategory category;
 
     @Builder
-    public CompoungMenu(Name name, Name nutritional, Name preparationTip, MenuPrice menuPrice, MenuStatusLink menuStatusLink, List<Ingredient> ingredients, List<MenuPriceOption> priceOptions){
+    public CompoungMenu(TranslatableString name, TranslatableString nutritional,
+                        TranslatableString preparationTip, MenuPrice menuPrice,
+                        MenuStatusLink menuStatusLink, List<Ingredient> ingredients,
+                        List<MenuPriceOption> priceOptions, TranslatableString description){
         this.name = name;
         this.nutritional = nutritional;
         this.preparationTip = preparationTip;
+        this.description = description;
         addIngredient(ingredients);
         addPrice(menuPrice);
         addMenuStatus(menuStatusLink);
@@ -81,6 +89,10 @@ public class CompoungMenu extends Menu {
 
     public MenuPrice getCurrentPrice(){
         return menuPriceCollection.getCurrent();
+    }
+
+    public List<MenuPriceOption> currentMenuPriceOptions(){
+        return getCurrentPrice().getPriceOptionCollection().getPriceOptions();
     }
 
     public MenuStatusLink getCurrentStatus(){
@@ -130,5 +142,9 @@ public class CompoungMenu extends Menu {
             assertPeriodicalsNotNull(menuPriceCollection.getPeriodicals());
             this.menuPriceCollection.addPriceOption(priceOptions);
         }
+    }
+
+    public void category(MenuCategory menuCategory) {
+        this.category = category;
     }
 }

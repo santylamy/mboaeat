@@ -9,8 +9,8 @@ class NameTest {
 
     @Test
     public void createAndNoDiff(){
-        Name name1 = Name.builder().nameFr("Test fr").build();
-        Name name2 = Name.builder().nameFr("Test fr").build();
+        TranslatableString name1 = TranslatableString.builder().french("Test fr").build();
+        TranslatableString name2 = TranslatableString.builder().french("Test fr").build();
         final DiffResult diffResult = name1.diff(name2);
 
         assertThat(diffResult.getNumberOfDiffs()).isEqualTo(0);
@@ -18,8 +18,8 @@ class NameTest {
 
     @Test
     public void createAnd_Two_Diff(){
-        Name name1 = Name.builder().nameFr("Test fr").build();
-        Name name2 = Name.builder().nameFr("Test test fr").nameEn("Test en").build();
+        TranslatableString name1 = TranslatableString.builder().french("Test fr").build();
+        TranslatableString name2 = TranslatableString.builder().french("Test test fr").english("Test en").build();
         final DiffResult diffResult = name1.diff(name2);
 
         assertThat(diffResult.getNumberOfDiffs()).isEqualTo(2);

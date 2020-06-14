@@ -31,6 +31,10 @@ public class Amount implements Comparable<Amount>, Serializable {
         this.value = scale4(value);
     }
 
+    public static Amount ValueOf(Double amount) {
+        return new Amount(amount);
+    }
+
     private BigDecimal scale(BigDecimal value, int scale){
         return value.setScale(scale, RoundingMode.HALF_UP);
     }
