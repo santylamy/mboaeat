@@ -35,7 +35,7 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
                         ErrorMessageDTO
                                 .builder()
                                 .message(ex.getMessage())
-                                .code(ex.getErrorCode())
+                                .code(ex.getCode())
                                 .build()
                 ),
                 new HttpHeaders(), HttpStatus.BAD_REQUEST

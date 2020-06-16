@@ -74,7 +74,7 @@ class MenuServiceTest extends AbstractRepositoryTest {
 
         menuService.updateMenu(menuToSaved.getId(), name, nutritional, null, description);
 
-        menuToSaved = (CompoungMenu) menuService.getMenu(menuToSaved.getId()).get();
+        menuToSaved = (CompoungMenu) menuService.findByMenuId(menuToSaved.getId()).get();
 
         assertThat(menuToSaved.getDescription()).isEqualTo(description);
         assertThat(menuToSaved.getNutritional()).isEqualTo(nutritional);
@@ -113,7 +113,7 @@ class MenuServiceTest extends AbstractRepositoryTest {
 
         CompoungMenu menuToSaved = (CompoungMenu) menuService.createMenu(menu);
 
-        menuToSaved = (CompoungMenu) menuService.getMenu(menuToSaved.getId()).get();
+        menuToSaved = (CompoungMenu) menuService.findByMenuId(menuToSaved.getId()).get();
 
         assertThat(menuToSaved.getMenuPriceCollection().getMenuPrices()).hasSize(1);
         assertThat(menuToSaved.getId()).isNotZero();
@@ -144,7 +144,7 @@ class MenuServiceTest extends AbstractRepositoryTest {
                 .period(PeriodByDay.periodByDayStartingTodayPlusMonth(3))
                 .build());
 
-        menuToSaved = (CompoungMenu) menuService.getMenu(menuToSaved.getId()).get();
+        menuToSaved = (CompoungMenu) menuService.findByMenuId(menuToSaved.getId()).get();
 
         assertThat(menuToSaved.getMenuPriceCollection().getMenuPrices()).hasSize(2);
         assertThat(menuToSaved.getCurrentPrice().getPeriod()).isEqualTo(PeriodByDay.periodByDayStartingTodayPlusMonth(3));
@@ -187,7 +187,7 @@ class MenuServiceTest extends AbstractRepositoryTest {
                         .build()
         );
 
-        menuToSaved = (CompoungMenu) menuService.getMenu(menuToSaved.getId()).get();
+        menuToSaved = (CompoungMenu) menuService.findByMenuId(menuToSaved.getId()).get();
 
         assertThat(menuToSaved.getId()).isNotZero();
         assertThat(menuToSaved.getPrice()).isNotEqualTo(amount);
@@ -260,7 +260,7 @@ class MenuServiceTest extends AbstractRepositoryTest {
                         .build()
         );
 
-        menuToSaved = (CompoungMenu) menuService.getMenu(menuToSaved.getId()).get();
+        menuToSaved = (CompoungMenu) menuService.findByMenuId(menuToSaved.getId()).get();
 
         assertThat(menuToSaved.getId()).isNotZero();
         assertThat(menuToSaved.getPrice()).isNotEqualTo(amount);
@@ -334,7 +334,7 @@ class MenuServiceTest extends AbstractRepositoryTest {
 
         menuService.addIngredients(menuToSaved.getId(), ingredient1, ingredient2, ingredient3);
 
-        menuToSaved = (CompoungMenu) menuService.getMenu(menuToSaved.getId()).get();
+        menuToSaved = (CompoungMenu) menuService.findByMenuId(menuToSaved.getId()).get();
 
         assertThat(menuToSaved.getId()).isNotZero();
         assertThat(menuToSaved.getPrice()).isNotEqualTo(amount);
@@ -434,7 +434,7 @@ class MenuServiceTest extends AbstractRepositoryTest {
 
         menuService.addIngredients(menuToSaved.getId(), ingredient1, ingredient2, ingredient3);
 
-        menuToSaved = (CompoungMenu) menuService.getMenu(menuToSaved.getId()).get();
+        menuToSaved = (CompoungMenu) menuService.findByMenuId(menuToSaved.getId()).get();
 
         assertThat(menuToSaved.getId()).isNotZero();
         assertThat(menuToSaved.getPrice()).isNotEqualTo(amount);
@@ -456,7 +456,7 @@ class MenuServiceTest extends AbstractRepositoryTest {
         Ingredient ingredientToRemove = menuToSaved.getIngredientCollection().getIngredients().iterator().next();
 
         menuService.removeIngredients(menuToSaved.getId(), ingredientToRemove);
-        menuToSaved = (CompoungMenu) menuService.getMenu(menuToSaved.getId()).get();
+        menuToSaved = (CompoungMenu) menuService.findByMenuId(menuToSaved.getId()).get();
         assertThat(menuToSaved.getIngredientCollection().getIngredients()).hasSize(2);
 
 

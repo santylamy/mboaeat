@@ -97,4 +97,8 @@ public class MenuPrice implements PeriodicalElement<PeriodByDay> {
     public void addPriceOption(List<MenuPriceOption> priceOptions) {
         this.priceOptionCollection.getPriceOptions().addAll(priceOptions);
     }
+
+    public List<MenuPriceOption> priceColPriceOptions(){
+        return getPriceOptionCollection().getPriceOptions();
+    }
 }

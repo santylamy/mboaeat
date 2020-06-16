@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static com.mboaeat.domain.CollectionsUtils.newHashSet;
@@ -66,6 +67,15 @@ public class Order extends BaseEntity<Long> {
         orderLine.setOrder(this);
         this.totalAmount = totalAmount.add(orderLine.getPrice());
         this.totalAmountTva = totalAmountTva.add(totalAmount);
+        return this;
+    }
+
+    public Order addOrderLine(List<OrderLine> orderLines){
+        orderLines
+                .stream()
+                .forEach(
+                        orderLine -> addOrderLine(orderLine)
+                );
         return this;
     }
 

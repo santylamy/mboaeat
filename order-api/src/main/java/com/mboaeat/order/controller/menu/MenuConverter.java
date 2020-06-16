@@ -1,15 +1,35 @@
 package com.mboaeat.order.controller.menu;
 
-import com.mboaeat.order.domain.Amount;
-import com.mboaeat.order.domain.Menu;
-import com.mboaeat.order.domain.PeriodByDay;
-import com.mboaeat.order.domain.TranslatableString;
+import com.mboaeat.common.translation.Language;
+import com.mboaeat.order.domain.*;
 import com.mboaeat.order.domain.menu.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class MenuConverter {
+
+    public static SimpleMenuModel menuToSimpleMenuModel(CompoungMenu menu, String langCode){
+        Language language = Language.toLanguage(langCode);
+        return menuToSimpleMenuModel(menu, language);
+    }
+
+    public static SimpleMenuModel menuToSimpleMenuModel(CompoungMenu menu, Language language){
+        SimpleMenuModel.SimpleMenuModelBuilder menuModelBuilder = SimpleMenuModel.builder();
+        menuModelBuilder.id(menu.getId())
+                .category(translateFieldMenuByLanguage(menu.getCategory().getDescription(), language))
+                .description(translateFieldMenuByLanguage(menu.getDescription(), language))
+                .name(translateFieldMenuByLanguage(menu.getName(), language))
+                .nutritional(translateFieldMenuByLanguage(menu.getNutritional(), language))
+                .preparationTip(translateFieldMenuByLanguage(menu.getPreparationTip(), language))
+                .priceOption(menuPriceOptionsToModels(menu.currentMenuPriceOptions()))
+                .ingredient(translateFieldMenuByLanguage(menu.getIngredientCollection().getIngredients().stream().findFirst().get().getName(), language));
+       return menuModelBuilder.build();
+    }
+
+    public static String translateFieldMenuByLanguage(Translatable translatable, Language language){
+        return translatable.asString(language);
+    }
 
     public static Menu modelToMenu(MenuModel menuModel) {
         CompoungMenu.CompoungMenuBuilder menu = CompoungMenu.builder();
@@ -30,10 +50,10 @@ public class MenuConverter {
         return menu.build();
     }
 
-    public MenuModel MenuToModel(CompoungMenu menu){
+    public static MenuModel menuToModel(CompoungMenu menu){
         return MenuModel
                 .builder()
-                .id(menu.getId())
+                .reference(menu.getId())
                 .category(menu.getCategory().getCode())
                 .description(menuDescriptionToModel(menu.getDescription()))
                 .name(menuNameToModel(menu.getName()))
@@ -46,11 +66,11 @@ public class MenuConverter {
                 .build();
     }
 
-    private MenuIngredient menuIngredientsToModels(List<Ingredient> ingredients) {
+    public static MenuIngredient menuIngredientsToModels(List<Ingredient> ingredients) {
         return ingredients.stream().map(MenuConverter::menuIngredientToModel).findFirst().get();
     }
 
-    private static MenuIngredient menuIngredientToModel(Ingredient ingredient) {
+    public static MenuIngredient menuIngredientToModel(Ingredient ingredient) {
         return MenuIngredient
                 .builder()
                 .ingredientsEn(ingredient.getName().getEnglish())
@@ -58,19 +78,20 @@ public class MenuConverter {
                 .build();
     }
 
-    private List<MenuCostOption> menuPriceOptionsToModels(List<MenuPriceOption> currentMenuPriceOptions) {
+    public static List<MenuCostOption> menuPriceOptionsToModels(List<MenuPriceOption> currentMenuPriceOptions) {
         return currentMenuPriceOptions.stream().map(MenuConverter::menuPriceOptionToModel).collect(Collectors.toList());
     }
 
-    private static MenuCostOption menuPriceOptionToModel(MenuPriceOption menuPriceOption){
+    public static MenuCostOption menuPriceOptionToModel(MenuPriceOption menuPriceOption){
         return MenuCostOption
                 .builder()
-                .price(menuPriceOption.getAmount().getValue().doubleValue())
+                .reference(menuPriceOption.getId())
+                .price(menuPriceOption.getAmount().getValue())
                 .quantity(menuPriceOption.getQuantity())
                 .build();
     }
 
-    private MenuCost menuPriceToModel(MenuPrice currentPrice) {
+    public static MenuCost menuPriceToModel(MenuPrice currentPrice) {
         return MenuCost
                 .builder()
                 .amount(currentPrice.getAmount().getValue().doubleValue())
@@ -79,7 +100,7 @@ public class MenuConverter {
                 .build();
     }
 
-    private MenuOnSale menuStatusLinkToModel(MenuStatusLink currentStatus) {
+    public static MenuOnSale menuStatusLinkToModel(MenuStatusLink currentStatus) {
         return MenuOnSale
                 .builder()
                 .start(currentStatus.getPeriod().getStartDate())
@@ -88,7 +109,7 @@ public class MenuConverter {
                 .build();
     }
 
-    private MenuPreparationTip menuPreparationTipToModel(TranslatableString preparationTip) {
+    public static MenuPreparationTip menuPreparationTipToModel(TranslatableString preparationTip) {
         if (preparationTip != null){
             return MenuPreparationTip
                     .builder()
@@ -99,7 +120,7 @@ public class MenuConverter {
         return null;
     }
 
-    private MenuNutritional menuNutritionalToModel(TranslatableString nutritional) {
+    public static MenuNutritional menuNutritionalToModel(TranslatableString nutritional) {
         if (nutritional != null){
             return MenuNutritional
                     .builder()
@@ -111,7 +132,7 @@ public class MenuConverter {
     }
 
 
-    private MenuName menuNameToModel(TranslatableString name) {
+    public static MenuName menuNameToModel(TranslatableString name) {
         return MenuName
                 .builder()
                 .menuNameEn(name.getEnglish())
@@ -119,7 +140,7 @@ public class MenuConverter {
                 .build();
     }
 
-    private MenuDescription menuDescriptionToModel(TranslatableString description) {
+    public static MenuDescription menuDescriptionToModel(TranslatableString description) {
         if (description != null){
             return MenuDescription
                     .builder()
@@ -130,7 +151,7 @@ public class MenuConverter {
         return null;
     }
 
-    private static TranslatableString modelToMenuDescription(MenuDescription description) {
+    public static TranslatableString modelToMenuDescription(MenuDescription description) {
         if (description != null){
             return TranslatableString
                     .builder()
@@ -141,22 +162,22 @@ public class MenuConverter {
         return null;
     }
 
-    private static List<MenuPriceOption> modelToMenuPriceOptions(List<MenuCostOption> priceOption) {
+    public static List<MenuPriceOption> modelToMenuPriceOptions(List<MenuCostOption> priceOption) {
         return priceOption
                 .stream()
                 .map(MenuConverter::modelToMenuPriceOption)
                 .collect(Collectors.toList());
     }
 
-    private static MenuPriceOption modelToMenuPriceOption(MenuCostOption menuCostOption){
+    public static MenuPriceOption modelToMenuPriceOption(MenuCostOption menuCostOption){
         return MenuPriceOption
                 .builder()
                 .quantity(menuCostOption.getQuantity())
-                .amount(Amount.ValueOf(menuCostOption.getPrice()))
+                .amount(Amount.builder().value(menuCostOption.getPrice()).build())
                 .build();
     }
 
-    private static TranslatableString modelToMenuPreparationTrip(MenuPreparationTip preparationTip) {
+    public static TranslatableString modelToMenuPreparationTrip(MenuPreparationTip preparationTip) {
         if (preparationTip != null){
             return TranslatableString
                     .builder()
@@ -167,7 +188,7 @@ public class MenuConverter {
         return null;
     }
 
-    private static TranslatableString modelToMenuNutritional(MenuNutritional nutritional) {
+    public static TranslatableString modelToMenuNutritional(MenuNutritional nutritional) {
         if (nutritional != null){
             return TranslatableString
                     .builder()
@@ -178,7 +199,7 @@ public class MenuConverter {
         return null;
     }
 
-    private static MenuStatusLink modelToMenuStatusLink(MenuOnSale onSale) {
+    public static MenuStatusLink modelToMenuStatusLink(MenuOnSale onSale) {
         if (onSale == null){
             return MenuStatusLink.builder().menuStatus(MenuStatus.Menu_Available).period(PeriodByDay.periodByDayStartingToday()).build();
         }
@@ -194,14 +215,23 @@ public class MenuConverter {
                 .build();
     }
 
-    private static MenuPrice modelToMenuPrice(MenuCost menuCost){
+    public static MenuPrice modelToMenuPrice(MenuCost menuCost){
+        if (menuCost instanceof MenuCostExtended){
+            return MenuPrice
+                    .builder()
+                    .priceOptionCollection(MenuPriceOptionCollection.builder().priceOptions(modelToMenuPriceOptions(((MenuCostExtended) menuCost).getCostOptions())).build())
+                    .period(PeriodByDay.builder().startDate(menuCost.getStart()).endDate(menuCost.getEnd()).build())
+                    .amount(Amount.ValueOf(menuCost.getAmount()))
+                    .build();
+        }
         return MenuPrice
                 .builder()
+                .period(PeriodByDay.builder().startDate(menuCost.getStart()).endDate(menuCost.getEnd()).build())
                 .amount(Amount.ValueOf(menuCost.getAmount()))
                 .build();
     }
 
-    private static Ingredient modelToIngredient(MenuIngredient menuIngredient){
+    public static Ingredient modelToIngredient(MenuIngredient menuIngredient){
         Ingredient ingredient = Ingredient
                 .builder()
                 .name(

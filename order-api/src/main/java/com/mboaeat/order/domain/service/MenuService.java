@@ -1,5 +1,6 @@
 package com.mboaeat.order.domain.service;
 
+import com.mboaeat.common.exception.ResourceNotFoundException;
 import com.mboaeat.order.domain.*;
 import com.mboaeat.order.domain.menu.*;
 import com.mboaeat.order.domain.product.Product;
@@ -48,20 +49,21 @@ public class MenuService {
 
     @Transactional
     public void changeMenuPriceToMenu(Long menuId, MenuPrice menuPrice){
-        getMenu(menuId).ifPresent(
+        findByMenuId(menuId).ifPresentOrElse(
                 menu -> {
                     if (menu instanceof CompoungMenu){
                         ((CompoungMenu) menu).applyChangeMenuPriceCollectionCommand(
                                 ChangeMenuPriceCollectionCommand
                                         .builder()
                                         .period(menuPrice.getPeriod())
+                                        .priceOptions(menuPrice.priceColPriceOptions())
                                         .menu(menu)
                                         .amount(menuPrice.getAmount())
                                         .build(), true
                         );
                         menuRepository.save(menu);
                     }
-                }
+                }, () -> {throw new ResourceNotFoundException();}
         );
     }
 
@@ -77,7 +79,7 @@ public class MenuService {
 
     @Transactional
     public void updateMenu(Long menuId, TranslatableString name, TranslatableString nutritional, TranslatableString preparationTip, TranslatableString description){
-        getMenu(menuId).ifPresent(
+        findByMenuId(menuId).ifPresentOrElse(
                 menuSaved -> {
                     if (menuSaved instanceof CompoungMenu){
                         if (((CompoungMenu) menuSaved).getName().hasChange(name)) {
@@ -94,14 +96,14 @@ public class MenuService {
                         }
                     }
                     menuRepository.save(menuSaved);
-                }
+                }, () -> {throw new ResourceNotFoundException();}
         );
     }
 
     @Transactional
     public void changeMenuStatusToMenu(Long menuId, MenuStatusLink menuStatusLink){
 
-        getMenu(menuId).ifPresent(
+        findByMenuId(menuId).ifPresentOrElse(
                 menu -> {
                     if (menu instanceof CompoungMenu){
                         CompoungMenu savedMenu = (CompoungMenu) menu;
@@ -116,37 +118,45 @@ public class MenuService {
                         );
                     }
                     menuRepository.save(menu);
-                }
+                }, () -> {throw new ResourceNotFoundException();}
         );
     }
 
     @Transactional
     public void addIngredients(Long menuId, Ingredient... ingredient){
-        getMenu(menuId).ifPresent(
+        findByMenuId(menuId).ifPresentOrElse(
                 menu -> {
                     if (menu instanceof CompoungMenu) {
                         ((CompoungMenu) menu).addIngredient(Arrays.asList(ingredient));
                     }
                     menuRepository.save(menu);
-                }
+                }, () -> {throw new ResourceNotFoundException();}
         );
     }
 
     @Transactional
     public void removeIngredients(Long menuId, Ingredient ingredient){
-        getMenu(menuId).ifPresent(
+        findByMenuId(menuId).ifPresentOrElse(
                 menu -> {
                     if (menu instanceof CompoungMenu) {
                         ((CompoungMenu) menu).removeIngredient(ingredient);
                     }
                     menuRepository.save(menu);
-                }
+                }, () -> {throw new ResourceNotFoundException();}
         );
     }
 
 
-    public Optional<Menu> getMenu(Long menuId){
+    public Optional<Menu> findByMenuId(Long menuId){
         return menuRepository.findById(menuId);
     }
 
+    public Menu getMenu(Long menuId){
+        return findByMenuId(menuId).orElseThrow(() -> new ResourceNotFoundException());
+    }
+
+    @Transactional
+    public void updateMenu(Long menuId, CompoungMenu menu) {
+        updateMenu(menuId, menu.getName(), menu.getNutritional(), menu.getPreparationTip(), menu.getDescription());
+    }
 }

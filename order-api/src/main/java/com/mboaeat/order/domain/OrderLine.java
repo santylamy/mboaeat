@@ -2,6 +2,7 @@ package com.mboaeat.order.domain;
 
 import com.mboaeat.common.exception.MboaEatException;
 import com.mboaeat.domain.Constants;
+import com.mboaeat.order.controller.OrderLineRequest;
 import com.mboaeat.order.domain.menu.CompoungMenu;
 import com.mboaeat.order.domain.menu.MenuPriceOption;
 import com.mboaeat.order.domain.menu.NonStructuredMenu;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "ORDERLINES")
 public class OrderLine implements Serializable {
@@ -27,14 +29,9 @@ public class OrderLine implements Serializable {
     @Column(name = "UNITS")
     private Integer quantity;
 
-    @Transient
-    @Singular
-    @ToString.Exclude
-    @EqualsAndHashCode.Include
-    private List<OrderLineRequest> orderLineRequests;
 
     @Builder
-    private OrderLine(Menu menu, Order order, Integer quantity, MenuPriceOption menuPriceOption, List<OrderLineRequest> orderLineRequests){
+    public OrderLine(Menu menu, Order order, Integer quantity, MenuPriceOption menuPriceOption){
         this.quantity = quantity;
         this.id = OrderLineId.builder().menu(menu).order(order).build();
         menuPrice(menuPriceOption);

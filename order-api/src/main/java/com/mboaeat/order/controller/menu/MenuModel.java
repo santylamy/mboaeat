@@ -15,7 +15,7 @@ import java.util.List;
 public class MenuModel {
 
     @Schema(description = "The menu reference")
-    private Long id;
+    private Long reference;
 
     @NotNull
     @Schema(description = "The menu name", required = true)

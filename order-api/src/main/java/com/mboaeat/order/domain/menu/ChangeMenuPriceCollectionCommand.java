@@ -8,17 +8,21 @@ import com.mboaeat.order.domain.menu.MenuPrice;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class ChangeMenuPriceCollectionCommand extends AbstractChangePeriodicalCollectionCommand<MenuPrice, PeriodByDay> {
 
     private Amount amount;
     private Menu menu;
+    private List<MenuPriceOption> priceOptions;
 
     @Builder
-    public ChangeMenuPriceCollectionCommand(PeriodByDay period, Amount amount, Menu menu) {
+    public ChangeMenuPriceCollectionCommand(PeriodByDay period, Amount amount, Menu menu, List<MenuPriceOption> priceOptions) {
         super(period);
         this.amount = amount;
         this.menu = menu;
+        this.priceOptions = priceOptions;
     }
 
     @Override
@@ -28,6 +32,11 @@ public class ChangeMenuPriceCollectionCommand extends AbstractChangePeriodicalCo
 
     @Override
     public MenuPrice create(PeriodByDay period) {
-        return MenuPrice.builder().amount(amount).menu(menu).period(period).build();
+        return MenuPrice
+                .builder()
+                .amount(amount)
+                .priceOptionCollection(MenuPriceOptionCollection.builder().priceOptions(priceOptions).build())
+                .menu(menu)
+                .period(period).build();
     }
 }

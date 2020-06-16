@@ -1,6 +1,9 @@
 package com.mboaeat.order.domain.menu;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.OrderBy;
 
@@ -11,6 +14,9 @@ import java.util.List;
 import static com.mboaeat.domain.CollectionsUtils.newArrayList;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Embeddable
 public class MenuPriceOptionCollection implements Serializable {
 
