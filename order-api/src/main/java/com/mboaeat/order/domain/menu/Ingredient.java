@@ -1,7 +1,7 @@
 package com.mboaeat.order.domain.menu;
 
 import com.mboaeat.order.domain.Menu;
-import com.mboaeat.order.domain.TranslatableString;
+import com.mboaeat.domain.TranslatableString;
 import lombok.*;
 import org.hibernate.annotations.Parent;
 

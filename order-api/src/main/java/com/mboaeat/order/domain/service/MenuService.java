@@ -1,6 +1,7 @@
 package com.mboaeat.order.domain.service;
 
 import com.mboaeat.common.exception.ResourceNotFoundException;
+import com.mboaeat.domain.TranslatableString;
 import com.mboaeat.order.domain.*;
 import com.mboaeat.order.domain.menu.*;
 import com.mboaeat.order.domain.product.Product;
@@ -11,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.Optional;
+
+import static com.mboaeat.domain.CollectionsUtils.getLast;
 
 @Service
 @Transactional(readOnly = true)
@@ -153,6 +156,14 @@ public class MenuService {
 
     public Menu getMenu(Long menuId){
         return findByMenuId(menuId).orElseThrow(() -> new ResourceNotFoundException());
+    }
+
+    @Transactional
+    public Long createPhoto(final MenuPhoto photo, Long menuId){
+        CompoungMenu menu = (CompoungMenu) getMenu(menuId);
+        menu.addPhoto(photo);
+        menuRepository.save(menu);
+        return getLast(menu.getMenuPhotoCollection().getPhotos()).getId();
     }
 
     @Transactional

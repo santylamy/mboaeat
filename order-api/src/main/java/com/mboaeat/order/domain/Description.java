@@ -1,5 +1,6 @@
 package com.mboaeat.order.domain;
 
+import com.mboaeat.domain.ChangeAble;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

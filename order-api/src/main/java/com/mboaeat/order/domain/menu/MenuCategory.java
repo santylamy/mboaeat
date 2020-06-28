@@ -1,7 +1,7 @@
 package com.mboaeat.order.domain.menu;
 
 import com.mboaeat.order.domain.BaseEntity;
-import com.mboaeat.order.domain.TranslatableString;
+import com.mboaeat.domain.TranslatableString;
 import lombok.Data;
 
 import javax.persistence.*;

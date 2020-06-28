@@ -1,5 +1,6 @@
 package com.mboaeat.order.domain;
 
+import com.mboaeat.domain.TranslatableString;
 import org.apache.commons.lang3.builder.DiffResult;
 import org.junit.jupiter.api.Test;
 

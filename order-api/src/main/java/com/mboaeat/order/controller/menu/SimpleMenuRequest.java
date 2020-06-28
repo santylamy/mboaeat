@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @Builder
 @Tag(name = "Menu data")
-public class SimpleMenuModel {
+public class SimpleMenuRequest {
 
     @Schema(description = "The menu reference")
     private Long id;

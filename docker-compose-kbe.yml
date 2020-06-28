@@ -53,7 +53,7 @@ services:
           - consul3-net
 
   account-api:
-    image: mboaeat/account-api
+    image: eu.gcr.io/voltaic-cocoa-280715/account-repository
     environment:
       - spring.cloud.consul.host=consul-node1
       - spring.datasource.url=jdbc:postgresql://34.66.68.210:5432/mboaeat_db
@@ -68,7 +68,7 @@ services:
             - postgres
 
   customer-api:
-    image: mboaeat/customer-api
+    image: eu.gcr.io/voltaic-cocoa-280715/customer-repository
     environment:
       - spring.cloud.consul.host=consul-node1
       - spring.datasource.url=jdbc:postgresql://34.66.68.210:5432/mboaeat_db
@@ -82,7 +82,7 @@ services:
           aliases:
             - postgres
   order-api:
-    image: mboaeat/order-api
+    image: eu.gcr.io/voltaic-cocoa-280715/order-repository
     environment:
       - spring.cloud.consul.host=consul-node1
       - spring.datasource.url=jdbc:postgresql://34.66.68.210:5432/mboaeat_db
@@ -97,7 +97,7 @@ services:
           - postgres
 
   gateway-service:
-    image: mboaeat/gateway-service
+    image: eu.gcr.io/voltaic-cocoa-280715/gateway-repository
     environment:
       - spring.cloud.consul.host=consul-node1
     ports:

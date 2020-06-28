@@ -1,8 +1,7 @@
 package com.mboaeat.order.domain.product;
 
 import com.mboaeat.order.domain.BaseEntity;
-import com.mboaeat.order.domain.Description;
-import com.mboaeat.order.domain.TranslatableString;
+import com.mboaeat.domain.TranslatableString;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;

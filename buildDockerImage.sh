@@ -2,8 +2,9 @@
 
 set -eo pipefail
 
-modules=( account-api customer-api gateway-service order-api)
+modules=( account-api customer-api gateway-service order-api )
 
 for module in "${modules[@]}"; do
-    docker build -t "mboaeat/${module}:latest" ${module}
+    A="$(cut -d'-' -f1 <<< ${module})"
+    docker build -t "00934068/mboaeat-${A}-repository:latest" ${module}
 done

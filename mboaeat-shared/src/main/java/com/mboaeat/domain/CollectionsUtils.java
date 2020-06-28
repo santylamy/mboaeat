@@ -31,4 +31,11 @@ public class CollectionsUtils {
     public static boolean isEmpty(Collection collections) {
         return  (collections == null || collections.isEmpty());
     }
+
+    public static <C> C getLast(Collection<C> collection){
+        if (collection == null || collection.isEmpty()){
+            return null;
+        }
+        return collection.stream().reduce((c1, c2) -> c2).get();
+    }
 }

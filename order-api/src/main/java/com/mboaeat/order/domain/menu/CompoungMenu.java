@@ -1,6 +1,7 @@
 package com.mboaeat.order.domain.menu;
 
 import com.mboaeat.domain.CollectionsUtils;
+import com.mboaeat.domain.TranslatableString;
 import com.mboaeat.order.domain.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,13 +22,16 @@ import static com.mboaeat.domain.AbstractPeriodicalCollection.assertPeriodicalsN
 public class CompoungMenu extends Menu {
 
     @Embedded
-    private ImageCollection imageCollection = new ImageCollection();
+    private MenuPhotoCollection menuPhotoCollection = new MenuPhotoCollection();
 
     @Embedded
     private MenuPriceCollection menuPriceCollection = new MenuPriceCollection();
 
     @Embedded
     private MenuStatusLinkCollection menuStatusLinkCollection = new MenuStatusLinkCollection();
+
+    @Embedded
+    private MenuDistrictCollection menuDistrictCollection = new MenuDistrictCollection();
 
     @Embedded
     @AttributeOverrides(
@@ -146,5 +150,25 @@ public class CompoungMenu extends Menu {
 
     public void category(MenuCategory menuCategory) {
         this.category = category;
+    }
+
+    public void addPhoto(MenuPhoto photo){
+        photo.setMenu(this);
+    }
+
+    public void internalRemovePhoto(MenuPhoto photo){
+        getMenuPhotoCollection().getPhotos().remove(photo);
+    }
+
+    public void internalAddPhoto(MenuPhoto photo){
+        getMenuPhotoCollection().getPhotos().add(photo);
+    }
+
+    public void internalAddDistrict(MenuDistrict menuDistrict) {
+        getMenuDistrictCollection().getDistricts().add(menuDistrict);
+    }
+
+    public void internalRemoveDistrict(MenuDistrict menuDistrict) {
+        getMenuDistrictCollection().getDistricts().remove(menuDistrict);
     }
 }

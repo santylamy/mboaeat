@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @Builder
 @Tag(name = "Menu registration data")
-public class MenuModel {
+public class MenuRequest {
 
     @Schema(description = "The menu reference")
     private Long reference;

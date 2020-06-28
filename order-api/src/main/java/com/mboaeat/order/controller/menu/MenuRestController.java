@@ -37,15 +37,15 @@ public class MenuRestController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void newMenu(@Parameter(name = "New menu", required = true)
-                            @RequestBody @Valid MenuModel menuModel){
-        Menu menu = modelToMenu(menuModel);
+                            @RequestBody @Valid MenuRequest menuRequest){
+        Menu menu = modelToMenu(menuRequest);
         this.menuService.createMenu(menu);
     }
 
     @Operation(summary = "Get menu data by id")
     @ApiResponses(value = { @ApiResponse(responseCode = "404", description = "No menu found") })
     @GetMapping("/menu/{menuId}")
-    public MenuModel getMenuModel(@Parameter(description = "The menu's id", required = true)
+    public MenuRequest getMenuModel(@Parameter(description = "The menu's id", required = true)
                                       @PathVariable("menuId") final Long menuId){
         Menu menu = menuService.findByMenuId(menuId).orElseThrow(() -> new ResourceNotFoundException());
         return menuToModel((CompoungMenu) menu);
@@ -54,9 +54,9 @@ public class MenuRestController {
     @Operation(summary = "Get menu translate data by id and language code")
     @ApiResponses(value = { @ApiResponse(responseCode = "404", description = "No menu found") })
     @GetMapping("/menu/{menuId}/{lang}")
-    public SimpleMenuModel getMenuModel(@Parameter(description = "The menu's id", required = true)
+    public SimpleMenuRequest getMenuModel(@Parameter(description = "The menu's id", required = true)
                                   @PathVariable("menuId") final Long menuId,
-                                        @PathVariable("lang") final String lang){
+                                          @PathVariable("lang") final String lang){
         Menu menu = menuService.findByMenuId(menuId).orElseThrow(() -> new ResourceNotFoundException());
         return menuToSimpleMenuModel((CompoungMenu) menu, lang);
     }
@@ -72,9 +72,9 @@ public class MenuRestController {
             @Parameter(description = "The menu id", required = true)
             @PathVariable("menuId") final Long menuId,
             @Parameter(description = "From menu change", required = true)
-            @RequestBody @Valid MenuModel menuModel
+            @RequestBody @Valid MenuRequest menuRequest
     ){
-        Menu menu = modelToMenu(menuModel);
+        Menu menu = modelToMenu(menuRequest);
         menuService.updateMenu(menuId, (CompoungMenu) menu);
     }
 

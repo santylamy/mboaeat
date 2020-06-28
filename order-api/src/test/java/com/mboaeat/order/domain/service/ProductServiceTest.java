@@ -2,6 +2,7 @@ package com.mboaeat.order.domain.service;
 
 
 import com.mboaeat.common.jpa.AbstractRepositoryTest;
+import com.mboaeat.domain.TranslatableString;
 import com.mboaeat.order.domain.*;
 import com.mboaeat.order.domain.product.Product;
 import com.mboaeat.order.domain.product.ProductPrice;

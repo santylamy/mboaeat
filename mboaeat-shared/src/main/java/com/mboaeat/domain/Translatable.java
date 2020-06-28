@@ -1,4 +1,4 @@
-package com.mboaeat.order.domain;
+package com.mboaeat.domain;
 
 import com.mboaeat.common.translation.Language;
 

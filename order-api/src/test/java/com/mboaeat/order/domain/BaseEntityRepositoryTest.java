@@ -1,6 +1,7 @@
 package com.mboaeat.order.domain;
 
 import com.mboaeat.common.jpa.AbstractRepositoryTest;
+import com.mboaeat.domain.TranslatableString;
 import com.mboaeat.order.domain.product.Product;
 import com.mboaeat.order.domain.repository.BaseEntityRepository;
 import org.junit.jupiter.api.Test;

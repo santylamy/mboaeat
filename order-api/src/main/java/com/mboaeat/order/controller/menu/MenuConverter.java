@@ -1,6 +1,8 @@
 package com.mboaeat.order.controller.menu;
 
 import com.mboaeat.common.translation.Language;
+import com.mboaeat.domain.Translatable;
+import com.mboaeat.domain.TranslatableString;
 import com.mboaeat.order.domain.*;
 import com.mboaeat.order.domain.menu.*;
 
@@ -9,13 +11,13 @@ import java.util.stream.Collectors;
 
 public class MenuConverter {
 
-    public static SimpleMenuModel menuToSimpleMenuModel(CompoungMenu menu, String langCode){
+    public static SimpleMenuRequest menuToSimpleMenuModel(CompoungMenu menu, String langCode){
         Language language = Language.toLanguage(langCode);
         return menuToSimpleMenuModel(menu, language);
     }
 
-    public static SimpleMenuModel menuToSimpleMenuModel(CompoungMenu menu, Language language){
-        SimpleMenuModel.SimpleMenuModelBuilder menuModelBuilder = SimpleMenuModel.builder();
+    public static SimpleMenuRequest menuToSimpleMenuModel(CompoungMenu menu, Language language){
+        SimpleMenuRequest.SimpleMenuRequestBuilder menuModelBuilder = SimpleMenuRequest.builder();
         menuModelBuilder.id(menu.getId())
                 .category(translateFieldMenuByLanguage(menu.getCategory().getDescription(), language))
                 .description(translateFieldMenuByLanguage(menu.getDescription(), language))
@@ -31,27 +33,27 @@ public class MenuConverter {
         return translatable.asString(language);
     }
 
-    public static Menu modelToMenu(MenuModel menuModel) {
+    public static Menu modelToMenu(MenuRequest menuRequest) {
         CompoungMenu.CompoungMenuBuilder menu = CompoungMenu.builder();
-        menu.ingredients(List.of(modelToIngredient(menuModel.getIngredient())))
-                .menuPrice(modelToMenuPrice(menuModel.getPrice()))
-                .menuStatusLink(modelToMenuStatusLink(menuModel.getOnSale()))
+        menu.ingredients(List.of(modelToIngredient(menuRequest.getIngredient())))
+                .menuPrice(modelToMenuPrice(menuRequest.getPrice()))
+                .menuStatusLink(modelToMenuStatusLink(menuRequest.getOnSale()))
                 .name(
                         TranslatableString
                                 .builder()
-                                .french(menuModel.getName().getMenuNameFr())
-                                .english(menuModel.getName().getMenuNameEn())
+                                .french(menuRequest.getName().getMenuNameFr())
+                                .english(menuRequest.getName().getMenuNameEn())
                                 .build())
-                .nutritional(modelToMenuNutritional(menuModel.getNutritional()))
-                .preparationTip(modelToMenuPreparationTrip(menuModel.getPreparationTip()))
-                .priceOptions(modelToMenuPriceOptions(menuModel.getPriceOption()))
-                .description(modelToMenuDescription(menuModel.getDescription()));
+                .nutritional(modelToMenuNutritional(menuRequest.getNutritional()))
+                .preparationTip(modelToMenuPreparationTrip(menuRequest.getPreparationTip()))
+                .priceOptions(modelToMenuPriceOptions(menuRequest.getPriceOption()))
+                .description(modelToMenuDescription(menuRequest.getDescription()));
 
         return menu.build();
     }
 
-    public static MenuModel menuToModel(CompoungMenu menu){
-        return MenuModel
+    public static MenuRequest menuToModel(CompoungMenu menu){
+        return MenuRequest
                 .builder()
                 .reference(menu.getId())
                 .category(menu.getCategory().getCode())

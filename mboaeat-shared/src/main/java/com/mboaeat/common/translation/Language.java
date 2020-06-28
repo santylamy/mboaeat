@@ -7,7 +7,7 @@ public enum Language implements Serializable {
 
     FRENCH("fr"),
     ENGLISH("en"),
-    UNKNOWN("en");
+    UNKNOWN("fr");
 
     private String languageString;
 
