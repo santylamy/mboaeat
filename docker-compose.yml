@@ -56,45 +56,45 @@ services:
     image: mboaeat/account-api
     environment:
       - spring.cloud.consul.host=consul-node1
-      - spring.datasource.url=jdbc:postgresql://34.66.68.210:5432/mboaeat_db
+      - spring.datasource.url=jdbc:postgresql://postgres:5432/mboaeat_db
       - spring.datasource.username=postgres
-      - spring.datasource.password=Ee6mSPwjG85W
+      - spring.datasource.password=changeme
     networks:
       mboa-network:
           aliases:
             - account-api-net
       postgres-net:
           aliases:
-            - postgres
+            - account-api-net
 
   customer-api:
     image: mboaeat/customer-api
     environment:
       - spring.cloud.consul.host=consul-node1
-      - spring.datasource.url=jdbc:postgresql://34.66.68.210:5432/mboaeat_db
+      - spring.datasource.url=jdbc:postgresql://postgres:5432/mboaeat_db
       - spring.datasource.username=postgres
-      - spring.datasource.password=Ee6mSPwjG85W
+      - spring.datasource.password=changeme
     networks:
       mboa-network:
           aliases:
             - customer-api-net
       postgres-net:
           aliases:
-            - postgres
+            - customer-api-net
   order-api:
     image: mboaeat/order-api
     environment:
       - spring.cloud.consul.host=consul-node1
-      - spring.datasource.url=jdbc:postgresql://34.66.68.210:5432/mboaeat_db
+      - spring.datasource.url=jdbc:postgresql://postgres:5432/mboaeat_db
       - spring.datasource.username=postgres
-      - spring.datasource.password=Ee6mSPwjG85W
+      - spring.datasource.password=changeme
     networks:
       mboa-network:
         aliases:
           - order-api-net
       postgres-net:
         aliases:
-          - postgres
+          - order-api-net
 
   gateway-service:
     image: mboaeat/gateway-service
@@ -108,7 +108,7 @@ services:
           - gateway-service-net
       postgres-net:
         aliases:
-          - postgres
+          - gateway-service-net
 
 volumes:
   consul-node1_data:
@@ -117,6 +117,9 @@ volumes:
     driver: local
   consul-node3_data:
     driver: local
+  postgres_data:
+    driver: local
+
 
 networks:
   postgres-net:

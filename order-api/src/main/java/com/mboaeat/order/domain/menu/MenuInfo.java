@@ -7,6 +7,8 @@ import lombok.*;
 
 import javax.persistence.*;
 
+import static com.mboaeat.common.dto.DataStatus.ACCEPTED;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,7 +28,8 @@ public class MenuInfo extends BaseEntity<Long> {
 
     @Column(name = "STATUS", nullable = false)
     @Enumerated(EnumType.STRING)
-    private DataStatus status;
+    @Builder.Default
+    private DataStatus status = ACCEPTED;
 
     @Version
     @Column(name = "MENU_INFO_VERSION", nullable = false)

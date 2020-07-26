@@ -11,6 +11,11 @@
 
     <artifactId>customer-api</artifactId>
 
+    <properties>
+        <docker.image.exposed.port>8081</docker.image.exposed.port>
+        <docker.image.dockerfile.dir>${basedir}/../docker</docker.image.dockerfile.dir>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.mboaeat</groupId>
@@ -67,6 +72,17 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.micrometer</groupId>
+                    <artifactId>micrometer-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-core</artifactId>
+            <version>${micrometer-core.version}</version>
         </dependency>
         <dependency>
             <groupId>net.logstash.logback</groupId>
@@ -117,6 +133,33 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>buildDocker</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.spotify</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>${docker.plugin.version}</version>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>buildDocker-local</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.spotify</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>${docker.plugin.version}</version>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 
 </project>

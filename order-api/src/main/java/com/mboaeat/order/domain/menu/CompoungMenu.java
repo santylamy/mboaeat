@@ -156,19 +156,27 @@ public class CompoungMenu extends Menu {
         photo.setMenu(this);
     }
 
-    public void internalRemovePhoto(MenuPhoto photo){
+    protected void internalRemovePhoto(MenuPhoto photo){
         getMenuPhotoCollection().getPhotos().remove(photo);
     }
 
-    public void internalAddPhoto(MenuPhoto photo){
+    protected void internalAddPhoto(MenuPhoto photo){
         getMenuPhotoCollection().getPhotos().add(photo);
     }
 
-    public void internalAddDistrict(MenuDistrict menuDistrict) {
+    public void addDistrict(MenuDistrict menuDistrict){
+        menuDistrict.setMenu(this);
+    }
+
+    public void removeDistrict(MenuDistrict menuDistrict){
+        internalRemoveDistrict(menuDistrict);
+    }
+
+    protected void internalAddDistrict(MenuDistrict menuDistrict) {
         getMenuDistrictCollection().getDistricts().add(menuDistrict);
     }
 
-    public void internalRemoveDistrict(MenuDistrict menuDistrict) {
+    protected void internalRemoveDistrict(MenuDistrict menuDistrict) {
         getMenuDistrictCollection().getDistricts().remove(menuDistrict);
     }
 }

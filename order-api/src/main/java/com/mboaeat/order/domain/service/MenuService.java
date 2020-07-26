@@ -1,20 +1,28 @@
 package com.mboaeat.order.domain.service;
 
+import com.mboaeat.common.dto.DataStatus;
+import com.mboaeat.common.dto.request.DistrictRequest;
+import com.mboaeat.common.dto.request.ImageRequest;
 import com.mboaeat.common.exception.ResourceNotFoundException;
 import com.mboaeat.domain.TranslatableString;
 import com.mboaeat.order.domain.*;
 import com.mboaeat.order.domain.menu.*;
 import com.mboaeat.order.domain.product.Product;
 import com.mboaeat.order.domain.repository.MenuCategoryRepository;
+import com.mboaeat.order.domain.repository.MenuDistrictRepository;
+import com.mboaeat.order.domain.repository.MenuPhotoRepository;
 import com.mboaeat.order.domain.repository.MenuRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.mboaeat.domain.CollectionsUtils.getLast;
 
+@AllArgsConstructor
 @Service
 @Transactional(readOnly = true)
 public class MenuService {
@@ -22,13 +30,8 @@ public class MenuService {
     private final MenuRepository menuRepository;
     private final MenuCategoryRepository menuCategoryRepository;
     private final ProductService productService;
-
-    public MenuService(MenuRepository menuRepository, MenuCategoryRepository menuCategoryRepository, ProductService productService) {
-        this.menuRepository = menuRepository;
-        this.menuCategoryRepository = menuCategoryRepository;
-        this.productService = productService;
-    }
-
+    private final MenuPhotoRepository menuPhotoRepository;
+    private final MenuDistrictRepository menuDistrictRepository;
 
     @Transactional
     public Menu createMenu(Menu menu, Product... products){
@@ -167,7 +170,38 @@ public class MenuService {
     }
 
     @Transactional
-    public void updateMenu(Long menuId, CompoungMenu menu) {
+    public void updateMenu(Long menuId, final CompoungMenu menu) {
         updateMenu(menuId, menu.getName(), menu.getNutritional(), menu.getPreparationTip(), menu.getDescription());
+    }
+
+
+    @Transactional
+    public void createPhoto(final ImageRequest photo, final CompoungMenu menu){
+        MenuPhoto menuPhoto = MenuPhoto.builder().referenceCloud(photo.getIdInCLoud()).build();
+        menu.addPhoto(menuPhoto);
+        menuRepository.save(menu);
+    }
+
+    @Transactional
+    public void updatePhoto(final ImageRequest photo, String referenceCloud, final CompoungMenu menu){
+        MenuPhoto menuPhoto = menuPhotoRepository.findByReferenceCloud(referenceCloud);
+        menuPhoto.setReferenceCloud(photo.getIdInCLoud());
+        menuPhotoRepository.save(menuPhoto);
+    }
+
+    @Transactional
+    public void createDistrict(final DistrictRequest district, final CompoungMenu menu){
+       if (menu.getMenuDistrictCollection().existDistrict(district.getCode()))
+           return;
+       MenuDistrict menuDistrict = MenuDistrict.builder().districtNisCode(district.getCode()).build();
+       menu.addDistrict(menuDistrict);
+       menuRepository.save(menu);
+    }
+
+    @Transactional
+    public void removeDistrict(final DistrictRequest district, final CompoungMenu menu){
+        MenuDistrict menuDistrict = menuDistrictRepository.findByDistrictNisCode(district.getCode());
+        menu.removeDistrict(menuDistrict);
+        menuRepository.save(menu);
     }
 }

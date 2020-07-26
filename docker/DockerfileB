@@ -1,0 +1,18 @@
+FROM openjdk:11-jdk-stretch
+
+# Download dockerize and cache that layer
+ARG DOCKERIZE_VERSION
+RUN wget -O dockerize.tar.gz https://github.com/jwilder/dockerize/releases/download/${DOCKERIZE_VERSION}/dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz
+RUN tar xzf dockerize.tar.gz
+RUN chmod +x dockerize
+
+ARG EXPOSED_PORT
+EXPOSE ${EXPOSED_PORT}
+
+ENV SPRING_PROFILES_ACTIVE docker
+
+WORKDIR application
+ARG ARTIFACT_NAME
+COPY ${ARTIFACT_NAME}.jar application.jar
+
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "application.jar"]
