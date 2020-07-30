@@ -4,11 +4,12 @@ import com.mboaeat.common.domain.EmailAddress;
 import com.mboaeat.common.domain.FixedPhoneNumber;
 import com.mboaeat.common.domain.MobilePhoneNumber;
 import com.mboaeat.common.dto.*;
+import com.mboaeat.common.dto.type.AddressTypeInfo;
 import com.mboaeat.customer.domain.*;
 
 import java.util.Objects;
 
-import static com.mboaeat.common.dto.AddressTypeInfo.*;
+import static com.mboaeat.common.dto.type.AddressTypeInfo.*;
 
 public class ServiceUtils {
 

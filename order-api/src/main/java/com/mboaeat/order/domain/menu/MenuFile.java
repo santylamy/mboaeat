@@ -1,20 +1,17 @@
 package com.mboaeat.order.domain.menu;
 
 import com.mboaeat.common.dto.StorageProvider;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
 
-import static com.mboaeat.common.dto.StorageProvider.GOOGLE;
-
 @Data
-@SuperBuilder
+@AllArgsConstructor
 @NoArgsConstructor
 @MappedSuperclass
 public class MenuFile extends MenuInfo{
@@ -24,6 +21,5 @@ public class MenuFile extends MenuInfo{
 
     @Column(name = "FILE_PROVIDER")
     @Enumerated(EnumType.STRING)
-    @Builder.Default
-    private StorageProvider provider = GOOGLE;
+    private StorageProvider provider = StorageProvider.GOOGLE;
 }

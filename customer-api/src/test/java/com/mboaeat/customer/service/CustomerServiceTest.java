@@ -1,6 +1,7 @@
 package com.mboaeat.customer.service;
 
 import com.mboaeat.common.dto.*;
+import com.mboaeat.common.dto.type.AddressTypeInfo;
 import com.mboaeat.common.jpa.AbstractServiceTest;
 import com.mboaeat.customer.client.AccountClient;
 import com.mboaeat.customer.domain.ClientName;

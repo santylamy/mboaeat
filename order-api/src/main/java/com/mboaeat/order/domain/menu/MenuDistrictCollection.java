@@ -11,7 +11,7 @@ import javax.persistence.OneToMany;
 import java.io.Serializable;
 import java.util.List;
 
-import static com.mboaeat.common.dto.DataStatus.ACCEPTED;
+import static com.mboaeat.common.dto.type.DataStatus.ACCEPTED;
 import static com.mboaeat.domain.CollectionsUtils.newArrayList;
 
 @Data

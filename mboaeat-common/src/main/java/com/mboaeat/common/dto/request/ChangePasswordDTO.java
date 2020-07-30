@@ -11,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @SuperBuilder
 @NoArgsConstructor
+@Schema(description = "The cchnage password object")
 public class ChangePasswordDTO extends AbstractBaseDTO {
 
     @NotBlank

@@ -1,8 +1,7 @@
 package com.mboaeat.order.domain.service;
 
-import com.mboaeat.common.dto.DataStatus;
 import com.mboaeat.common.dto.request.DistrictRequest;
-import com.mboaeat.common.dto.request.ImageRequest;
+import com.mboaeat.common.dto.menu.request.ImageRequest;
 import com.mboaeat.common.exception.ResourceNotFoundException;
 import com.mboaeat.domain.TranslatableString;
 import com.mboaeat.order.domain.*;
@@ -18,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.mboaeat.domain.CollectionsUtils.getLast;
 

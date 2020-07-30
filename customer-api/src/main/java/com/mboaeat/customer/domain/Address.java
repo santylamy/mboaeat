@@ -1,7 +1,7 @@
 package com.mboaeat.customer.domain;
 
 import com.mboaeat.common.domain.MobilePhoneNumber;
-import com.mboaeat.common.dto.AddressTypeInfo;
+import com.mboaeat.common.dto.type.AddressTypeInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package com.mboaeat.common.dto;
+package com.mboaeat.common.dto.type;
 
 public enum DataStatus {
 

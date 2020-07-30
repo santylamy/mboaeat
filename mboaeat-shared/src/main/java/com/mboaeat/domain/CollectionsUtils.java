@@ -4,7 +4,7 @@ import java.util.*;
 
 public class CollectionsUtils {
 
-    public static List newArrayList(){
+    public static <E> List<E> newArrayList(){
         return new ArrayList<>();
     }
 
@@ -14,8 +14,8 @@ public class CollectionsUtils {
         return list;
     }
 
-    public static Set newHashSet() {
-        return new HashSet();
+    public static <E> Set<E> newHashSet() {
+        return new HashSet<>();
     }
 
     public static <E> Set<E> newHashSet(E... elements) {
