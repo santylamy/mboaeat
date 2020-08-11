@@ -8,8 +8,6 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DiscriminatorOptions;
 
 import javax.persistence.*;
-import java.util.Arrays;
-import java.util.List;
 
 @Data
 @SuperBuilder

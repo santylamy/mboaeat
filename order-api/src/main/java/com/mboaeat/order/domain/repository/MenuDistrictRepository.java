@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MenuDistrictRepository extends JpaRepository<MenuDistrict, Long> {
 
-    public MenuDistrict findByDistrictNisCode(String districtNisCode);
+    MenuDistrict findByDistrictNisCode(String districtNisCode);
 }

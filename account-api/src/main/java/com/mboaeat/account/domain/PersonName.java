@@ -37,9 +37,7 @@ public class PersonName {
 
         this.name = lastName;
         this.firstName = StringUtils.isBlank(firstName) ? null : firstName;
-        ;
         this.middleName = StringUtils.isBlank(middleName) ? null : middleName;
-        ;
     }
 
     public PersonName(String lastName) {

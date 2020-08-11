@@ -36,7 +36,7 @@ public class MenuPriceOption implements Comparable<MenuPriceOption>{
 
     @Override
     public int compareTo(MenuPriceOption o) {
-        MenuPriceOption otherOption = (MenuPriceOption) o;
+        MenuPriceOption otherOption = o;
         return new CompareToBuilder()
                 .append(this.amount, otherOption.amount)
                 .append(this.quantity, otherOption.quantity)

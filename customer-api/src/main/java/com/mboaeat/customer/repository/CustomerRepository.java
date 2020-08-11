@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
-    public Optional<Customer> findCustomerByUser(Long user);
+    Optional<Customer> findCustomerByUser(Long user);
 }

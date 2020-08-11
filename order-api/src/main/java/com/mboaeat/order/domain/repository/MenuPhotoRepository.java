@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MenuPhotoRepository extends JpaRepository<MenuPhoto, Long> {
 
-    public MenuPhoto findByReferenceCloud(String referenceCloud);
+    MenuPhoto findByReferenceCloud(String referenceCloud);
 }

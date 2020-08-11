@@ -31,7 +31,7 @@ public abstract class AbstractTest {
                     .build()
     );
 
-    private OkHttpClient client = new OkHttpClient();
+    private final OkHttpClient client = new OkHttpClient();
 
     @Test
     void shouldStartConsul() throws Throwable {

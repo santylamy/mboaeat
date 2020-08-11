@@ -11,6 +11,6 @@ import java.util.List;
 public interface MenuPriceRepository extends JpaRepository<MenuPrice, Long> {
 
     @Query("select mp from MenuPrice mp where :mpo in elements(mp.priceOptionCollection.priceOptions) ")
-    public MenuPrice getByMenuPriceOption(@Param("mpo") MenuPriceOption option);
+    MenuPrice getByMenuPriceOption(@Param("mpo") MenuPriceOption option);
 
 }

@@ -4,8 +4,8 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 
 public class PasswordGenerator {
 
-    private static int ITERATIONS = 10000;
-    private static int HASHWIDTH = 128;
+    private static final int ITERATIONS = 10000;
+    private static final int HASHWIDTH = 128;
 
     private PasswordGenerator(){}
 

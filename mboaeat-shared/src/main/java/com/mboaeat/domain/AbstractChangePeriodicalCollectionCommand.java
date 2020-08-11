@@ -25,7 +25,7 @@ public abstract class AbstractChangePeriodicalCollectionCommand<PERIODICAL exten
     }
 
 
-    private static Function<ChangePeriodicalCollectionCommand<?,?>, AbstractPeriod> TO_PERIOD =
+    private static final Function<ChangePeriodicalCollectionCommand<?,?>, AbstractPeriod> TO_PERIOD =
             new Function<ChangePeriodicalCollectionCommand<?, ?>, AbstractPeriod>() {
         @Override
         public AbstractPeriod apply(ChangePeriodicalCollectionCommand<?, ?> changePeriodicalCollectionCommand) {

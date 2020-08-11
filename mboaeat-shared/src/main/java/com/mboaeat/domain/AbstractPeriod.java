@@ -54,7 +54,7 @@ public abstract class AbstractPeriod implements Period, Comparable<AbstractPerio
                 .stream()
                 .sorted()
                 .findFirst()
-                .orElse(null);;
+                .orElse(null);
         PERIOD last =  originalPeriods
                 .stream()
                 .sorted()
@@ -284,7 +284,7 @@ public abstract class AbstractPeriod implements Period, Comparable<AbstractPerio
 
     private static boolean isEqualsOrAfter(LocalDate earlierDate,
                                            LocalDate laterDate) {
-        return (earlierDate.equals(laterDate) || ( laterDate == null ? true : laterDate.isBefore(earlierDate)) );
+        return (earlierDate.equals(laterDate) || (laterDate == null || laterDate.isBefore(earlierDate)) );
     }
 
     @Data

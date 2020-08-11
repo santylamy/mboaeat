@@ -86,7 +86,7 @@ class RegisterAccountRestControllerTest extends AbstractAccountRestControllerTes
     }
 
     public class ResponseBodyMatchers {
-        private ObjectMapper objectMapper = new ObjectMapper();
+        private final ObjectMapper objectMapper = new ObjectMapper();
 
         public <T> ResultMatcher containsObjectAsJson(
                 Object expectedObject,

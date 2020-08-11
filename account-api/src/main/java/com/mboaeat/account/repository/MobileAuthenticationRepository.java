@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 public interface MobileAuthenticationRepository extends JpaRepository<MobileAuthentication, Long> {
 
     @Query("SELECT auth FROM MobileAuthentication auth where auth.account = :account and auth.token = :token")
-    public MobileAuthentication validateAuthenticationToken(@Param("account") Account account, @Param("token") String token);
+    MobileAuthentication validateAuthenticationToken(@Param("account") Account account, @Param("token") String token);
 
-    public MobileAuthentication findByAccount(Account account);
+    MobileAuthentication findByAccount(Account account);
 }

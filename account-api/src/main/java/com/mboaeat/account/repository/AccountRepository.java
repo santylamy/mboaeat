@@ -11,6 +11,6 @@ import java.util.Optional;
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
     @Query("select ac from Account ac where ac.naturalPerson.emailAddress = :emailAddress")
-    public Optional<Account> findByEmailAddress(@Param("emailAddress") EmailAddress emailAddress);
+    Optional<Account> findByEmailAddress(@Param("emailAddress") EmailAddress emailAddress);
 
 }

@@ -18,7 +18,7 @@ public class RandomPasswordGenerator {
     private static final String NUM = "0123456789";
 
     public static String generatePswd() {
-        return generatePswd(MIN_LEN, MAX_LEN, NO_OF_CAPS_ALPHA, NO_OF_DIGITS, NO_OF_SPECIAL_CHARS).toString();
+        return generatePswd(MIN_LEN, MAX_LEN, NO_OF_CAPS_ALPHA, NO_OF_DIGITS, NO_OF_SPECIAL_CHARS);
     }
 
     public static String generatePswd(int minLen, int maxLen, int noOfCAPSAlpha,
@@ -56,7 +56,6 @@ public class RandomPasswordGenerator {
     private static int getNextIndex(Random rnd, int len, char[] pswd) {
         int index = rnd.nextInt(len);
         while (pswd[index = rnd.nextInt(len)] != 0) {
-            ;
         }
         return index;
     }

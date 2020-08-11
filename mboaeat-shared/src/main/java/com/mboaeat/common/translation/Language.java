@@ -9,7 +9,7 @@ public enum Language implements Serializable {
     ENGLISH("en"),
     UNKNOWN("fr");
 
-    private String languageString;
+    private final String languageString;
 
     Language(String languageString) {
         this.languageString = languageString;

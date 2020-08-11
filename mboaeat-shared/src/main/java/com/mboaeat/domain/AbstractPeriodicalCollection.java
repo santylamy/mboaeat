@@ -13,7 +13,7 @@ import static java.util.stream.StreamSupport.*;
 
 public abstract class AbstractPeriodicalCollection<PERIODICAL extends PeriodicalElement<PERIOD>, PERIOD extends AbstractPeriod> implements PeriodicalCollection<PERIODICAL, PERIOD> {
 
-    private static Function<Periodical<?>, AbstractPeriod> TO_PERIOD = new Function<Periodical<?>, AbstractPeriod>() {
+    private static final Function<Periodical<?>, AbstractPeriod> TO_PERIOD = new Function<Periodical<?>, AbstractPeriod>() {
         @Override
         public AbstractPeriod apply(Periodical<?> periodical) {
             return periodical.getPeriod();
