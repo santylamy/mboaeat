@@ -1,6 +1,5 @@
 package com.mboaeat.order.domain.service;
 
-import com.mboaeat.order.controller.OrderLineFactory;
 import com.mboaeat.order.controller.OrderRequest;
 import com.mboaeat.order.domain.Order;
 import com.mboaeat.order.domain.repository.MenuRepository;

@@ -3,6 +3,7 @@ package com.mboaeat.common.dto.search;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -28,6 +29,7 @@ public class MenuSearchResult extends BaseSearchResult {
      * @param price The menu price
      */
     @JsonCreator
+    @Builder
     public MenuSearchResult(@NotNull @JsonProperty("id") final Long id,
                             @NotNull @JsonProperty("name") final String name,
                             @NotNull @JsonProperty("category") final String category,

@@ -11,9 +11,10 @@ services:
       PGDATA: /user/local/postgres_data
     command: postgres -c max_connections=300 -c log_min_messages=LOG
     volumes:
-      - type: volume
-        source: postgres_data
-        target: /user/local/postgres_data
+      -   /Users/moussisalomon/dev/volumes/postgres:/user/local/postgres_data
+     # - type: volume
+     #   source: postgres_data
+     #   target: /user/local/postgres_data
     ports:
       - "5432:5432"
     networks:

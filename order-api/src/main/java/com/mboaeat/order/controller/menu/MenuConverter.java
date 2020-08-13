@@ -1,5 +1,6 @@
 package com.mboaeat.order.controller.menu;
 
+import com.mboaeat.common.dto.search.MenuSearchResult;
 import com.mboaeat.common.translation.Language;
 import com.mboaeat.domain.Translatable;
 import com.mboaeat.domain.TranslatableString;
@@ -19,13 +20,13 @@ public class MenuConverter {
     public static SimpleMenuRequest menuToSimpleMenuModel(CompoungMenu menu, Language language){
         SimpleMenuRequest.SimpleMenuRequestBuilder menuModelBuilder = SimpleMenuRequest.builder();
         menuModelBuilder.id(menu.getId())
-                .category(translateFieldMenuByLanguage(menu.getCategory().getDescription(), language))
-                .description(translateFieldMenuByLanguage(menu.getDescription(), language))
+                .category(menu.getCategory() != null ? translateFieldMenuByLanguage(menu.getCategory().getDescription(), language) : null)
+                .description(menu.getDescription() != null ? translateFieldMenuByLanguage(menu.getDescription(), language) : null)
                 .name(translateFieldMenuByLanguage(menu.getName(), language))
-                .nutritional(translateFieldMenuByLanguage(menu.getNutritional(), language))
-                .preparationTip(translateFieldMenuByLanguage(menu.getPreparationTip(), language))
+                .nutritional(menu.getNutritional() != null ? translateFieldMenuByLanguage(menu.getNutritional(), language) : null)
+                .preparationTip(menu.getPreparationTip() != null ? translateFieldMenuByLanguage(menu.getPreparationTip(), language) : null)
                 .priceOption(menuPriceOptionsToModels(menu.currentMenuPriceOptions()))
-                .ingredient(translateFieldMenuByLanguage(menu.getIngredientCollection().getIngredients().stream().findFirst().get().getName(), language));
+                .ingredient(menu.getIngredientCollection().isEmpty() ? translateFieldMenuByLanguage(menu.getIngredientCollection().getIngredients().stream().findFirst().get().getName(), language) : null);
        return menuModelBuilder.build();
     }
 
@@ -245,5 +246,16 @@ public class MenuConverter {
                 )
                 .build();
         return ingredient;
+    }
+
+    public static MenuSearchResult modelsToMenuSearchResult(Menu menu, String lang){
+        Language language = Language.toLanguage(lang);
+        return MenuSearchResult
+                .builder()
+                .id(menu.getId())
+                .category( ((CompoungMenu)menu).getCategory() != null ? ((CompoungMenu)menu).getCategory().getDescription().asString(language) : null)
+                .name(((CompoungMenu) menu).getName().asString(language))
+                .price(((CompoungMenu) menu).getCurrentPrice().getAmount().getValue().doubleValue())
+                .build();
     }
 }

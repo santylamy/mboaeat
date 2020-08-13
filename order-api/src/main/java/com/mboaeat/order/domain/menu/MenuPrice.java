@@ -22,14 +22,15 @@ public class MenuPrice implements PeriodicalElement<PeriodByDay> {
 
     @Id
     @Column(name = "MENU_PRICE_ID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idGeneratorPMenuPrice")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idGeneratorMenuPrice")
     @SequenceGenerator(name = "idGeneratorMenuPrice", sequenceName = "SEQ_MENU_PRICES", allocationSize = 1)
     private Long id;
 
     @Embedded
     @AttributeOverrides(
             value = {
-                    @AttributeOverride(name = "startDate", column = @Column(name = "DATE_FROM"))
+                    @AttributeOverride(name = "startDate", column = @Column(name = "DATE_FROM")),
+                    @AttributeOverride(name = "endDate", column = @Column(name = "DATE_TO"))
             }
     )
     @Builder.Default

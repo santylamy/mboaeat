@@ -1,5 +1,6 @@
-package com.mboaeat.order.controller;
+package com.mboaeat.order.domain.service;
 
+import com.mboaeat.order.controller.OrderLineRequest;
 import com.mboaeat.order.controller.menu.MenuConverter;
 import com.mboaeat.order.domain.Menu;
 import com.mboaeat.order.domain.OrderLine;

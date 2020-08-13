@@ -1,3 +1,13 @@
+create sequence seq_clients
+    minvalue 100000
+    maxvalue 99999999999999
+    cache 20;
+
+create sequence seq_addresses
+    minvalue 100000
+    maxvalue 99999999999999
+    cache 20;
+
 create sequence seq_persons
     minvalue 100000
     maxvalue 99999999999999

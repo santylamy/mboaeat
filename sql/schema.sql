@@ -325,3 +325,11 @@ create table if not exists menu_info
             references cities_districts
 );
 
+-- alter table
+alter table menu_category alter column menu_category_id set default nextval('seq_menu_category');
+alter table menu_prices rename column date_end to date_to;
+alter table menu_status_link rename column date_end to date_to;
+alter table menu_status_link rename column menu_status_id to menu_status_link_id;
+alter table menu_ingredients alter column ingredient_name_fr type text using ingredient_name_fr::text;
+alter table menu_ingredients alter column ingredient_name_en type text using ingredient_name_en::text;
+

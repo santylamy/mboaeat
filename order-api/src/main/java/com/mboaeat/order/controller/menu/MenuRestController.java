@@ -1,10 +1,12 @@
 package com.mboaeat.order.controller.menu;
 
+import com.mboaeat.common.dto.search.MenuSearchResult;
 import com.mboaeat.common.exception.ResourceNotFoundException;
 import com.mboaeat.order.domain.Menu;
 import com.mboaeat.order.domain.menu.CompoungMenu;
 import com.mboaeat.order.domain.menu.MenuPrice;
 import com.mboaeat.order.domain.menu.MenuStatusLink;
+import com.mboaeat.order.domain.service.MenuSearchService;
 import com.mboaeat.order.domain.service.MenuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -12,6 +14,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +27,7 @@ import javax.validation.Valid;
 
 import static com.mboaeat.order.controller.menu.MenuConverter.*;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1.0/menus")
 @Tag(name = "Menu API")
@@ -28,10 +36,7 @@ import static com.mboaeat.order.controller.menu.MenuConverter.*;
 public class MenuRestController {
 
     private final MenuService menuService;
-
-    public MenuRestController(MenuService menuService) {
-        this.menuService = menuService;
-    }
+    private final MenuSearchService menuSearchService;
 
     @Operation(summary = "Create new menu")
     @PostMapping
@@ -39,7 +44,11 @@ public class MenuRestController {
     public void newMenu(@Parameter(name = "New menu", required = true)
                             @RequestBody @Valid MenuRequest menuRequest){
         Menu menu = modelToMenu(menuRequest);
-        this.menuService.createMenu(menu);
+        if (menuRequest.getCategory() != null) {
+            this.menuService.createMenu((CompoungMenu) menu, menuRequest.getCategory());
+        }else {
+            this.menuService.createMenu(menu);
+        }
     }
 
     @Operation(summary = "Get menu data by id")
@@ -111,4 +120,20 @@ public class MenuRestController {
         MenuPrice menuPrice = modelToMenuPrice(costRequest);
         menuService.changeMenuPriceToMenu(menuId, menuPrice);
     }
+
+    @Operation(summary = "Find menus")
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public Page<MenuSearchResult> findMenus(
+            @Parameter(description = "The locale")
+            @RequestParam(value = "lang", required = true) final String language,
+            @Parameter(description = "The name of the menu")
+            @RequestParam(value = "name", required = false) final String name,
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @PageableDefault(sort = {"name"}, direction = Sort.Direction.DESC) final Pageable pageable
+    ){
+        return menuSearchService.findMenus(pageable, language, name);
+    }
+
 }

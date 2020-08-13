@@ -29,7 +29,8 @@ public class MenuStatusLink implements PeriodicalElement<PeriodByDay> {
     @Embedded
     @AttributeOverrides(
             value = {
-                    @AttributeOverride(name = "startDate", column = @Column(name = "DATE_FROM"))
+                    @AttributeOverride(name = "startDate", column = @Column(name = "DATE_FROM")),
+                    @AttributeOverride(name = "endDate", column = @Column(name = "DATE_TO"))
             }
     )
     @Builder.Default

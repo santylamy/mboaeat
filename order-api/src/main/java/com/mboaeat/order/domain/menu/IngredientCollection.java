@@ -44,4 +44,8 @@ public class IngredientCollection implements Serializable {
     protected void remove(int key){
         ingredients.removeIf(ingredient -> ingredient.getKey() == key);
     }
+
+    public boolean isEmpty() {
+        return ingredients != null || !ingredients.isEmpty();
+    }
 }

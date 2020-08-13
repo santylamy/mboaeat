@@ -12,6 +12,7 @@ spring:
       discovery:
         locator:
           enabled: true
+          lower-case-service-id: true
       #globalcors:
       #  cors-configurations:
       #    '[/**]':
@@ -46,7 +47,7 @@ spring:
           predicates:
           - Path=/order/**
           filters:
-          - RewritePath=/customer/(?<path>.*), /$\{path}
+          - RewritePath=/order/(?<path>.*), /$\{path}
           - name: CircuitBreaker
             args:
               name: mycircuitbreaker
