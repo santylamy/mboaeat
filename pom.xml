@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.mboaeat</groupId>
   <artifactId>mboaeat-parent</artifactId>
-  <version>1.1</version>
+  <version>1.1-SNAPSHOT</version>
     <modules>
         <module>account-api</module>
 		<module>mboaeat-shared</module>

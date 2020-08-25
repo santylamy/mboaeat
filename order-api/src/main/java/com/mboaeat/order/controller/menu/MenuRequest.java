@@ -43,7 +43,6 @@ public class MenuRequest {
     @Schema(description = "The menu price by portion", required = true)
     private List<MenuCostOption> priceOption;
 
-    @NotBlank
     @Schema(description = "The menu category")
     private String category;
 

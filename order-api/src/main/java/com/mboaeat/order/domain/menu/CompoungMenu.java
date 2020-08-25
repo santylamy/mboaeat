@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.mboaeat.domain.AbstractPeriodicalCollection.assertPeriodicalsNotNull;
@@ -95,8 +96,16 @@ public class CompoungMenu extends Menu {
         return menuPriceCollection.getCurrent();
     }
 
+    public Double getCurrentPriceAsDouble(){
+        if (getCurrentPrice() != null)
+          return getCurrentPrice().getAmount().getValue().doubleValue();
+        return null;
+    }
+
     public List<MenuPriceOption> currentMenuPriceOptions(){
-        return getCurrentPrice().getPriceOptionCollection().getPriceOptions();
+        if (getCurrentPrice() != null)
+            return getCurrentPrice().getPriceOptionCollection().getPriceOptions();
+        return new ArrayList<>();
     }
 
     public MenuStatusLink getCurrentStatus(){
@@ -144,7 +153,7 @@ public class CompoungMenu extends Menu {
     private void addPriceOption(List<MenuPriceOption> priceOptions) {
         if (!CollectionsUtils.isEmpty(priceOptions)){
             assertPeriodicalsNotNull(menuPriceCollection.getPeriodicals());
-            this.menuPriceCollection.addPriceOption(priceOptions);
+            this.menuPriceCollection.addPriceOption(priceOptions, this);
         }
     }
 
@@ -178,5 +187,16 @@ public class CompoungMenu extends Menu {
 
     protected void internalRemoveDistrict(MenuDistrict menuDistrict) {
         getMenuDistrictCollection().getDistricts().remove(menuDistrict);
+    }
+
+    public void updateIngredient(Ingredient ingredientToUpdate) {
+        if (ingredientToUpdate == null){
+            return;
+        }
+        Ingredient ingredient = getIngredientCollection().ingredient(ingredientToUpdate);
+        if (ingredient == null){
+            return;
+        }
+        ingredient.setName(ingredientToUpdate.getName());
     }
 }

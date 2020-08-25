@@ -274,7 +274,7 @@ public abstract class AbstractPeriod implements Period, Comparable<AbstractPerio
 
     protected static boolean isEqualsOrBeforeToday(LocalDate localDate) {
         LocalDate today = LocalDate.now();
-        return (today.equals(localDate) || localDate.isAfter(today));
+        return (today.equals(localDate) || today.isAfter(localDate));
     }
 
     protected static boolean isEqualsOrAfterToday(LocalDate localDate) {
@@ -284,7 +284,7 @@ public abstract class AbstractPeriod implements Period, Comparable<AbstractPerio
 
     private static boolean isEqualsOrAfter(LocalDate earlierDate,
                                            LocalDate laterDate) {
-        return (earlierDate.equals(laterDate) || (laterDate == null || laterDate.isBefore(earlierDate)) );
+        return (earlierDate.equals(laterDate) || (laterDate == null || earlierDate.isBefore(laterDate)) );
     }
 
     @Data

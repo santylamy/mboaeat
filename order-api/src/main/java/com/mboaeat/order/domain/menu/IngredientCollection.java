@@ -48,4 +48,11 @@ public class IngredientCollection implements Serializable {
     public boolean isEmpty() {
         return ingredients != null || !ingredients.isEmpty();
     }
+
+    public Ingredient ingredient(Ingredient ingredientToUpdate) {
+        return ingredients
+                .stream()
+                .filter(ingredient -> ingredient.getKey().equals(ingredientToUpdate.getKey()))
+                .findFirst().orElse(null);
+    }
 }

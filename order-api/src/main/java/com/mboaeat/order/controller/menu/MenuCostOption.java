@@ -1,9 +1,11 @@
 package com.mboaeat.order.controller.menu;
 
+import com.mboaeat.common.dto.AbstractBaseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
@@ -13,10 +15,9 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class MenuCostOption {
+@SuperBuilder
+public class MenuCostOption extends AbstractBaseDTO {
 
-    private Long reference;
     @NotNull
     @DecimalMin("1")
     private BigDecimal price;

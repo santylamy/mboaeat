@@ -151,6 +151,20 @@ public class MenuService {
     }
 
 
+    @Transactional
+    public void updateIngredient(Long menuId, Ingredient ingredient){
+        findByMenuId(menuId).ifPresentOrElse(
+                menu -> {
+                    if (menu instanceof CompoungMenu) {
+                        CompoungMenu compoungMenu = (CompoungMenu) menu;
+                        compoungMenu.updateIngredient(ingredient);
+                    }
+                    menuRepository.save(menu);
+                }, () -> {throw new ResourceNotFoundException();}
+        );
+    }
+
+
     public Optional<Menu> findByMenuId(Long menuId){
         return menuRepository.findById(menuId);
     }

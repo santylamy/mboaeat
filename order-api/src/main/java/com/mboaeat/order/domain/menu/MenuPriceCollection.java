@@ -1,6 +1,7 @@
 package com.mboaeat.order.domain.menu;
 
 import com.mboaeat.domain.AbstractPeriodicalCollection;
+import com.mboaeat.order.domain.Menu;
 import com.mboaeat.order.domain.PeriodByDay;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,6 +40,24 @@ public class MenuPriceCollection extends AbstractPeriodicalCollection<MenuPrice,
     }
 
     protected void addPriceOption(List<MenuPriceOption> priceOptions){
-        getCurrent().addPriceOption(priceOptions);
+        MenuPrice menuPrice = getCurrent();
+        if (menuPrice != null){
+            menuPrice.addPriceOption(priceOptions);
+        } else {
+           menuPrice = MenuPrice.builder().period(PeriodByDay.periodByDayStartingToday()).build();
+           menuPrice.addPriceOption(priceOptions);
+           this.menuPrices.add(menuPrice);
+        }
+    }
+
+    protected void addPriceOption(List<MenuPriceOption> priceOptions, Menu menu){
+        MenuPrice menuPrice = getCurrent();
+        if (menuPrice != null){
+            menuPrice.addPriceOption(priceOptions);
+        } else {
+            menuPrice = MenuPrice.builder().menu(menu).period(PeriodByDay.periodByDayStartingToday()).build();
+            menuPrice.addPriceOption(priceOptions);
+            this.menuPrices.add(menuPrice);
+        }
     }
 }

@@ -5,7 +5,7 @@
     <parent>
         <artifactId>mboaeat-parent</artifactId>
         <groupId>com.mboaeat</groupId>
-        <version>1.1</version>
+        <version>1.1-SNAPSHOT</version>
     </parent>
     <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>

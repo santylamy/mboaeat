@@ -1,5 +1,6 @@
 package com.mboaeat.order.controller.menu;
 
+import com.mboaeat.common.dto.AbstractBaseDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -11,7 +12,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @SuperBuilder
-public class MenuCost {
+public class MenuCost extends AbstractBaseDTO {
     private Double amount;
 
     @NotNull

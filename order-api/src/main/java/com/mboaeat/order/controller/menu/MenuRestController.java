@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import java.util.List;
+
 import static com.mboaeat.order.controller.menu.MenuConverter.*;
 
 @AllArgsConstructor
@@ -47,7 +49,7 @@ public class MenuRestController {
         if (menuRequest.getCategory() != null) {
             this.menuService.createMenu((CompoungMenu) menu, menuRequest.getCategory());
         }else {
-            this.menuService.createMenu(menu);
+            this.menuService.createMenu((CompoungMenu) menu);
         }
     }
 
@@ -85,6 +87,20 @@ public class MenuRestController {
     ){
         Menu menu = modelToMenu(menuRequest);
         menuService.updateMenu(menuId, (CompoungMenu) menu);
+    }
+
+    @Operation(summary = "Update the menu ingredient")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "400", description = "Incorrect data in the form"),
+            @ApiResponse(responseCode = "404", description = "Incorrect url")
+    })
+    @PutMapping("/menu/{menuId}/ingredient")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateMenuIngredient(  @Parameter(description = "The menu id", required = true)
+                                       @PathVariable("menuId") final Long menuId,
+                                       @Parameter(description = "From menu ingredient change", required = true)
+                                       @RequestBody @Valid MenuIngredient menuIngredient){
+        menuService.updateIngredient(menuId, modelToIngredient(menuIngredient));
     }
 
     @Operation(summary = "Update the menu status period")
@@ -129,11 +145,21 @@ public class MenuRestController {
             @RequestParam(value = "lang", required = true) final String language,
             @Parameter(description = "The name of the menu")
             @RequestParam(value = "name", required = false) final String name,
+            @Parameter(description = "The description of the menu")
+            @RequestParam(value = "description", required = false) final String description,
             @RequestParam("page") int page,
             @RequestParam("size") int size,
             @PageableDefault(sort = {"name"}, direction = Sort.Direction.DESC) final Pageable pageable
     ){
-        return menuSearchService.findMenus(pageable, language, name);
+        return menuSearchService.findMenus(pageable, language, name, description);
+    }
+
+    @Operation(summary = "Get all menus")
+    @GetMapping("/{lang}/")
+    @ResponseStatus(HttpStatus.OK)
+    public List<MenuSearchResult> getAllMenus(@Parameter(description = "The locale")
+                                              @PathVariable(value = "lang") final String language){
+        return menuSearchService.getAllMenus(language);
     }
 
 }
